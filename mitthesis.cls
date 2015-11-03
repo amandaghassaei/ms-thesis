@@ -432,15 +432,24 @@ reserved.\par\permission}}
 % we build the appropriate boxes for the titlepage and
 % the abstractpage as the user makes multiple calls
 % to \supervisor
-\newbox\@titlesupervisor 	\newbox\@abstractsupervisor
+\newbox\@titlesupervisor	\newbox\@abstractsupervisor
+\newbox\@titlereader 	\newbox\@abstractreader
 
+\def\reader#1#2{\setbox\@titlereader\vbox
+  {\unvbox\@titlereader \vskip 10pt% plus 1fil minus 1fil
+  \def\baselinestretch{1}\large
+  \signature{Certified by}{#1 \\ #2 \\ Thesis Reader}}
+  \setbox\@abstractreader\vbox{\unvbox\@abstractreader
+  \vskip\baselineskip \def\baselinestretch{1}\@normalsize 
+  \par\noindent Thesis Reader: #1 \\ Title: #2}}
+  
 \def\supervisor#1#2{\setbox\@titlesupervisor\vbox
   {\unvbox\@titlesupervisor \vskip 10pt% plus 1fil minus 1fil
   \def\baselinestretch{1}\large
-  \signature{Certified by}{#1 \\ #2 \\ Thesis Reader}}
+  \signature{Certified by}{#1 \\ #2 \\ Thesis Supervisor}}
   \setbox\@abstractsupervisor\vbox{\unvbox\@abstractsupervisor
   \vskip\baselineskip \def\baselinestretch{1}\@normalsize 
-  \par\noindent Thesis Reader: #1 \\ Title: #2}}
+  \par\noindent Thesis Supervisor: #1 \\ Title: #2}}
 
 % department chairman, not thesis committee chairman
 \def\chairman#1#2{\gdef\@chairmanname{#1}\gdef\@chairmantitle{#2}}
@@ -475,6 +484,9 @@ at the
 \unvbox\@titlesupervisor
 \par
 \vfill
+\unvbox\@titlereader
+\par
+\vfill
 \signature{Accepted by}{\@chairmanname \\ \@chairmantitle}
 \vfill
 \end{titlepage}}
@@ -500,7 +512,8 @@ requirements for the \@degreeword\ of \\
 %% page.
 %% Krishna Sethuraman (1990)
 \def\endabstractpage{\end{abstract}\noindent
- \unvcopy\@abstractsupervisor \newpage}
+ \unvcopy\@abstractsupervisor
+ \unvcopy\@abstractreader \newpage}
 
 %% This counter is used to save the page number for the second copy of
 %% the abstract.
