@@ -31,6 +31,8 @@
 \usepackage{graphicx}
 \graphicspath{{images/}}
 
+\usepackage{setspace}
+
 \usepackage[colorlinks]{hyperref}
 \hypersetup{colorlinks,
   citecolor=blue,
@@ -54,6 +56,8 @@
 %\def\all{all}
 %\ifx\files\all \typeout{Including all files.} \else \typeout{Including only \files.} \includeonly{\files} \fi
 
+\setlength\parindent{0pt}
+
 \begin{document}
 \let\cleardoublepage\clearpage
 \include{cover}
@@ -68,5 +72,6 @@
 %\include{appa}
 %\include{appb}
 \include{biblio}
+%\include{externalMedia}
 \end{document}
 
