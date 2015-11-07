@@ -3,12 +3,13 @@
 \BOOKMARK [2][-]{subsection.1.1.1}{Macro Assembly}{section.1.1}% 3
 \BOOKMARK [2][-]{subsection.1.1.2}{Micro Assembly}{section.1.1}% 4
 \BOOKMARK [2][-]{subsection.1.1.3}{Nano Assembly}{section.1.1}% 5
-\BOOKMARK [1][-]{section.1.2}{Related CAD and Simulation Tools}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.2}{CAD and Simulation for Discrete Construction}{chapter.1}% 6
 \BOOKMARK [1][-]{section.1.3}{Proposed Work}{chapter.1}% 7
-\BOOKMARK [2][-]{subsection.1.3.1}{Design}{section.1.3}% 8
-\BOOKMARK [2][-]{subsection.1.3.2}{Simulation}{section.1.3}% 9
-\BOOKMARK [2][-]{subsection.1.3.3}{Approach}{section.1.3}% 10
-\BOOKMARK [1][-]{section.1.4}{Contribution}{chapter.1}% 11
-\BOOKMARK [1][-]{section.1.5}{Evaluation}{chapter.1}% 12
-\BOOKMARK [1][-]{section.1.6}{Resources Required}{chapter.1}% 13
-\BOOKMARK [1][-]{section.1.7}{Schedule}{chapter.1}% 14
+\BOOKMARK [2][-]{subsection.1.3.1}{Part Types}{section.1.3}% 8
+\BOOKMARK [2][-]{subsection.1.3.2}{CAD Interface}{section.1.3}% 9
+\BOOKMARK [2][-]{subsection.1.3.3}{Simulation Engine}{section.1.3}% 10
+\BOOKMARK [2][-]{subsection.1.3.4}{Approach}{section.1.3}% 11
+\BOOKMARK [1][-]{section.1.4}{Contribution}{chapter.1}% 12
+\BOOKMARK [1][-]{section.1.5}{Evaluation}{chapter.1}% 13
+\BOOKMARK [1][-]{section.1.6}{Resources Required}{chapter.1}% 14
+\BOOKMARK [1][-]{section.1.7}{Schedule}{chapter.1}% 15
