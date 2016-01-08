@@ -20,88 +20,8 @@ Other parallels between biological assembly and our proposed system are the disc
   \caption{Design mock-ups of assembler components made from digital materials by Will Langford.  From left to right: a linear actuator, a part gripping mechanism, a clamping mechanism.  None of these designs has been evaluated in simulation.}
   \label{fig:willMockups}
 \end{figure}
-The nano assembly I've described will look very different from the way we make things today, and opposes many of the assumptions baked into traditional Computer Aided Design (CAD),  Computer Aided Manufacturing (CAM), and robotics.  This assembly strategy follows from an existing line of research called digital assembly, where discrete parts are assembled on a regular, periodic lattice.  Mechanical systems are built with digital modules of rigid and flexural components, and electronics and controls are distributed spatially across a machine (Fig \ref{fig:willMockups}).  Large structures appear to be "living" in the sense that their surface is teeming with nano-robots, detecting and correcting errors and performing other functions.  The environment is a highly structured, allowing locomotion systems to position themselves globally by counting local movements across a lattice.  Machines receive instructions from their environment to coordinate various tasks.
+The nano-assembly I've described will look very different from the way we make things today, and opposes many of the assumptions baked into traditional Computer Aided Design (CAD),  Computer Aided Manufacturing (CAM), and robotics.  This assembly strategy follows from an existing line of research called "digital assembly", where discrete parts are assembled on a regular, periodic lattice.  Mechanical systems are built with discrete modules of rigid and flexural components, and electronics and controls are distributed spatially across a machine (Fig \ref{fig:willMockups}).  Large structures appear to be "living" in the sense that their surface is teeming with nano-robots, detecting and correcting errors and performing other functions.  The environment is highly structured, allowing locomotion systems to position themselves globally by counting local movements across a lattice.  Machines receive instructions from their environment to coordinate various tasks.
 \\
-
-The following sections outline current research into digital assembly across scales, CAD/simulation packages which occupy a similar space to what I propose, and a detailed description of my proposed work and schedule.
-
-%An active area of synthetic biology explores the possibility of creating a viable cell from scratch based on knowledge about the core systems required for metabolism, cell maintainance, and self replication\cite{Forster2006}.  To date, efforts at creating this "minimal cell" have only been successful using a top down approach - starting with an organism with a minimal genome and reducing its genes further\cite{Glass2006}\cite{Gibson2010}.
-
-\section{Digital Assembly}
-
-Digital assembly is an emerging multimaterial fabrication technique where a finite set of part types are (often reversibly) joined on a regular lattice to for larger structures.  By patterning parts with different material properties across an assembly, programmable function behavior is achieved.  The assembly process is orchestrated by one or many robotic assemblers or a programmable self assembly mechanism.  Self alignment features on the parts and their regular spacing help to minimize the complexity of a robotic assembler, and maintain global metrology through local interactions.
-
-\subsection{Macro Assembly}
-
-Cheung showed that carbon fiber composite parts can be reversibly assembled to form ultralight materials \cite{Cheung2013}.  This work demonstrated programmable flexibility in the structures by pattering rigid and flexural elements across an assembly.  Additional research into digital assembly of structural elements is ongoing at CBA, including modeling of the parts and assemblies using finite element analysis\cite{Calisch2014} and designing new part geometries and robotic assemblers\cite{Carney2015}.
-
-\subsection{Micro Assembly}
-
-%\begin{figure}
-%  \includegraphics[width=\linewidth]{objetMultimaterial.png}
-%  \caption{Mechanical properties programmed by material deposition in Objet 3D print.}
-%  \label{fig: objetMultimaterial}
-%\end{figure}
-
-Langford demonstrated how conducting, insulating, and resistive part types ranging in scale from mm-$\mu$M could be assembled to form any passive electronic component, including antennas and matching networks\cite{Langford2014}.  He suggests that by extending the part types to include several types of silicon components, active components like diodes and transistors would be possible.  Work toward the fabrication and realization of these silicon components is ongoing.
-\\
-
-Though not a reversible process, multimaterial 3D printing (most notably by the Objet printer) deposits material in voxels on the order of ~10$\mu$M$^{3}$ with a total build volume on the order of 1x10$^{10}$ voxels \cite{Objet1000}.  Multimaterial 3d printing has been demonstrated in optical \cite{Willis2012}, electronic \cite{Ahn2009}, and structural applications \cite{Skouras2013} \cite{Schumacher}, and other physical optimizations of objects \cite{Bacher2014}.
-
-\subsection{Nano Assembly}
-
-DNA bricks is a system of discrete assembly based on complementary base pair interactions of short segments of DNA\cite{Ke2012}; DNA bricks is a branch of a field called DNA origami\cite{Rothemund2006} or DNA computing\cite{Seeman1982}\cite{Adleman1994}.  The brick assemblies have a spatial resolution of 2.5nm and the longest dimension of a DNA brick assembly measures on the order of 1$\mu$M\cite{Ke2014}.
-\\
-
-CBA is actively involved in the design of nano-manipulation devices and work toward scaling down the micro-electronic parts designed by Langford\cite{Langford2014} into the nanoscale.
-
-\section{CAD and Simulation for Discrete Construction}
-
-%\begin{figure}
-%  \includegraphics[width=\linewidth]{nanoBricks.png}
-%  \caption{Screenshot of NanoBricks, a voxel-based design tool for DNA Bricks by the Peng Yin Lab.}
-%  \label{fig:nanoBricks}
-%\end{figure}
-%Peng Yin's lab at Harvard recently released a beta version of \href{http://yin.hms.harvard.edu/bricks/try/}{Nanobricks}, their own voxel-based design tool for DNA Bricks (Fig~\ref{fig:nanoBricks}).  Nanobricks allows a user to design with voxels on a cubic lattice either by interacting with a 3D interface, through a scripting API, or importing STL geometry.  Then the voxel-based designs are converted to sequences and exported as a text file; the sequences may be generated randomly or from a predefined library of bricks.  Other lattice types (honeycomb, spline) are in development, but not yet fully supported in Nanobricks.
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{minecraft.png}
-  \caption{Screenshot of a 16 bit computer built in Minecraft by user Ohm.  Full video available on \href{https://www.youtube.com/watch?v=KzrFzkb3A4o}{YouTube}.}
-  \label{fig:minecraft}
-\end{figure}
-The most widely adopted example of discrete design is \href{https://minecraft.net/}{Minecraft}, a PC game that gives players the ability to construct their own worlds from over 100 different block types.  A subset of these block types form the basis of digital logic in the game and another set of part provide a means of mechanical actuation.  Gameplay and available block types are extendable through various mods and user scripts.
-\\
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{voxcadWalkers.png}
-  \caption{Example gaits of two locomotion robots built from four material types in VoxCAD\cite{Cheney2013b}.}
-  \label{fig:voxcadWalkers}
-\end{figure}
-\href{http://www.voxcad.com/}{Voxcad} is a physics-based design and dynamic simulation environment by Jonathan Hiller where a user designs virtual soft robots from four block types - two active and two passive\cite{Hiller2014a}.  Though the passive block types descended from a simulation of multimaterial 3D printed voxels, the active block types are not easily fabricated and actuated\cite{Hiller2012} and have not been rigorously evaluated.  Interesting work into the optimization of locomotion systems in this virtual design space have been explored (Fig: \ref{fig:voxcadWalkers})\cite{Cheney2013b}\cite{Cheney2013}\cite{Cheney2015}.
-\\
-
-\href{http://golly.sourceforge.net/}{Golly} is a 2D cellular automata simulator originally intended for Conway's game of life, but is extendable to other rulesets.  It implements Gosper's "hashlife" algorithm for optimizing the performance of the simulation\cite{Gosper1984}.  In 2010 Andrew Wade published \href{https://www.youtube.com/watch?v=A8B5MbHPlH0}{Gemini}, a self replicating machine designed in Golly using Conway's ruleset.
-\\
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{stevensConstructor.png}
-  \caption{A programmable, universal constructor (shown replicating itself) built in CBlock3D by William Stevens from 5040 cells of 6 different types\cite{Stevens2009b}.  Full video of assembly process on  \href{https://www.youtube.com/watch?v=PBXO_6Jn1fs}{YouTube}.}
-  \label{fig:stevensConstructor}
-\end{figure}
-\href{https://www.youtube.com/watch?feature=player_embedded&v=PBXO_6Jn1fs}{CBlock3D} is a 3D cellular automata environment governed by logical and kinematic rules developed by William Stevens\cite{Stevens2007}\cite{Stevens2009}.  It also implements a version of hashlife optimization\cite{Stevens2010}, and Stevens was able to construct and simulate a self-replicating machine within this design environment from 5040 cells of 6 distinct types (Fig: \ref{fig:stevensConstructor})\cite{Stevens2009b}.
-\\
-
-\href{http://yin.hms.harvard.edu/bricks/try/}{Nanobricks} is a voxel-based design tool for DNA Bricks.  Nanobricks allows a user to design nano-scale structures with voxels on a cubic lattice, and voxel-based designs are converted to sequences and exported as a text file.  Nano bricks does not implement any simulation deformable DNA structures, though others have explored some structural models of DNA with programmable bending\cite{Dietz2009}\cite{Kim2012}.
-\\
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{designAssemblyGUIWide.png}
-  \caption{CAD and CAM GUI of DMDesign.}
-  \label{fig: designAssemblyGUIWide}
-\end{figure}
-\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/CAM environment for digital materials I've been developing that supports the research efforts into part and assembler design at CBA (Fig \ref{fig: designAssemblyGUIWide}).  In this package, users design structures in a virtual 3D environment from many material types, plan out the assembly of a design by a robotic assembler, and communicate in realtime with hardware to physically realize the design.  By abstracting the geometry of the lattice from its decomposition into parts and implementing many lattice types in the CAD workflow, users can design structures ranging from nano to meter scale for a variety of application spaces.
-
-
 
 \section{Proposed Work}
 
@@ -138,7 +58,7 @@ Borrowing some classes and frameworks I've started in DMDesign, I will create a 
 Dynamic simulation occurs at the granularity of the cell by modeling only local interactions between a cell and its immediate neighbors.  This way, as an assembly is designed through the CAD interface, its corresponding simulation model is constructed at the same time.  I hope that by implementing a local-only mode of simulation, I will be able to reuse the same connectivity model for both mechanical and electronic simulation, and cut down on computational costs.
 \\
 
-Locating parts on regularly spaced intervals on a lattice allows for computational shortcuts in simulation.  Depending on the nature of the mechanical and electronic simulation, I may be able to use hashing to increase performance\cite{Gosper1984}.  Previous work has adapted the hash life algorithm for kinematic systems of cellular automata\cite{Stevens2010}.  I will surely need to spend some more time looking into this literature before implementing it in my own system.  I also hope to speed up simulation for repeating hierarchical structures within a model.
+Locating parts on regularly spaced intervals on a lattice allows for computational shortcuts in simulation.  Depending on the nature of the mechanical and electronic simulation, I may be able to use a hash table to increase performance\cite{Gosper1984}, especially for repeating hierarchical structures within a model.  Previous work has adapted the hashlife algorithm for kinematic systems of cellular automata\cite{Stevens2010}.  I will surely need to spend some more time looking into this literature before implementing it in my own system.
 \\
 
 Additionally, I will need to implement some kind of collision detection for this system.  Due to the prevalence of gaming, there are an assortment of published algorithms to speed up  collision detection over the obvious naive approaches.  Many physics engines rely on a boundary representation of an object to detect collision with other boundaries - if objects are moving too quickly this can lead to unexpected results.  The voxels in my geometry will together define a volume of space, and the cells forming the boundary of this volume are known; I will leverage this to cut down the computational costs of collision modeling in my simulations.
@@ -214,11 +134,20 @@ Aside from my own familiarity with web development, I'm interested in using HTML
 
 \section{Contribution}
 
-As outlined in previous sections, the main contribution of this work is to create a design/simulation environment where anyone can start to explore the rich design space around digital materials in a physically realistic way.  This work will inform future trajectories in CBA research and in the broader field of programmable materials, modular robotics, and digital fabrication.  This work is not intended to result in a manual outlining all the necessary components for self-replication based on current technology, but rather as an sandbox for exploring self-assembling systems based the foundations of engineering and materials science rather than biology.
+As outlined in previous sections, the main contribution of this work is to create a design/simulation environment where anyone can start to explore the rich design space around digital materials in a physically realistic way.  This work will inform future trajectories in CBA research and in the broader field of programmable materials, modular robotics, and digital fabrication.  This work is not intended to result in a manual outlining all the necessary components for self-replication based on current technology, but rather as an sandbox for exploring self-assembling systems based on the foundations of engineering and materials science rather than biology.
 
 \section{Evaluation}
 
-Once the CAD/simulation environment is set up, I will evaluate my design studies (outlined at the beginning on this section) both quantitatively and qualitatively.  Qualitative assessment includes evaluation of success or failure of the intended function (can a gripping mechanism grip a part), and quantitative assessment includes calculations of performance (gripping strength, speed of locomotion, volume required to implement various types of digital logic, speed of memory access, etc).
+Once the CAD/simulation environment is set up, I will design several functional objects within it and evaluate their function both quantitatively and qualitatively.  Some objects that would be especially interesting include:
+\begin{description}
+\setlength\itemsep{0em}
+\item[] locomotion systems
+\item[] end effectors (gripping mechanisms, part manipulation)
+\item[] information storage and retrieval
+\item[] amplification of motion and signals
+\item[] digital logic
+\end{description}
+Qualitative assessment includes evaluation of success or failure of the intended function (can a gripping mechanism grip a part), and quantitative assessment includes calculations of performance (gripping strength, speed of locomotion, volume required to implement various types of digital logic, speed of memory access, etc).
 
 \section{Resources Required}
 
