@@ -31,6 +31,21 @@
 \usepackage{graphicx}
 \graphicspath{{images/}}
 
+\usepackage{multirow}
+\usepackage{booktabs}
+
+\newcommand{\mcrot}[4]{\multicolumn{#1}{#2}{\rlap{\rotatebox{#3}{#4}~}}} 
+
+
+\newcommand*{\twoelementtable}[3][l]%
+{%  
+    \renewcommand{\arraystretch}{0.8}%
+    \begin{tabular}[t]{@{}#1@{}}%
+        #2\tabularnewline
+        #3%
+    \end{tabular}%
+}
+
 \usepackage{setspace}
 
 \usepackage[colorlinks]{hyperref}
@@ -67,8 +82,9 @@
 % \include{signature}
 \pagestyle{plain}
 %\include{contents}
-\include{chapter1}
-\include{chapter2}
+%\include{chapter1}
+%include{chapter2}
+\include{chapter3}
 %\appendix
 %\include{appa}
 %\include{appb}
