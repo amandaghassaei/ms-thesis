@@ -107,11 +107,11 @@ Before diving into more complex models, I wrote a "hello world" simulation engin
 
 \subsection{Simple Mechanical Simulation}
 
-I started with a simple dynamic mechanical model where the forces acting on each voxel in the lattice are computed based on local interactions with its six neighbors and gravity (Fig \ref{fig: helloWorldLocalInteraction}, Fig \ref{fig: helloWorldSpring}).
+I started with a simple dynamic mechanical model where the forces acting on each voxel in the lattice are computed based on local interactions with its six neighbors and gravity (Fig \ref{fig: helloWorldLocalInteraction}, Fig \ref{fig: helloWorldSpring}).\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{helloWorldLocalInteraction.png}
-  \caption{REPLACE THIS Each cell is face-connected to its six local neighbors \textbf{(A)}.  Interaction between neighbors is modeled with springs constraining translational and rotational motion \textbf{(B)}.  Spring stiffness is determined from material properties of joined cells.}
+  \caption{REPLACE THIS Each cell is face-connected to its six local neighbors \textbf{(A)}.  Interaction between neighbors is modeled with springs constraining translational and rotational motion \textbf{(B)}.}
   \label{fig: helloWorldLocalInteraction}
 \end{figure}
 
@@ -121,25 +121,41 @@ I started with a simple dynamic mechanical model where the forces acting on each
   \label{fig: helloWorldSpring}
 \end{figure}
 
-To understand how the translational spring forces were calculated between two adjacent cells, consider the 2D case illustrated in Fig \ref{fig: helloWorldSpringSetup}.  The cells are attached by a spring with nominal length $\ell$.  Under displacement $\Delta x$ and $\Delta y$, the total displacement vector from cell A to cell B is given by $\vec{D}$.  Then $\vec{f}$, the force on cell A exerted by the spring, is given by:\\
+To understand how the translational spring forces were calculated between two adjacent cells, consider the 2D case illustrated in Fig \ref{fig: helloWorldSpringSetup}.  The cells are attached by a spring with nominal length $\ell$.  Under displacement $\Delta x$ and $\Delta y$, the distance vector from cell A to cell B is given by $\vec{D}$.  Then $\Delta \ell$, the displacement of the spring from its nominal length, is given by:\\
 
-\[ \vec{f} =  \frac{\vec{D}}{\|D\|} \|f\| = \hat{D} \|f\|\]
+\[ \Delta \ell = \| D\| - \ell\]
 
-where:
+The force, $\vec{f}_{AB}$, exerted on cell A by a spring with stiffness $k$ is oriented in the same direction as $\vec{D}$:
 
-\[ \|f\| = \|D\| - \ell\]
+\[ \vec{f}_{AB} =  k (\hat{D} \Delta \ell) = k\hat{D} (\|D\| - \ell)\]
 
-then:
+An equal and opposite force, $\vec{f}_{BA}$, is applied to cell B by the spring:
 
-\[ \vec{f} = \hat{D} (\|D\| - \ell)\]
+\[ \vec{f}_{BA} = -k\hat{D} (\|D\| - \ell)\]
 
+The stiffness $k$ of the spring is determined from the material properties of the two cells.  In the case that the two cells have different stiffnesses, a composite stiffness is used according to:
 
+\[ k = \frac{2k_Ak_B}{k_A + k_B} \]
 
 \begin{figure}
   \includegraphics[width=\linewidth]{helloWorldSpringSetup.png}
-  \caption{REPLACE THIS }
+  \caption{REPLACE THIS Cubes A and B connected by spring with nominal length $\ell$ \textbf{(A)}.  The cells are displaced by $\Delta x$ and $\Delta y$ \textbf{(B)}. Spring displacement $\Delta \ell$ along $\vec{D}$ \textbf{( C )}.  $\vec{f}_{AB}$ and $\vec{f}_{BA}$ are the resulting translational spring forces applied to cells A and B, respectively \textbf{(D)}.}
   \label{fig: helloWorldSpringSetup}
 \end{figure}
+
+The rotational spring constraints are illustrated in \\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{helloWorldSpringSetup.png}
+  \caption{REPLACE THIS Cubes A and B connected by spring with nominal displacement $\ell$ \textbf{(A)}.  The cells are further displaced by $\Delta x$ and $\Delta y$ \textbf{(B)}. Spring displacement $\Delta \ell$ along $\vec{D}$ \textbf{©}.  $\vec{f_{AB}}$ is the translational spring resulting force applied to cell A by the spring attached to cell B, force of gravity, $f_g$, also indicated \textbf{(D)}.}
+  \label{fig: helloWorldSpringRotSetup}
+\end{figure}
+
+Then the total force applied to the cell is given by:
+
+\[ F_{total} =  \vec{f}_g+ \sum_{neighbors} (\vec{f}_{translational} + \vec{f}_{rotational}) \]
+
+
 
 
 
