@@ -12,14 +12,14 @@
 
 \section{Material Types}
 
-We chose a relatively small basis set of material types which cover a range of desirable material properties for actuation and control.  
+We chose a relatively small basis set of material types which cover a range of desirable material properties for actuation and control.  The list of materials and a qualitative comparison of their properties is given in Table \ref{tab:materialTypes}.
 
 \renewcommand{\arraystretch}{1.5}
 %http://tex.stackexchange.com/questions/98388/how-to-make-table-with-rotated-table-headers-in-latex
 \begin{table}[h] \label{tab:materialTypes}
     \centering
     \caption{Basis Set of Material Types.}
-\begin{tabular}{ll | p{4cm} | *{7}{c} }
+\begin{tabular}{ll | m{4cm} | *{7}{c} }
     \\
     \multicolumn{2}{c}{Function}  & \multicolumn{1}{c}{Example Materials}
         & \mcrot{1}{l}{60}{Cost} & \mcrot{1}{l}{60}{Strength} & \mcrot{1}{l}{60}{Stiffness} & \mcrot{1}{l}{60}{Fracture Resistance} & \mcrot{1}{l}{60}{Heat Resistance} & \mcrot{1}{l}{60}{Density} & \mcrot{1}{l}{60}{Magnetic Coercivity}\\
@@ -46,7 +46,7 @@ We chose a relatively small basis set of material types which cover a range of d
         & - & -\\
         
       \midrule
-     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{17pt}Conductive}}}}
+     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{14pt}Conductive}}}}
     & General Purpose & Copper
         & x & x & - & - & x 
         & - & x\\
@@ -59,7 +59,7 @@ We chose a relatively small basis set of material types which cover a range of d
         
         
         \midrule
-     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{20pt}Magnetic}}}}
+     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{16pt}Magnetic}}}}
     & Hard & NdFeB (neodymium)
         & x & x & - & - & x 
         & - & x\\
@@ -71,7 +71,7 @@ We chose a relatively small basis set of material types which cover a range of d
         & - & - \\
         
           \midrule
-     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{24pt}Actuators}}}}
+     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{50pt}Actuators}}}}
     & Piezoelectric & PZT (lead zirconate titanate)
         & x & x & - & - & x 
         & - & x\\
@@ -101,22 +101,48 @@ We chose a relatively small basis set of material types which cover a range of d
 \end{table}
 
 
-
-
-
 \section{Hello World}
 
-Before diving into more complex kinematic models, I wrote a "hello world" simulation engine to better understand how all the pieces would eventually come together and test some basic ideas.
+Before diving into more complex models, I wrote a "hello world" simulation engine to better understand how all the pieces of simulation (electronic, mechanical, and magnetic) would come together.
 
 \subsection{Simple Mechanical Simulation}
 
-I started with a simple dynamic mechanical model where the forces acting on each voxel in the lattice are computed based on local interactions with its six neighbors and gravity.
+I started with a simple dynamic mechanical model where the forces acting on each voxel in the lattice are computed based on local interactions with its six neighbors and gravity (Fig \ref{fig: helloWorldLocalInteraction}, Fig \ref{fig: helloWorldSpring}).
 
-%\begin{figure}
-%  \includegraphics[width=\linewidth]{objetMultimaterial.png}
-%  \caption{Mechanical properties programmed by material deposition in Objet 3D print.}
-%  \label{fig: objetMultimaterial}
-%\end{figure}
+\begin{figure}
+  \includegraphics[width=\linewidth]{helloWorldLocalInteraction.png}
+  \caption{REPLACE THIS Each cell is face-connected to its six local neighbors \textbf{(A)}.  Interaction between neighbors is modeled with springs constraining translational and rotational motion \textbf{(B)}.  Spring stiffness is determined from material properties of joined cells.}
+  \label{fig: helloWorldLocalInteraction}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{helloWorldSpring.png}
+  \caption{REPLACE THIS Total forces acting on each cell include the force of gravity and the force of all neighboring spring constraints \textbf{(A)}. Larger translational and rotational displacements between neighboring cells increase the amplitude of spring forces \textbf{(B)}.}
+  \label{fig: helloWorldSpring}
+\end{figure}
+
+To understand how the translational spring forces were calculated between two adjacent cells, consider the 2D case illustrated in Fig \ref{fig: helloWorldSpringSetup}.  The cells are attached by a spring with nominal length $\ell$.  Under displacement $\Delta x$ and $\Delta y$, the total displacement vector from cell A to cell B is given by $\vec{D}$.  Then $\vec{f}$, the force on cell A exerted by the spring, is given by:\\
+
+\[ \vec{f} =  \frac{\vec{D}}{\|D\|} \|f\| = \hat{D} \|f\|\]
+
+where:
+
+\[ \|f\| = \|D\| - \ell\]
+
+then:
+
+\[ \vec{f} = \hat{D} (\|D\| - \ell)\]
+
+
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{helloWorldSpringSetup.png}
+  \caption{REPLACE THIS }
+  \label{fig: helloWorldSpringSetup}
+\end{figure}
+
+
+
 
 
 }
