@@ -1,0 +1,157 @@
+%% This is an example first chapter.  You should put chapter/appendix that you
+%% write into a separate file, and add a line \include{yourfilename} to
+%% main.tex, where `yourfilename.tex' is the name of the chapter/appendix file.
+%% You can process specific files by typing their names in at the 
+%% \files=
+%% prompt when you run the file main.tex through LaTeX.
+
+\singlespacing{
+
+\chapter{Related Work}
+
+
+The following sections outline current research into digital assembly across scales, CAD/simulation packages which occupy a similar space to what I propose, and programmable self assembly.
+
+%An active area of synthetic biology explores the possibility of creating a viable cell from scratch based on knowledge about the core systems required for metabolism, cell maintainance, and self replication\cite{Forster2006}.  To date, efforts at creating this "minimal cell" have only been successful using a top down approach - starting with an organism with a minimal genome and reducing its genes further\cite{Glass2006}\cite{Gibson2010}.
+
+\section{Digital Assembly}
+
+Digital assembly is an emerging multimaterial fabrication technique where a finite set of discrete part types are (often reversibly) joined to form larger structures in a regular lattice.  Programmable functional behavior is achieved by patterning parts with different material properties across an assembly.  In the macro scale, the assembly process is orchestrated by one or many robotic assemblers.  Self-alignment features and the regular spacing of the parts help to minimize the complexity of a robotic assembler, and maintain global metrology through local interactions.  At nano scales, assembly is guided by programmable self-assembly mechanisms.
+
+
+\subsection{Macro Assembly}
+
+Cheung showed that carbon fiber composite parts can be reversibly assembled to form ultralight materials for aerospace applications\cite{Cheung2013}.  Programmable flexibility is achieved by pattering rigid and flexural parts across an assembly and also by varying the density and connectivity of the parts.  Additional research into digital assembly of structural elements is ongoing at CBA, including modeling of the parts and assemblies using finite element analysis\cite{Calisch2014} and designing new part geometries and robotic assemblers\cite{Carney2015}.
+
+\subsection{Micro Assembly}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{willAssembler.png}
+  \caption{"Stapler" assembler designed by Will Langford assembles conductive and insulating discrete part types to form electronic structures with tunable capacitance and inductance.  \textit{Image Credit: Will Langford 2015}}
+  \label{fig:willAssembler}
+\end{figure}
+
+
+%\begin{figure}
+%  \includegraphics[width=\linewidth]{objetMultimaterial.png}
+%  \caption{Mechanical properties programmed by material deposition in Objet 3D print.}
+%  \label{fig: objetMultimaterial}
+%\end{figure}
+
+Langford demonstrated how conducting, insulating, and resistive part types ranging in scale from mm-$\mu$m could be assembled to form any passive electronic component, including antennas and matching networks\cite{Langford2014}.  Langford designed and built a dual-material assembler (Fig: \ref{fig:willAssembler}) for constructing passive electronic structures from conducting and insulating parts (\href{http://dma.cba.mit.edu/stapler/video/dualstapler_full_1.mp4}{video})\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  Langford suggests that by extending the part types to include several types of silicon components, discretely-assembled active components like diodes and transistors would be possible.  Work toward the fabrication and realization of these silicon components is ongoing.  This work follows from previous work by Popescu et al. on reversibly assembled "GIK" structures spanning many length scales and material types\cite{Popescu} and also work by Ward on discretely assembled electronics\cite{Ward2010}.
+\\
+
+Hiller et al. propose a method of additive manufacturing using multimaterial voxel building blocks\cite{Hiller2009a}.  They explore various voxel decompositions of 3D geometry and assess their suitability for rapid, parallel assembly processes (\href{https://www.youtube.com/watch?v=-szjlhVMGh4}{video}).  Possible applications discussed include desktop manufacturing, especially for electromechanical and microfluidic devices.  Hiller et al. also propose reversible processes for disassembling a voxel assembly back into its constituent parts\cite{Hiller2005}.
+\\
+
+Though not a reversible process, multimaterial 3D printing (most notably by the Objet printer) deposits material in voxels on the order of ~10$\mu$m$^{3}$ with a total build volume on the order of 1x10$^{10}$ voxels\cite{Objet1000}.  Multimaterial 3d printing has been demonstrated in optical\cite{Willis2012}, electronic\cite{Ahn2009}, and structural applications\cite{Skouras2013}\cite{Schumacher}\cite{Bacher2014}.
+
+\subsection{Nano Assembly}
+
+DNA bricks is a system of discrete assembly based on complementary base pair interactions of short segments of DNA\cite{Ke2012}; DNA bricks is a branch of a field called DNA origami\cite{Rothemund2006} or DNA computing\cite{Seeman1982}\cite{Adleman1994}.  The brick assemblies have a spatial resolution of 2.5nm and the longest dimension of a DNA brick assembly measures on the order of 1$\mu$M\cite{Ke2014}.  Unlike the previously discusses processes, DNA bricks assembly takes place through passive, stochastic interactions between DNA strands in solution, rather than guided assembly by robotic assemblers.
+\\
+
+CBA is actively involved in the design of nano-manipulation devices and work toward scaling down the micro-electronic parts designed by Langford\cite{Langford2014} into the nanoscale.
+
+\section{Dynamic Simulation Techniques}
+
+\subsection{Dynamic Simulation of Elastic Solids}
+
+A large portion of the work involved in this thesis involves the development of a dynamic simulation engine for elastically deformable solids.  \href{https://en.wikipedia.org/wiki/Solid_mechanics}{Solid mechanics} is the study of the motion and deformation of solid bodies under external forces, changes in temperature, and other stresses.  Solid mechanics differentiates itself from other branches of continuum mechanics because solids are assumed to have a preferred rest shape.  This thesis is concerned with a subset of solid mechanics called elasticity, where materials return to their initial rest shape after all external forces are removed.  A more complete discussion of solid mechanics is given in Bower\cite{Bower2009}.\\  
+
+This thesis explores both isotropic and anisotropic materials.  A material is isotropic if it responds the same to an external force no matter its orientation; materials comprised of oriented fibers or other directional structures typical display anisotropic behaviors.  
+
+\subsubsection{Simulation Techniques for Solids}
+
+
+FEA vs Mass-Spring vs CA\\
+few works well for linear - non linear for large deformations may require remeshing\\
+mass spring methods - widely used in computer graphics, better for large deformations and non linear, less accurate\\
+differential elements\\
+lattice gas\\
+
+\subsubsection{Numerical Integration Techniques}
+
+Runge-Kutta\\
+Euler Integration\\
+
+\subsection{Cellular Automata}
+
+A \href{https://en.wikipedia.org/wiki/Cellular_automaton}{cellular automaton} (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical "cells" and time moves forward in discrete "steps".  Each cell owns one or many state variables, which may hold binary or continuous data.  
+The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.\\
+
+CAs have been used to study the requirements of self-assembling systems going back at least as early as the 1940s\cite{Neumann1966}.
+Many CAs operate under extremely simple rulesets that violate basic physcial 
+This by no means implies that CAs are inherently non-physical; in fact, finite difference method can be thought of as a type of cellular automata\cite{Yang2010}.
+Some violations of physics found in these tools include the ability to create and destroy matter at will, actuators with infinite torque or , the absence of gravity, 
+
+
+\section{CAD and Simulation Tools for Digital Assembly}
+
+At the moment of writing this, there exist several computational tools for designing and simulating kinematic, discretely-assembled structures.
+
+\subsection{Cellular Automata-Based Tools}
+
+The CA-based simulation tools discussed here allow for computational efficiency at the cost of accuracy, often allowing for only quantized motions, interactions, and states.  In general, this classification of tools employs materials and mechanics that are not plausible in the real world, but are still of interest for purely computational investigations.  The earliest design and simulation tools for CA systems were a piece of graph paper or a Go board\cite{Gardner1970}.  With the introduction of personal computers and graphical user interfaces, it his now possible to compute large CA universes and study their behaviors.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{minecraft.png}
+  \caption{Screenshot of a 16 bit computer built in Minecraft by user Ohm.  Full video available on \href{https://www.youtube.com/watch?v=KzrFzkb3A4o}{YouTube}. \textit{Image Credit: Ohm 2011}}
+  \label{fig:minecraft}
+\end{figure}
+The most widely adopted example of discrete design is \href{https://minecraft.net/}{Minecraft}, a PC game that gives players the ability to construct their own worlds from over 100 different block types (Fig \ref{fig:minecraft}).  A subset of these block types form the basis of digital logic in the game and another set of part provide a means of simple 1-bit mechanical actuation\cite{MinecraftWik2016}.  Gameplay and available block types are extendable through various mods and user scripts.
+\\
+
+\href{http://golly.sourceforge.net/}{Golly} is a 2D CA simulator originally intended for Conway's game of life, but is extendable to other rulesets.  It implements Gosper's "hashlife" algorithm for optimizing the performance of the simulation\cite{Gosper1984}.  In 2010 Andrew Wade published \href{https://www.youtube.com/watch?v=A8B5MbHPlH0}{Gemini}, a self replicating machine designed in Golly using Conway's ruleset.  In 2014, Luke Shaeffer implemented a physically universal CA ruleset in Golly, based on interactions between moving particles\cite{Shaffer2014}.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{stevensConstructor.png}
+  \caption{A programmable, universal constructor (shown replicating itself) built in CBlock3D by William Stevens from 5040 cells of 6 different types\cite{Stevens2009b}.  Full video of assembly process on  \href{https://www.youtube.com/watch?v=PBXO_6Jn1fs}{YouTube}. \textit{Image Credit: William Stevens 2010}}
+  \label{fig:stevensConstructor}
+\end{figure}
+\href{https://www.youtube.com/watch?feature=player_embedded&v=PBXO_6Jn1fs}{CBlock3D} is a 3D cellular automata environment governed by logical and kinematic rules developed by William Stevens\cite{Stevens2007}\cite{Stevens2009}.  The kinematic simulation in CBlocks3D allows for motions along discrete steps of a regular lattice.  Like Golly, it implements a version of hashlife optimization\cite{Stevens2010} to speed up simulation.  Stevens constructed and simulated a self-replicating machine within this design environment from 5040 cells of 6 distinct types (Fig: \ref{fig:stevensConstructor})\cite{Stevens2009b}.
+\\
+
+\subsection{DNA Origami-Based Tools}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{nanoBricks.png}
+  \caption{Screenshot of NanoBricks, a voxel-based design tool for DNA Bricks by the Peng Yin Lab.}
+  \label{fig:nanoBricks}
+\end{figure}
+
+\href{http://cadnano.org/}{CaDNAno} is a DNA origami design tool originally written by Douglas et al.\cite{Douglas2009}, and later adopted by Autodesk as a plugin for Maya.  It allows users to design 2D and 3D DNA origami structures based on one or several "scaffold" strands folded into a particular shape by many "staple" strands.  Structures are designed on a regular square or honeycomb lattice, though, single nucleotide insertions and deletions can be added to create programmable bending\cite{Dietz2009}\cite{Kim2012}.\\
+
+\href{http://cando-dna-origami.org/}{Cando} is a DNA origami simulation package developed and maintained by Mark Bathe's group at MIT.  It models double stranded DNA as a homogeneous elastic rod with elastic constants and other physical parameters drawn from empirical measurements\cite{Peters2014}.  Crossovers between double stranded segments are modeled as elastic constraints on the rod elements.  Though these crossovers may deform double stranded segments out of a regular lattice configuration (which they are typically designed in) to form complex 3D geometries, simulated CanDo results show good agreement with experimental results\cite{Kim2012a}.  CanDo supports formats from CaDNAno and other DNA design environments.
+\\
+
+\href{http://yin.hms.harvard.edu/bricks/try/}{Nanobricks} is a voxel-based design tool for DNA Bricks.  Nanobricks allows a user to design nano-scale structures with voxels on a cubic lattice, and voxel-based designs are converted to sequences and exported as a text file.  Though Nanobricks offers less flexibility than caDNAno (eg it does not allow for out of lattice bending designs), it is significantly easier to design valid structures for a novice user.  Direct integration with CanDo is forthcoming.
+\\
+
+\subsection{Physics-Based Tools}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{voxcadWalkers.png}
+  \caption{Example gaits of two locomotion robots built from four material types in VoxCAD\cite{Cheney2013b}.  \textit{Image Credit: Cheney et al. 2013}}
+  \label{fig:voxcadWalkers}
+\end{figure}
+
+\href{http://www.voxcad.com/}{Voxcad} is a physics-based design and dynamic simulation environment by Jonathan Hiller where a user designs virtual soft robots from four block types - two active and two passive\cite{Hiller2014a}.  Though the passive block types descended from a simulation of multimaterial 3D printed voxels, the active block types are not easily fabricated and actuated\cite{Hiller2012} and have not been rigorously evaluated.  Work into the optimization of theoretical locomotion systems in this virtual design space have been explored (Fig: \ref{fig:voxcadWalkers})\cite{Cheney2013b}\cite{Cheney2013}\cite{Cheney2015}.
+\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{20151215DMDesignscreenshotsx8.png}
+  \caption{Screenshots of my current work with DMDesign, a CAD/Simulation/CAM software package for Digital Materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that can toggle between a geometric and parts design representation \textbf{(A, C)}. Simulation of the potential field around conducting elements of an LC structure designed from conductive and insulating parts \textbf{(E)}. Path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
+  \label{fig: designAssemblyGUIWide}
+\end{figure}
+\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/CAM environment for digital materials I've been developing that supports the research efforts into part and assembler design at CBA (Fig \ref{fig: designAssemblyGUIWide}).  In DMDesign, users design structures in a virtual 3D environment from many material types, plan out the assembly of a design by a robotic assembler, and communicate in realtime with hardware to physically realize the design\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  By abstracting the geometry of the lattice from its decomposition into parts and implementing many lattice types in the CAD workflow, users can design structures ranging from nano to meter scale for a variety of application spaces.
+
+}
+
+\section{Self-Assembling Systems}
+
+\subsection{Biological Systems}
+
+\subsection{Modular Robotics}
+
+\section{Micro Robotics}

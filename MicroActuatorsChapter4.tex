@@ -1,0 +1,92 @@
+%% This is an example first chapter.  You should put chapter/appendix that you
+%% write into a separate file, and add a line \include{yourfilename} to
+%% main.tex, where `yourfilename.tex' is the name of the chapter/appendix file.
+%% You can process specific files by typing their names in at the 
+%% \files=
+%% prompt when you run the file main.tex through LaTeX.
+
+\singlespacing{
+
+
+\chapter{Micro Actuators}
+
+\section{Overview}
+
+ is given in Table \ref{tab:actuatorTypes}.
+
+\renewcommand{\arraystretch}{1.5}
+%http://tex.stackexchange.com/questions/98388/how-to-make-table-with-rotated-table-headers-in-latex
+\begin{table}[h] \label{tab:actuatorTypes}
+    \centering
+    \caption{Micro-Actuation mechanisms comparison chart.}
+\begin{tabular}{ll | *{7}{c} }
+    \\
+    \multicolumn{2}{c}{Name} 
+        & \mcrot{1}{l}{60}{Cost} & \mcrot{1}{l}{60}{Density} & \mcrot{1}{l}{60}{Energy Density} & \mcrot{1}{l}{60}{Efficiency} & \mcrot{1}{l}{60}{Scaling} & \mcrot{1}{l}{60}{Strain} & \mcrot{1}{l}{60}{Etc}\\
+    \midrule \midrule
+
+    \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{17pt}Electromagnetic}}}}
+    & Solenoid&
+        x & x & x & xxx & x & xxx & -\\
+    & Voice-Coil  &
+        xx & xxx & xxx & xx & xxx 
+        & xx & -\\
+    \midrule
+    \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{18pt}Electrostatic}}}}
+    & Comb Drive
+        & x & x & - & - & x 
+        & - & x \\
+        
+      \midrule
+     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{14pt}Piezo}}}}
+    & PZT
+        & x & x & - & - & x 
+        & - & x\\
+        
+        \midrule
+     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{16pt}Thermal}}}}
+    & Paraffin Wax
+        & x & x & - & - & x 
+        & - & x\\
+        
+        
+                \midrule
+     \multirow{4}{*}{\rotatebox{90}{\textbf{\small{\hspace{16pt}Pnuematic}}}}
+    & Air-Driven
+        & x & x & - & - & x 
+        & - & x\\
+    & Fluid-Driven 
+        & - & - & x & - & - 
+        & - & -\\
+        
+        
+    \bottomrule
+\end{tabular}
+\end{table}
+
+
+\section{Electromagnetic}
+
+\subsection{Solenoid}
+
+\subsection{Voice Coil}
+
+\section{Electrostatic}
+
+\subsection{Electrostatic Comb Drive}
+
+\section{Piezo}
+
+\section{Thermal}
+
+\subsection{Wax Actuator}
+
+\section{Pneumatic}
+
+\section{Ultrasonic}
+
+
+
+
+
+}
