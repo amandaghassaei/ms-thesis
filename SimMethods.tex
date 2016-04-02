@@ -1,0 +1,173 @@
+%% This is an example first chapter.  You should put chapter/appendix that you
+%% write into a separate file, and add a line \include{yourfilename} to
+%% main.tex, where `yourfilename.tex' is the name of the chapter/appendix file.
+%% You can process specific files by typing their names in at the 
+%% \files=
+%% prompt when you run the file main.tex through LaTeX.
+
+\singlespacing{
+
+\chapter{Simulation Methods: Finite Difference, Finite Element, Finite Volume}
+
+A differential equation is mathematical relationship between a function and at least one of its derivatives. For example:
+
+ \begin{equation}\label{eq:diffEq}
+ \frac{\partial^{2}f(x)}{\partial^{2}x} = f(x) + c
+  \end{equation}
+
+Equation \ref{eq:diffEq} describes a function $f$ with one independent variable $x$.  Differential equations that describe single variable functions are called ordinary differential equations (ODE).  A partial differential equation (PDE) is a differential equation that describes multivariable functions.  \\
+
+\subsubsection{Wave Equation}
+
+In this section, we'll consider how to evaluate numerical solutions to the wave equation:
+
+ \begin{equation}\label{eq:waveEq}
+ \frac{\partial^{2}u}{\partial^{2}t} = c\nabla^{2}u
+   \end{equation}
+   
+ where $t$ is time, $u$ is the amplitude of the wave, $c$ is a constant, and $\nabla^{2}$ is the sum of the partial derivatives of $u$ with respect to the spatial dimensions of $u$ (also called the spatial \href{https://en.wikipedia.org/wiki/Laplace_operator}{Laplacian}).  This PDE is second order, meaning it is a PDE that involves only first and second derivates of $u$.\\
+ 
+ The wave equation shows up often in physics - electricity and magnetism, acoustics, fluid dynamics - and in computer graphics.\\
+ 
+ We can write a version of the wave equation for 1D(\ref{eq:wave1d}), 2D(\ref{eq:wave2d}), or 3D(\ref{eq:wave3d}) by expanding the Laplacian appropriately:
+ 
+ \begin{equation}\label{eq:wave1d}
+  \frac{\partial^{2}u}{\partial^{2}t} = c\frac{\partial^{2}u}{\partial^{2}x}
+  \end{equation}
+  
+   \begin{equation}\label{eq:wave2d}
+  \frac{\partial^{2}u}{\partial^{2}t} = c\left(\frac{\partial^{2}u}{\partial^{2}x}+\frac{\partial^{2}u}{\partial^{2}y}\right)
+  \end{equation}
+  
+   \begin{equation}\label{eq:wave3d}
+  \frac{\partial^{2}u}{ \partial^{2}t} = c\left(\frac{\partial^{2}u}{\partial^{2}x}+\frac{\partial^{2}u}{\partial^{2}y}+\frac{\partial^{2}u}{\partial^{2}z} \right)
+  \end{equation}
+ 
+\section{Analytical vs Numerical Solutions}
+
+It is not always possible to solve a PDE analytically, in these cases we must use numerical techniques to approximate the solution.  Generally, this involves splitting up, or \textit{discretizing}, space into a finite number of regions and evaluating the PDE in each of these regions.  Often this process of discretization is applied to time as well, creating a solution that moves forward in quantized time steps.  As the size of the spatial regions and temporal steps becomes very small, the discrete solution approaches the continuous, analytical solution to the PDE.
+
+\section{Differential vs Integral Forms}
+
+\section{Finite Difference Method}
+
+We'll start with an arbitrary continuous, differentiable function $f(x)$.  If we know some $f(x_{0})$, we can estimate $f(x_{0}+\Delta  x)$ with the Taylor Series expansion.  The n degree Taylor Series expansion around $f(x_{0})$ is given by:
+
+ \begin{equation}\label{eq:norderTaylor}
+  f(x_{0} + \Delta  x) = f(x_{0}) + \frac{f'(x_{0})}{1!}\Delta  x + \frac{f''(x_{0})}{2!}\Delta  x^{2} + \cdots  + \frac{f^{(n)}(x_{0})}{n!}\Delta  x^{n} + R_{n}(x_{0})
+  \end{equation}
+  
+  where $f^{(n)}(x_{0})$ is the $n$th derivative of $f(x)$ evaluated at $x_{0}$ with respect to $x$ and $R_{n}(x_{0})$ is a remainder error term that depends on the degree of the Taylor expansion.  The Taylor expansion is not an approximation, it returns the exact value of $ f(x_{0} + \Delta  x)$.  As $n$ approaches infinity, $R_{n}(x_{0})$ vanishes.\\
+  
+%   \begin{equation}
+%   \lim_{n \to \infty} R_{n}(x_{0}) = 0
+%   \end{equation}
+
+A first order Taylor expansion reduces \ref{eq:norderTaylor} to:
+  
+ \begin{equation}\label{eq:1degTaylor}
+  f(x_{0} + \Delta  x) = f(x_{0}) + f'(x_{0})\Delta x + R_{1}(x_{0})
+  \end{equation}
+  
+  For small $\Delta  x$ it is OK to ignore the error term.  We are left with a first order Taylor approximation:
+  
+   \begin{equation}\label{eq:1degTaylorApprox}
+  f(x_{0} + \Delta  x) \approx f(x_{0}) + f'(x_{0})\Delta x
+  \end{equation}
+  
+This is the same as tracing the slope of $f$ at $x_{0}$ to approximate a nearby value.  Rearranging \ref{eq:1degTaylorApprox} gives us an expression for the first derivative of $f(x)$ with respect to $x$:
+
+ \begin{equation}\label{eq:fdaForward}
+ f'(x_{0}) \approx \frac{f(x_{0} + \Delta  x) - f(x_{0})}{\Delta  x}
+  \end{equation}
+  
+  For small changes $\Delta  x$ in the negative direction, equation \ref{eq:fdaForward} can be rearranged to:
+
+ \begin{equation}\label{eq:fdaBackward}
+ f'(x_{0}) \approx \frac{f(x_{0}) - f(x_{0} - \Delta  x)}{\Delta  x}
+  \end{equation}
+  
+Summing equations \ref{eq:fdaForward} and \ref{eq:fdaBackward} gives the following form:
+  
+     \begin{equation}\label{eq:fdaCentered}
+ f'(x_{0}) \approx \frac{f(x_{0} + \Delta  x) - f(x_{0} - \Delta  x)}{2\Delta x}
+  \end{equation}
+
+  Equations \ref{eq:fdaForward}, \ref{eq:fdaBackward}, \ref{eq:fdaCentered} are referred to as the first order forward, backward, and centered finite difference approximations.  We can use these as approximations to first order derivatives in a PDE so that the PDE can be rewritten in a form that is easy to solve.
+  
+\subsection{Example of First Order FDM}
+
+
+
+\subsection{Second Order FDM}
+
+In oder to solve a second order PDE like the wave equation (\ref{eq:waveEq}), we'll need a finite difference approximation for second derivatives.  We found the first order finite difference approximations by rearranging the first order Taylor approximation (\ref{eq:1degTaylorApprox}); this time, we'll start with a second order Taylor expansion of the full Taylor Series (\ref{eq:norderTaylor}):
+
+ \begin{equation}
+  f(x_{0} + \Delta  x) = f(x_{0}) + f'(x_{0})\Delta  x + \frac{f''(x_{0})}{2}\Delta  x^{2} + R_{n}(x_{0})
+  \end{equation}
+  
+  Again, for small $\Delta  x$, we can ignore the error term to get the second order Taylor approximation:
+  
+   \begin{equation}\label{eq:secOrderTaylorApprox}
+  f(x_{0} + \Delta  x) \approx f(x_{0}) + f'(x_{0})\Delta  x + \frac{f''(x_{0})}{2}\Delta  x^{2}
+  \end{equation}
+  
+  Rearranging \ref{eq:secOrderTaylorApprox} gives us:
+  
+   \begin{equation}
+   f''(x_{0}) \approx \frac{2( f(x_{0} + \Delta  x) - f(x_{0}) - f'(x_{0})\Delta  x)}{\Delta  x^{2}}
+  \end{equation}
+  
+  Substituting $f'(x_{0})$ with the backward first order finite difference approximation (\ref{eq:fdaBackward}) gives us:
+  
+  \begin{equation}\label{eq:fdasecondcentered}
+   f''(x_{0}) \approx \frac{2( f(x_{0} + \Delta  x) - 2f(x_{0}) +f(x_{0} - \Delta  x) }{\Delta  x^{2}}
+  \end{equation}
+  
+  backward, forward
+  
+  \begin{equation}\label{eq:fdasecondbackward}
+   f''(x_{0}) \approx \frac{2( f(x_{0} + \Delta  x) - 2f(x_{0}) +f(x_{0} - \Delta  x) }{\Delta  x^{2}}
+  \end{equation}
+  
+\subsection{Example of Second Order FDM}
+
+Now that we have a second order finite difference approximation, we can solve second order PDEs numerically with FDM.  The 1D wave equation \ref{eq:wave1d}, whose solution is given by a function $u(t, x)$, is re-written using the second order centered finite difference approximation(\ref{eq:fdasecondcentered}) in space and the backward finite difference approximation in time(\ref{eq:fdasecondbackward}):
+
+ \begin{equation}
+ \begin{split}
+  \frac{u(t_{0} + \Delta  t, x_{0}) - 2u(t_{0}, x_{0}) +u(t_{0} - \Delta  t, x_{0})}{\Delta  t^{2}}\\
+ = c  \frac{u(t_0, x_{0} + \Delta  x) - 2u(t_0, x_{0}) +u(t_0, x_{0} - \Delta  x) }{\Delta  x^{2}}
+ \end{split}
+  \end{equation}
+
+\subsection{FDM as a Cellular Automata Ruleset}
+
+
+A longer discussion and additional examples of this method are given in Yang et al\cite{Yang2010}.
+
+\subsection{Example Code}
+
+\subsection{Error Analysis}
+
+ \begin{equation}
+ f'(x_{0}) = \frac{f(x_{0} + \Delta  x) - f(x_{0})}{\Delta  x} + \frac{R_{1}(x_{0})}{\Delta  x}
+  \end{equation}
+  
+For small changes $\Delta  x$ in the negative direction, equation  can be rearranged to:
+
+ \begin{equation}
+ f'(x_{0}) = \frac{f(x_{0}) - f(x_{0} - \Delta  x)}{\Delta  x} - \frac{R_{1}(x_{0})}{\Delta  x}
+  \end{equation}
+  
+  fjalsdjflkadsjf
+  
+   \begin{equation}
+ f'(x_{0}) = \frac{f(x_{0} + \Delta  x) - f(x_{0} - \Delta  x)}{2\Delta x} + \frac{R_{1}(x_{0})}{2\Delta  x}
+  \end{equation}
+  
+
+\section{Finite Element Method}
+
+\section{Finite Volume Method}

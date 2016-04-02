@@ -63,6 +63,12 @@ This thesis explores both isotropic and anisotropic materials.  A material is is
 
 \subsubsection{Simulation Techniques for Solids}
 
+This thesis is concerned with the numerical solution of the position, orientation, and deformation of an elastic solid made from many elements of identical geometry and various material types.  Based on the distribution of elements and material types throughout the solid, it is possible to describe its dynamic behavior with a \href{https://en.wikipedia.org/wiki/Partial_differential_equation}{partial differential equation} (PDE).  Evaluating this PDE subject to the initial state and boundary conditions (applied forces, fixed regions, etc) gives the state of the solid over time.  There are a few different techniques for doing this; depending on the specific requirements of a simulation, it may be more advantageous to use one over another.\\
+
+The first technique is called the \href{https://en.wikipedia.org/wiki/Finite_difference_method}{Finite Difference Method} (FDM).  \\
+
+
+A more complete discussion of FDM, FEM, and FVM is given in Peiro et al.\cite{Peiro2005}.\\
 
 FEA vs Mass-Spring vs CA\\
 few works well for linear - non linear for large deformations may require remeshing\\
@@ -80,11 +86,7 @@ Euler Integration\\
 A \href{https://en.wikipedia.org/wiki/Cellular_automaton}{cellular automaton} (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical "cells" and time moves forward in discrete "steps".  Each cell owns one or many state variables, which may hold binary or continuous data.  
 The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.\\
 
-CAs have been used to study the requirements of self-assembling systems going back at least as early as the 1940s\cite{Neumann1966}.
-Many CAs operate under extremely simple rulesets that violate basic physcial 
-This by no means implies that CAs are inherently non-physical; in fact, finite difference method can be thought of as a type of cellular automata\cite{Yang2010}.
-Some violations of physics found in these tools include the ability to create and destroy matter at will, actuators with infinite torque or , the absence of gravity, 
-
+CAs have been used to study the requirements of self-assembling systems going back at least as early as the 1940s\cite{Neumann1966}.  To date, these CA investigations have employed very simple rulesets that violate basic physical principals: matter can be created and destroyed at will, actuators can move an infinite number of cells (cells have no mass), motions are quantized, one material can be converted into another, etc.  This by no means implies that CAs are inherently non-physical; in fact, finite difference method can be thought of as a type of cellular automata\cite{Yang2010}.
 
 \section{CAD and Simulation Tools for Digital Assembly}
 
