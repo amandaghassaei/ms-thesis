@@ -12,10 +12,10 @@
 A differential equation is mathematical relationship between a function and at least one of its derivatives. For example:
 
  \begin{equation}\label{eq:diffEq}
- \frac{\partial^{2}f(x)}{\partial^{2}x} = f(x)
+ \frac{\partial^{2}f(x)}{\partial x^{2}} = f(x)
   \end{equation}
   \\
-Equation \ref{eq:diffEq} describes a function $f$ with one independent variable $x$ using both the second order form $ \frac{\partial^{2}f(x)}{\partial^{2}x} $ and the zeroth order form $f(x)$.  Differential equations of single variable functions like equation \ref{eq:diffEq} are called \textit{ordinary differential equations} (ODE).  By contrast, a \textit{partial differential equation} (PDE) is a differential equation that describes multivariable functions, like $f(t, x, y)$.\\
+Equation \ref{eq:diffEq} describes a function $f$ with one independent variable $x$ using both the second order form $ \frac{\partial^{2}f(x)}{\partial x^{2}} $ and the zeroth order form $f(x)$.  Differential equations of single variable functions like equation \ref{eq:diffEq} are called \textit{ordinary differential equations} (ODE).  By contrast, a \textit{partial differential equation} (PDE) is a differential equation that describes multivariable functions, like $f(t, x, y)$.\\
 
 A \textit{solution} to a differential equation is a function, $f$, that satisfies the differential relationship described by the differential equation.  This chapter covers methods of solving PDEs numerically, usually with the help of a computer.
 
@@ -38,15 +38,15 @@ The \href{https://en.wikipedia.org/wiki/Heat_equation}{heat equation} describes 
      We can write a version of the heat equation for 1D(\ref{eq:heat1d}), 2D(\ref{eq:heat2d}), or 3D(\ref{eq:heat3d}) by expanding the Laplacian appropriately:
  
  \begin{equation}\label{eq:heat1d}
-  \frac{\partial T}{\partial t} = c\frac{\partial^{2}T}{\partial^{2}x}
+  \frac{\partial T}{\partial t} = c\frac{\partial^{2}T}{\partial x^{2}}
   \end{equation}
   
    \begin{equation}\label{eq:heat2d}
-  \frac{\partial T}{\partial t} = c\left(\frac{\partial^{2}T}{\partial^{2}x}+\frac{\partial^{2}T}{\partial^{2}y}\right)
+  \frac{\partial T}{\partial t} = c\left(\frac{\partial^{2}T}{\partial x^{2}}+\frac{\partial^{2}T}{\partial y^{2}}\right)
   \end{equation}
   
    \begin{equation}\label{eq:heat3d}
-  \frac{\partial T}{ \partial t} = c\left(\frac{\partial^{2}T}{\partial^{2}x}+\frac{\partial^{2}T}{\partial^{2}y}+\frac{\partial^{2}T}{\partial^{2}z} \right)
+  \frac{\partial T}{ \partial t} = c\left(\frac{\partial^{2}T}{\partial x^{2}}+\frac{\partial^{2}T}{\partial y^{2}}+\frac{\partial^{2}T}{\partial z^{2}} \right)
   \end{equation}
   
 \subsubsection{Wave Equation}
@@ -54,7 +54,7 @@ The \href{https://en.wikipedia.org/wiki/Heat_equation}{heat equation} describes 
  The \href{https://en.wikipedia.org/wiki/Wave_equation}{wave equation} shows up often in physics - electricity and magnetism, acoustics, fluid dynamics, solid mechanics, etc.  It describes the propagation of waves through space and bears close resemblance to the heat equation:
 
  \begin{equation}\label{eq:waveEq}
- \frac{\partial^{2}u}{\partial^{2}t} = c\nabla^{2}u
+ \frac{\partial^{2}u}{\partial t^{2}} = c\nabla^{2}u
    \end{equation}
      \\
  where $t$ is time, $u$ is the amplitude of the wave, $c$ is a constant, and $\nabla^{2}$ is the spatial Laplacian.  Like the heat equation (\ref{eq:heatEq}), this PDE is second order because it involves the second derivative of $u$ with respect to both $t$ and the spatial dimensions. \\
@@ -62,15 +62,15 @@ The \href{https://en.wikipedia.org/wiki/Heat_equation}{heat equation} describes 
 The 1D(\ref{eq:wave1d}), 2D(\ref{eq:wave2d}), or 3D(\ref{eq:wave3d}) expansions of the wave equation are given below:
  
  \begin{equation}\label{eq:wave1d}
-  \frac{\partial^{2}u}{\partial^{2}t} = c\frac{\partial^{2}u}{\partial^{2}x}
+  \frac{\partial^{2}u}{\partial t^{2}} = c\frac{\partial^{2}u}{\partial x^{2}}
   \end{equation}
   
    \begin{equation}\label{eq:wave2d}
-  \frac{\partial^{2}u}{\partial^{2}t} = c\left(\frac{\partial^{2}u}{\partial^{2}x}+\frac{\partial^{2}u}{\partial^{2}y}\right)
+  \frac{\partial^{2}u}{\partial t^{2}} = c\left(\frac{\partial^{2}u}{\partial x^{2}}+\frac{\partial^{2}u}{\partial y^{2}}\right)
   \end{equation}
   
    \begin{equation}\label{eq:wave3d}
-  \frac{\partial^{2}u}{ \partial^{2}t} = c\left(\frac{\partial^{2}u}{\partial^{2}x}+\frac{\partial^{2}u}{\partial^{2}y}+\frac{\partial^{2}u}{\partial^{2}z} \right)
+  \frac{\partial^{2}u}{ \partial t^{2}} = c\left(\frac{\partial^{2}u}{\partial x^{2}}+\frac{\partial^{2}u}{\partial y^{2}}+\frac{\partial^{2}u}{\partial z^{2}} \right)
   \end{equation}
     
   \subsubsection{Advection Equation}
@@ -96,9 +96,7 @@ The 1D(\ref{eq:wave1d}), 2D(\ref{eq:wave2d}), or 3D(\ref{eq:wave3d}) expansions 
    \begin{equation}\label{eq:advection3d}
   \frac{\partial \psi}{\partial t} = -v_{x}\frac{\partial \psi}{\partial x}-v_{y}\frac{\partial \psi}{\partial y}-v_{z}\frac{\partial \psi}{\partial z}
   \end{equation}
-  \\
-  We will revisit these equations later on in this chapter.
-   
+  
 \section{Analytical vs Numerical Solutions}
 
 Sometimes it's possible to identify a continuous function that satisfies the relationships described by a differential equation; this is refereed to as a \textit{closed-form} solution or \textit{analytical} solution.  For example, $f(x)=e^{x}$ is an analytical solution to equation \ref{eq:diffEq}.  Usually, analytical solutions are the preferred form of the solution as they return exact values.\\
@@ -231,7 +229,7 @@ In order to solve a second order PDE like the wave equation (\ref{eq:waveEq}), w
     \\
   Rearranging gives us the centered second order finite differential approximation:
   
-   \begin{equation}
+   \begin{equation}\label{eq:fdaseccentered}
    f''(x_{0}) \approx \frac{f(x_{0} + \Delta  x) - 2f(x_{0}) + f'(x_{0} -\Delta  x)}{\Delta  x^{2}}
   \end{equation}
     \\
@@ -249,13 +247,13 @@ In order to solve a second order PDE like the wave equation (\ref{eq:waveEq}), w
   \\
 Which simplifies to the forward second order finite differential approximation:
   
-      \begin{equation}
+      \begin{equation}\label{eq:fdasecforward}
 f''(x_{0}) \approx \frac{f(x_{0} + 2\Delta  x) - 2f(x_{0} + \Delta  x) + f(x_{0})}{\Delta  x^{2}}
   \end{equation}
   \\
   The backward second order finite differential approximation is calculated similarly:
   
-        \begin{equation}
+        \begin{equation}\label{eq:fdasecbackward}
 f''(x_{0}) \approx \frac{f(x_{0} - 2\Delta  x) - 2f(x_{0} - \Delta  x) + f(x_{0})}{\Delta  x^{2}}
   \end{equation}
   \\
@@ -275,18 +273,35 @@ f''(x_{0}) \approx \frac{f(x_{0} - 2\Delta  x) - 2f(x_{0} - \Delta  x) + f(x_{0}
  
 \subsection{Example of Second Order FDM}
 
-Now that we have a second order finite difference approximation, we can solve second order PDEs numerically with FDM.  The 1D wave equation \ref{eq:wave1d}, whose solution is given by a function $u(t, x)$, is re-written using the second order centered finite difference approximation(\ref{eq:fdasecondcentered}) in space and the backward finite difference approximation in time(\ref{eq:fdasecondbackward}):
+Now that we have a second order finite difference approximation, we can solve second order PDEs numerically with FDM.  The ID heat equation (\ref{eq:heat1d}) can be approximated using the first order forward approximation (\ref{eq:fdaForward}) for $\frac{\partial T}{\partial t}$ and the second order center approximation (\ref{eq:fdaseccentered}) for $\frac{\partial^{2} T}{\partial x^{2}}$:\\
 
  \begin{equation}
- \begin{split}
-  \frac{u(t_{0} + \Delta  t, x_{0}) - 2u(t_{0}, x_{0}) +u(t_{0} - \Delta  t, x_{0})}{\Delta  t^{2}}\\
- = c  \frac{u(t_0, x_{0} + \Delta  x) - 2u(t_0, x_{0}) +u(t_0, x_{0} - \Delta  x) }{\Delta  x^{2}}
- \end{split}
+  \frac{T(t_{0} + \Delta  t, x_{0}) - T(t_{0}, x_{0})}{\Delta  t} = c\frac{T(t_{0},x_{0} + \Delta  x)- 2T(t_{0},x_{0}) + T(t_{0},x_{0} -\Delta  x)}{\Delta  x^{2}}
   \end{equation}
+\\
+ \begin{equation}\label{eq:heatfda1D}
+  T(t_{0} + \Delta  t, x_{0}) = T(t_{0}, x_{0}) + c\Delta  t\frac{T(t_{0},x_{0} + \Delta  x) - 2T(t_{0},x_{0}) + T(t_{0},x_{0} -\Delta  x)}{\Delta  x^{2}}
+  \end{equation}
+\\
+Similarly, the 2D wave equation \ref{eq:wave2d} is approximated with the second order center approximation (\ref{eq:fdaseccentered}) for $\frac{\partial^{2} u}{\partial x^{2}}$, $\frac{\partial^{2} u}{\partial y^{2}}$ and $\frac{\partial^{2} u}{\partial t^{2}}$:
+
+ \begin{multline}
+\frac{u(t_{0} + \Delta  t,x_{0},y_{0})- 2u(t_{0},x_{0},y_{0}) + u(t_{0} -\Delta  t,x_{0},y_{0})}{\Delta  t^{2}} = \\
+c\frac{u(t_{0},x_{0} + \Delta  x,y_{0})- 2u(t_{0},x_{0},y_{0}) + u(t_{0},x_{0} -\Delta  x,y_{0})}{\Delta  x^{2}}\\
++c\frac{u(t_{0},x_{0},y_{0}+ \Delta  y)- 2u(t_{0},x_{0},y_{0}) + u(t_{0},x_{0},y_{0} -\Delta  y)}{\Delta  y^{2}}
+  \end{multline}
+  
+   \begin{multline}\label{eq:wavefda2d}
+u(t_{0} + \Delta  t,x_{0},y_{0})  = 2u(t_{0},x_{0},y_{0})-u(t_{0} -\Delta  t,x_{0},y_{0})\\
++c\Delta  t^{2}\frac{u(t_{0},x_{0} + \Delta  x,y_{0})- 2u(t_{0},x_{0},y_{0}) + u(t_{0},x_{0} -\Delta  x,y_{0})}{\Delta  x^{2}}\\
++c\Delta  t^{2}\frac{u(t_{0},x_{0},y_{0}+ \Delta  y)- 2u(t_{0},x_{0},y_{0}) + u(t_{0},x_{0},y_{0} -\Delta  y)}{\Delta  y^{2}}
+  \end{multline}
+\\
+Since the wave equation contains a second order partial derivative with respect to t, the next time step $u(t_{0} + \Delta  t,x_{0},y_{0})$ must depend on both the current $u(t_{0},x_{0},y_{0})$ and previous $u(t_{0}-\Delta t,x_{0},y_{0})$ time steps in the equation above.
 
 \subsection{FDM as a Cellular Automaton Ruleset}
 
-By solving PDEs using forward finite difference approximations for partial derivates with respect to time and centered finite difference approximations for partial derivatives with respect to spatial dimensions, we get a form of the PDE that reads like a cellular automaton ruleset.  Equations \ref{eq:advection1Dapprox} have the general form: the next state of a differential element equals some function of its current state and the current state of its neighbors.
+By solving PDEs using forward finite difference approximations for partial derivates with respect to time and centered finite difference approximations for partial derivatives with respect to spatial dimensions, we get a form of the PDE that reads like a cellular automaton ruleset.  Equations \ref{eq:advection1Dapprox}, \ref{eq:advection2Dapprox}, and \ref{eq:heatfda1D} have the general form: the next state of a differential element equals some function of its current state and the current state of its neighbors.
 
 A longer discussion and additional examples of this method are given in Yang et al\cite{Yang2010}.
 
