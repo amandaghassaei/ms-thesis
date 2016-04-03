@@ -112,10 +112,6 @@ We'll start with an arbitrary continuous, differentiable function $f(x)$.  If we
   \end{equation}
     \\
   where $f^{(n)}(x_{0})$ is the $n$th derivative of $f(x)$ with respect to $x$ evaluated at $x_{0}$, and $R_{n}(x_{0})$ is a remainder error term that depends on the degree of the Taylor expansion.  The Taylor expansion is not an approximation, it returns the exact value of $ f(x_{0} + \Delta  x)$; as $n$ approaches infinity, $R_{n}(x_{0})$ vanishes.\\
-  
-%   \begin{equation}
-%   \lim_{n \to \infty} R_{n}(x_{0}) = 0
-%   \end{equation}
 
 A first order Taylor expansion reduces \ref{eq:norderTaylor} to:
   
@@ -155,7 +151,7 @@ Summing equations \ref{eq:fdaForward} and \ref{eq:fdaBackward} gives yet another
   \\
   Equations \ref{eq:fdaForward}, \ref{eq:fdaBackward}, \ref{eq:fdaCentered} are referred to as the first order \textit{forward}, \textit{backward}, and \textit{centered} finite difference approximations.  We can use these as approximations to first order derivatives in a PDE so that the PDE can be rewritten in a form that is easy to solve.
   
-\subsection{Example of First Order FDM}
+\subsection{Examples of First Order FDM}
 
 We can now rewrite any first order PDE using one of the first order finite difference approximations we just found.  To start, I've rewritten the 1D advection equation (\ref{eq:advection1d}) using the forward finite difference approximation (\ref{eq:fdaForward}) to approximate $\frac{\partial \psi}{\partial t}$ and the centered finite difference approximation (\ref{eq:fdaCentered}) to approximate $\frac{\partial \psi}{\partial x}$:
 
@@ -184,7 +180,7 @@ Similarly, we can use the backward finite difference approximation (\ref{eq:fdaB
      \begin{equation}
   \psi(t_{0} + \Delta  t,  x_{0}) = \psi(t_{0}-\Delta t, x_{0}) -v_{x}\Delta t \frac{\psi(t_{0}, x_{0} + \Delta  x)-\psi(t_{0}, x_{0}-\Delta x)}{\Delta  x}
   \end{equation}
-  
+  \\
   which may or may not be possible to solve, depending on the information available.\\
   
   From here we can solve more complicated first order PDEs, here's an approximation of the 2D advection equation (\ref{eq:advection2d}) using a forward approximation in time and a center approximation for $x$ and $y$.
@@ -271,7 +267,7 @@ f''(x_{0}) \approx \frac{f(x_{0} - 2\Delta  x) - 2f(x_{0} - \Delta  x) + f(x_{0}
  f^{n}(x_{0}) \approx \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} + \left(\frac{n}{2}-i\right)\Delta  x)
  \end{equation}
  
-\subsection{Example of Second Order FDM}
+\subsection{Examples of Second Order FDM}
 
 Now that we have a second order finite difference approximation, we can solve second order PDEs numerically with FDM.  The ID heat equation (\ref{eq:heat1d}) can be approximated using the first order forward approximation (\ref{eq:fdaForward}) for $\frac{\partial T}{\partial t}$ and the second order center approximation (\ref{eq:fdaseccentered}) for $\frac{\partial^{2} T}{\partial x^{2}}$:\\
 
@@ -299,13 +295,35 @@ u(t_{0} + \Delta  t,x_{0},y_{0})  = 2u(t_{0},x_{0},y_{0})-u(t_{0} -\Delta  t,x_{
 \\
 Since the wave equation contains a second order partial derivative with respect to t, the next time step $u(t_{0} + \Delta  t,x_{0},y_{0})$ must depend on both the current $u(t_{0},x_{0},y_{0})$ and previous $u(t_{0}-\Delta t,x_{0},y_{0})$ time steps in the equation above.
 
+\subsection{Boundary Conditions}
+
 \subsection{FDM as a Cellular Automaton Ruleset}
 
-By solving PDEs using forward finite difference approximations for partial derivates with respect to time and centered finite difference approximations for partial derivatives with respect to spatial dimensions, we get a form of the PDE that reads like a cellular automaton ruleset.  Equations \ref{eq:advection1Dapprox}, \ref{eq:advection2Dapprox}, and \ref{eq:heatfda1D} have the general form: the next state of a differential element equals some function of its current state and the current state of its neighbors.
+By solving PDEs using forward finite difference approximations for partial derivates with respect to time and centered finite difference approximations for partial derivatives with respect to spatial dimensions, we get a form of the PDE that reads like a cellular automaton (CA) ruleset.  Equations \ref{eq:advection1Dapprox}, \ref{eq:advection2Dapprox}, and \ref{eq:heatfda1D} have the general form: the next state of a differential element equals some function of its current state and the current state of its neighbors.\\
 
-A longer discussion and additional examples of this method are given in Yang et al\cite{Yang2010}.
+\begin{figure}
+  \includegraphics[width=\linewidth]{reactionDiffusion.png}
+  \caption{Time sequence showing the abundance of chemical u in a Grey-Scott reaction across 2D space for 9 time steps.  CA is initialized with a random patch of chemical u at t = 0 and then solved for with the following parameters: $F = 0.0545$, $k=0.062$.  Live, interactive demo available at \href{http://git.amandaghassaei.com/ReactionDiffusionShader/}{Github}.}
+  \label{fig:willAssembler}
+\end{figure}
 
-\subsection{Example Code}
+A popular CA derives from the Gray-Scott \href{https://en.wikipedia.org/wiki/Reaction%E2%80%93diffusion_system#Two-component_reaction.E2.80.93diffusion_equations}{Reaction-Diffusion} equations (\ref{eq:gs1} and \ref{eq:gs2}).  These equations describe the interactions between two checmicals, u and v, as they react with each other and diffuse across space.
+
+ \begin{equation}\label{eq:gs1}
+  \frac{\partial u}{\partial t} = D_{u}\nabla^{2} u -uv^{2} + F(1-u)
+  \end{equation}
+  
+   \begin{equation}\label{eq:gs2}
+  \frac{\partial v}{\partial t} = D_{v}\nabla^{2} v +uv^{2} - (F+k)v
+  \end{equation}
+  
+  where $t$ is time, $u$ and $v$ are the concentrations of chemicals u and v, $D_{u}$ and $D_{v}$ are the rates of diffusion for chemicals u and v, and $F$ and $k$ are additional constants.  \\
+  
+  Equation \ref{eq:gs1} tells us how quickly the abundance of chemical u is changing and equation \ref{eq:gs2} tells us how quickly the abundance of chemical v is changing.  The first terms of both equations describe the rate of diffusion of each chemical across the spatial dimensions.  The second terms describe the reaction between chemicals u and v.  We can see that the reaction between u and v depletes chemical u and generates chemical v from the sign of these second terms.  The positive third tern in equation \ref{eq:gs1} represents the replenishment of chemical u in the system; without this term, u would quickly become depleted through reactions with v.  The negative third term in equation \ref{eq:gs2} represents the diminishment of chemical v, proportional to the concentration of v; without this term v would grow uncontrollably due to reactions with u.
+
+A longer discussion and additional examples of this method are given in Yang et al\cite{Yang2010}, further exploration of the Gray-Scott parameters by Munafro\cite{Munafo2016}.
+
+\subsection{Pseudo Code}
 
 \subsection{Error Analysis}\label{sec:errorAnalysis}
 
