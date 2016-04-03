@@ -15,9 +15,11 @@ A differential equation is mathematical relationship between a function and at l
  \frac{\partial^{2}f(x)}{\partial^{2}x} = f(x) + c
   \end{equation}
   \\
-Equation \ref{eq:diffEq} describes a function $f$ with one independent variable $x$.  Differential equations of single variable functions like equation \ref{eq:diffEq} are called \textit{ordinary differential equations} (ODE).  A \textit{partial differential equation} (PDE) is a differential equation that describes multivariable functions.  PDEs are common in physics as many physical phenomena are dynamic in both space and time.
+Equation \ref{eq:diffEq} describes a function $f$ with one independent variable $x$ using both the second order form $ \frac{\partial^{2}f(x)}{\partial^{2}x} $ and the zeroth order form $f(x)$.  Differential equations of single variable functions like equation \ref{eq:diffEq} are called \textit{ordinary differential equations} (ODE).  By contrast, a \textit{partial differential equation} (PDE) is a differential equation that describes multivariable functions, like $f(t, x, y)$.
 
 \section{PDEs from Physics}
+
+PDEs are common in physics as many physical phenomena are dynamic in both space and time.  In this section, I'll introduce some PDEs from physics and show how to solve them later in the chapter.
 
 \subsubsection{Heat Equation}
 
@@ -29,7 +31,7 @@ The \href{https://en.wikipedia.org/wiki/Heat_equation}{heat equation} describes 
      \\
     where $t$ is time, $T$ is the temperature, $c$ is a constant, and $\nabla^{2}$ is the sum of the partial derivatives of $u$ with respect to the spatial dimensions of $u$ (also called the spatial \href{https://en.wikipedia.org/wiki/Laplace_operator}{Laplacian}).\\
     
-    The heat equation contains a first derivative of $u$ with respect to $t$ and a second derivative of $u$ with respect to the spatial dimensions.  PDEs are classified based on the highest order derivative they contain, so the heat equation is a "second order" PDE.\\
+    The heat equation contains a first derivative of $u$ with respect to $t$ and a second derivative of $u$ with respect to the spatial dimensions.  PDEs are classified based on the highest order derivative they contain, so the heat equation is a second order PDE.\\
     
      We can write a version of the heat equation for 1D(\ref{eq:heat1d}), 2D(\ref{eq:heat2d}), or 3D(\ref{eq:heat3d}) by expanding the Laplacian appropriately:
  
@@ -74,9 +76,27 @@ The 1D(\ref{eq:wave1d}), 2D(\ref{eq:wave2d}), or 3D(\ref{eq:wave3d}) expansions 
   The \href{https://en.wikipedia.org/wiki/Advection}{advection equation} describes the transport of material by a fluid, such as silt in a river:
   
    \begin{equation}\label{eq:advection}
-  \frac{\partial s}{\partial t} = -v \cdot \frac{\partial s}{\partial x}
+  \frac{\partial \psi}{\partial t} = -v \cdot \nabla\psi
   \end{equation}
    \\
+    where $t$ is time, $\psi$ is the magnitude of advection, $v$ is the velocity field (a vector field), and $\nabla$ is the spatial gradient operator del.  since there are no second order or higher derivates present, equation \ref{eq:advection} is a first order PDE.\\
+    
+    Again, the 1D(\ref{eq:advection1d}), 2D(\ref{eq:advection2d}), or 3D(\ref{eq:advection3d}) expansions of the advection equation are given below:
+ 
+ \begin{equation}\label{eq:advection1d}
+  \frac{\partial \psi}{\partial t} = -v_{x}\frac{\partial \psi}{\partial x}
+  \end{equation}
+  
+   \begin{equation}\label{eq:advection2d}
+  \frac{\partial \psi}{\partial t} = -v_{x}\frac{\partial \psi}{\partial x}-v_{y}\frac{\partial \psi}{\partial y}
+  \end{equation}
+  
+   \begin{equation}\label{eq:advection3d}
+  \frac{\partial \psi}{\partial t} = -v_{x}\frac{\partial \psi}{\partial x}-v_{y}\frac{\partial \psi}{\partial y}-v_{z}\frac{\partial \psi}{\partial z}
+  \end{equation}
+  \\
+  We will revisit these equations later on in this chapter.
+   
 \section{Analytical vs Numerical Solutions}
 
 Sometimes it's possible to find a continuous function that satisfies the relationships described by the PDE; this is refereed to as a \textit{closed-form} solution or \textit{analytical} solution.  Generally, this is the preferred form of the solution as it returns an exact value.\\
@@ -91,7 +111,7 @@ We'll start with an arbitrary continuous, differentiable function $f(x)$.  If we
   f(x_{0} + \Delta  x) = f(x_{0}) + \frac{f'(x_{0})}{1!}\Delta  x + \frac{f''(x_{0})}{2!}\Delta  x^{2} + \cdots  + \frac{f^{(n)}(x_{0})}{n!}\Delta  x^{n} + R_{n}(x_{0})
   \end{equation}
     \\
-  where $f^{(n)}(x_{0})$ is the $n$th derivative of $f(x)$ evaluated at $x_{0}$ with respect to $x$ and $R_{n}(x_{0})$ is a remainder error term that depends on the degree of the Taylor expansion.  The Taylor expansion is not an approximation, it returns the exact value of $ f(x_{0} + \Delta  x)$.  As $n$ approaches infinity, $R_{n}(x_{0})$ vanishes.\\
+  where $f^{(n)}(x_{0})$ is the $n$th derivative of $f(x)$ with respect to $x$ evaluated at $x_{0}$, and $R_{n}(x_{0})$ is a remainder error term that depends on the degree of the Taylor expansion.  The Taylor expansion is not an approximation, it returns the exact value of $ f(x_{0} + \Delta  x)$; as $n$ approaches infinity, $R_{n}(x_{0})$ vanishes.\\
   
 %   \begin{equation}
 %   \lim_{n \to \infty} R_{n}(x_{0}) = 0
@@ -103,7 +123,7 @@ A first order Taylor expansion reduces \ref{eq:norderTaylor} to:
   f(x_{0} + \Delta  x) = f(x_{0}) + f'(x_{0})\Delta x + R_{1}(x_{0})
   \end{equation}
     \\
-  For small $\Delta  x$ it is OK to ignore the error term.  We are left with a first order Taylor approximation:
+  For small $\Delta  x$ it is OK to ignore the error term.  We are left with a first order Taylor \textit{approximation}:
   
    \begin{equation}\label{eq:1degTaylorApprox}
   f(x_{0} + \Delta  x) \approx f(x_{0}) + f'(x_{0})\Delta x
@@ -115,13 +135,13 @@ This is the same as tracing the slope of $f$ at $x_{0}$ to approximate a nearby 
  f'(x_{0}) \approx \frac{f(x_{0} + \Delta  x) - f(x_{0})}{\Delta  x}
   \end{equation}
     \\
-Similarly, we can evaluate the first order Taylor approximation for negative $\Delta x$:
+Similarly, we can evaluate the first order Taylor approximation for $\Delta x$ in the negative direction:
 
      \begin{equation}
  f(x_{0} - \Delta  x) \approx f(x_{0}) - f'(x_{0})\Delta x
   \end{equation}
     \\
-  Rearranging this gives us an alternate form of $ f'(x_{0})$:
+  Rearranging this gives us an alternate form of $ f'(x_{0})$ from equation \ref{eq:fdaForward}:
 
  \begin{equation}\label{eq:fdaBackward}
  f'(x_{0}) \approx \frac{f(x_{0}) - f(x_{0} - \Delta  x)}{\Delta  x}
@@ -133,7 +153,7 @@ Summing equations \ref{eq:fdaForward} and \ref{eq:fdaBackward} gives yet another
  f'(x_{0}) \approx \frac{f(x_{0} + \Delta  x) - f(x_{0} - \Delta  x)}{2\Delta x}
   \end{equation}
   \\
-  Equations \ref{eq:fdaForward}, \ref{eq:fdaBackward}, \ref{eq:fdaCentered} are referred to as the first order forward, backward, and centered finite difference approximations.  We can use these as approximations to first order derivatives in a PDE so that the PDE can be rewritten in a form that is easy to solve.
+  Equations \ref{eq:fdaForward}, \ref{eq:fdaBackward}, \ref{eq:fdaCentered} are referred to as the first order \textit{forward}, \textit{backward}, and \textit{centered} finite difference approximations.  We can use these as approximations to first order derivatives in a PDE so that the PDE can be rewritten in a form that is easy to solve.
   
 \subsection{Example of First Order FDM}
 
@@ -198,17 +218,17 @@ f''(x_{0}) \approx \frac{f(x_{0} - 2\Delta  x) - 2f(x_{0} - \Delta  x) + f(x_{0}
  Beyond this, higher order finite differential approximations may be calculated similarly, or from the following general forms of the forward (\ref{eq:generalFDAForward}), backward (\ref{eq:generalFDABackward}), and center (\ref{eq:generalFDACenter}) $n$th order finite difference approximations:
  
   \begin{equation}\label{eq:generalFDAForward}
- f^{n}(x_{0}) = \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} + (n-i)\Delta  x)
+ f^{n}(x_{0}) \approx \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} + (n-i)\Delta  x)
  \end{equation}
  
  \begin{equation}\label{eq:generalFDABackward}
- f^{n}(x_{0}) = \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} - i\Delta  x)
+ f^{n}(x_{0}) \approx \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} - i\Delta  x)
  \end{equation}
  
   \begin{equation}\label{eq:generalFDACenter}
- f^{n}(x_{0}) = \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} + \left(\frac{n}{2}-i\right)\Delta  x)
+ f^{n}(x_{0}) \approx \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} + \left(\frac{n}{2}-i\right)\Delta  x)
  \end{equation}
- \\
+ 
 \subsection{Example of Second Order FDM}
 
 Now that we have a second order finite difference approximation, we can solve second order PDEs numerically with FDM.  The 1D wave equation \ref{eq:wave1d}, whose solution is given by a function $u(t, x)$, is re-written using the second order centered finite difference approximation(\ref{eq:fdasecondcentered}) in space and the backward finite difference approximation in time(\ref{eq:fdasecondbackward}):
@@ -249,3 +269,7 @@ For small changes $\Delta  x$ in the negative direction, equation  can be rearra
 \section{Finite Element Method}
 
 \section{Finite Volume Method}
+
+\section{Further Reading}
+
+
