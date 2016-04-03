@@ -12,10 +12,12 @@
 A differential equation is mathematical relationship between a function and at least one of its derivatives. For example:
 
  \begin{equation}\label{eq:diffEq}
- \frac{\partial^{2}f(x)}{\partial^{2}x} = f(x) + c
+ \frac{\partial^{2}f(x)}{\partial^{2}x} = f(x)
   \end{equation}
   \\
-Equation \ref{eq:diffEq} describes a function $f$ with one independent variable $x$ using both the second order form $ \frac{\partial^{2}f(x)}{\partial^{2}x} $ and the zeroth order form $f(x)$.  Differential equations of single variable functions like equation \ref{eq:diffEq} are called \textit{ordinary differential equations} (ODE).  By contrast, a \textit{partial differential equation} (PDE) is a differential equation that describes multivariable functions, like $f(t, x, y)$.
+Equation \ref{eq:diffEq} describes a function $f$ with one independent variable $x$ using both the second order form $ \frac{\partial^{2}f(x)}{\partial^{2}x} $ and the zeroth order form $f(x)$.  Differential equations of single variable functions like equation \ref{eq:diffEq} are called \textit{ordinary differential equations} (ODE).  By contrast, a \textit{partial differential equation} (PDE) is a differential equation that describes multivariable functions, like $f(t, x, y)$.\\
+
+A \textit{solution} to a differential equation is a function, $f$, that satisfies the differential relationship described by the differential equation.  This chapter covers methods of solving PDEs numerically, usually with the help of a computer.
 
 \section{PDEs from Physics}
 
@@ -99,9 +101,9 @@ The 1D(\ref{eq:wave1d}), 2D(\ref{eq:wave2d}), or 3D(\ref{eq:wave3d}) expansions 
    
 \section{Analytical vs Numerical Solutions}
 
-Sometimes it's possible to find a continuous function that satisfies the relationships described by the PDE; this is refereed to as a \textit{closed-form} solution or \textit{analytical} solution.  Generally, this is the preferred form of the solution as it returns an exact value.\\
+Sometimes it's possible to identify a continuous function that satisfies the relationships described by a differential equation; this is refereed to as a \textit{closed-form} solution or \textit{analytical} solution.  For example, $f(x)=e^{x}$ is an analytical solution to equation \ref{eq:diffEq}.  Usually, analytical solutions are the preferred form of the solution as they return exact values.\\
 
-However, it is usually not possible to solve a PDE analytically, in these cases we must use numerical techniques to approximate the solution with a computer.  Generally, this involves splitting up, or \textit{discretizing}, space into a finite number of regions and evaluating the PDE in each of these regions.  Often this process of discretization is applied to time as well, creating a solution that moves forward in quantized time steps.  As the size of the spatial regions and temporal steps becomes very small, the discrete solution approaches the continuous, analytical solution to the PDE.
+However, it is usually not possible to solve a PDE analytically, in these cases we must use numerical techniques to approximate the solution.  Generally, this involves splitting up, or \textit{discretizing}, space into a finite number of regions and evaluating the PDE in each of these regions.  Often this process of discretization is applied to time as well, creating a solution that moves forward in quantized time steps.  As the size of the spatial regions and temporal steps becomes very small, the discrete solution approaches the continuous, analytical solution to the PDE.
 
 \section{Finite Difference Method}
 
@@ -157,8 +159,50 @@ Summing equations \ref{eq:fdaForward} and \ref{eq:fdaBackward} gives yet another
   
 \subsection{Example of First Order FDM}
 
+We can now rewrite any first order PDE using one of the first order finite difference approximations we just found.  To start, I've rewritten the 1D advection equation (\ref{eq:advection1d}) using the forward finite difference approximation (\ref{eq:fdaForward}) to approximate $\frac{\partial \psi}{\partial t}$ and the centered finite difference approximation (\ref{eq:fdaCentered}) to approximate $\frac{\partial \psi}{\partial x}$:
 
+ \begin{equation}
+  \frac{ \psi(t_{0} + \Delta  t,  x_{0}) - \psi(t_{0}, x_{0})}{\Delta t} = -v_{x}\frac{\psi(t_{0}, x_{0} + \Delta  x)-\psi(t_{0}, x_{0}-\Delta x)}{2\Delta  x}
+  \end{equation}
+  \\
+  (assume $v_{x}$ is constant)\\
+  
+  Reorganizing this equation gives me an equation that gives $\psi(t_{0}+\Delta t)$ in terms of $\psi(t_{0})$:
+  
+   \begin{equation}\label{eq:advection1Dapprox}
+  \psi(t_{0} + \Delta  t,  x_{0}) = \psi(t_{0}, x_{0})-v_{x}\Delta t \frac{\psi(t_{0}, x_{0} + \Delta  x)-\psi(t_{0}, x_{0}-\Delta x)}{2\Delta  x}
+  \end{equation}
+\\
+Assuming I know the current state of a given differential element, $\psi(t_{0}, x_{0})$, and the current state of its neighbors, $\psi(t_{0}, x_{0}+\Delta x)$ and $\psi(t_{0}, x_{0}-\Delta x)$, I can solve for the next state, $\psi(t_{0}+\Delta t, x_{0})$.\\
 
+Similarly, we can use the backward finite difference approximation (\ref{eq:fdaBackward}) to approximate $\frac{\partial \psi}{\partial t}$ to get an equation describing the past state of the differential element $\psi(t_{0}-\Delta t, x_{0})$ in terms of its current state and the current states of its neighbors:
+
+  \begin{equation}
+  \psi(t_{0} - \Delta  t,  x_{0}) = \psi(t_{0}, x_{0}) + v_{x}\Delta t \frac{\psi(t_{0}, x_{0} + \Delta  x)-\psi(t_{0}, x_{0}-\Delta x)}{2\Delta  x}
+  \end{equation}
+  \\
+  In general, it's best to use the center finite difference approximation (\ref{eq:fdaCentered}) when you can because it has lower error than the forward or backward forms (explained more in section \ref{sec:errorAnalysis}).  If we use the center finite difference approximation for $\frac{\partial \psi}{\partial t}$, we end up with $\psi(t_{0}+\Delta t)$ as a function of $\psi(t_{0})$ and $\psi(t_{0}-\Delta t)$:
+  
+     \begin{equation}
+  \psi(t_{0} + \Delta  t,  x_{0}) = \psi(t_{0}-\Delta t, x_{0}) -v_{x}\Delta t \frac{\psi(t_{0}, x_{0} + \Delta  x)-\psi(t_{0}, x_{0}-\Delta x)}{\Delta  x}
+  \end{equation}
+  
+  which may or may not be possible to solve, depending on the information available.\\
+  
+  From here we can solve more complicated first order PDEs, here's an approximation of the 2D advection equation (\ref{eq:advection2d}) using a forward approximation in time and a center approximation for $x$ and $y$.
+  
+\begin{multline}
+   \frac{ \psi(t_{0} + \Delta  t,  x_{0}, y_{0}) - \psi(t_{0}, x_{0}, y_{0})}{\Delta t} = \\
+   -v_{x}\frac{\psi(t_{0}, x_{0} + \Delta  x, y_{0})-\psi(t_{0}, x_{0}-\Delta x, y_{0})}{2\Delta  x}\\
+   -v_{y}\frac{\psi(t_{0}, x_{0}, y_{0} + \Delta  y)-\psi(t_{0}, x_{0}, y_{0}-\Delta y)}{2\Delta  y}
+\end{multline}
+
+\begin{multline}\label{eq:advection2Dapprox}
+   \psi(t_{0} + \Delta  t,  x_{0}, y_{0}) =\\
+   \psi(t_{0}, x_{0}, y_{0}) -v_{x}\Delta t\frac{\psi(t_{0}, x_{0} + \Delta  x, y_{0})-\psi(t_{0}, x_{0}-\Delta x, y_{0})}{2\Delta  x}\\
+   -v_{y}\Delta t\frac{\psi(t_{0}, x_{0}, y_{0} + \Delta  y)-\psi(t_{0}, x_{0}, y_{0}-\Delta y)}{2\Delta  y} 
+\end{multline}
+\\
 \subsection{Higher Order FDM}
 
 In order to solve a second order PDE like the wave equation (\ref{eq:waveEq}), we'll need a finite difference approximation for second derivatives.  We found the first order finite difference approximations by rearranging the first order Taylor approximation (\ref{eq:1degTaylorApprox}); this time, we'll start with a second order Taylor expansion of the full Taylor Series (\ref{eq:norderTaylor}):
@@ -240,14 +284,15 @@ Now that we have a second order finite difference approximation, we can solve se
  \end{split}
   \end{equation}
 
-\subsection{FDM as a Cellular Automata Ruleset}
+\subsection{FDM as a Cellular Automaton Ruleset}
 
+By solving PDEs using forward finite difference approximations for partial derivates with respect to time and centered finite difference approximations for partial derivatives with respect to spatial dimensions, we get a form of the PDE that reads like a cellular automaton ruleset.  Equations \ref{eq:advection1Dapprox} have the general form: the next state of a differential element equals some function of its current state and the current state of its neighbors.
 
 A longer discussion and additional examples of this method are given in Yang et al\cite{Yang2010}.
 
 \subsection{Example Code}
 
-\subsection{Error Analysis}
+\subsection{Error Analysis}\label{sec:errorAnalysis}
 
  \begin{equation}
  f'(x_{0}) = \frac{f(x_{0} + \Delta  x) - f(x_{0})}{\Delta  x} + \frac{R_{1}(x_{0})}{\Delta  x}
