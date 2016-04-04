@@ -175,6 +175,14 @@ Similarly, we can use the backward finite difference approximation (\ref{eq:fdaB
   \psi(t_{0} - \Delta  t,  x_{0}) = \psi(t_{0}, x_{0}) + v_{x}\Delta t \frac{\psi(t_{0}, x_{0} + \Delta  x)-\psi(t_{0}, x_{0}-\Delta x)}{2\Delta  x}
   \end{equation}
   \\
+  We could reorganize this equation to solve for the forward time solution by substituting $t_{0}$ with $t_{0}+\Delta t$ and $t_{0}-\Delta t$ with $t_{0}$:
+  
+  \begin{equation}
+  \psi(t_{0},  x_{0}) = \psi(t_{0}+\Delta t, x_{0}) + v_{x}\Delta t \frac{\psi(t_{0}+\Delta, x_{0} + \Delta  x)-\psi(t_{0}+\Delta, x_{0}-\Delta x)}{2\Delta  x}
+  \end{equation}
+  \\
+  This is referred to as the \textit{implicit} method (as opposed to the \textit{explicit} method).  Implicit FDM is computationally more challenging to solve because they require solving a system of equations, rather that evaluating a single expression, however, they tend to form more stable solutions.\\
+  
   In general, it's best to use the center finite difference approximation (\ref{eq:fdaCentered}) when you can because it has lower error than the forward or backward forms (explained more in section \ref{sec:errorAnalysis}).  If we use the center finite difference approximation for $\frac{\partial \psi}{\partial t}$, we end up with $\psi(t_{0}+\Delta t)$ as a function of $\psi(t_{0})$ and $\psi(t_{0}-\Delta t)$:
   
      \begin{equation}
@@ -267,7 +275,7 @@ f''(x_{0}) \approx \frac{f(x_{0} - 2\Delta  x) - 2f(x_{0} - \Delta  x) + f(x_{0}
  f^{n}(x_{0}) \approx \frac{1}{\Delta  x^{n}}\sum_{i=0}^{n}(-1)^{i}\binom {n} {i}f(x_{0} + \left(\frac{n}{2}-i\right)\Delta  x)
  \end{equation}
  
-\subsection{Examples of Second Order FDM}
+\subsection{Examples of Second Order FDM}\label{sec:secondOrderExamples}
 
 Now that we have a second order finite difference approximation, we can solve second order PDEs numerically with FDM.  The ID heat equation (\ref{eq:heat1d}) can be approximated using the first order forward approximation (\ref{eq:fdaForward}) for $\frac{\partial T}{\partial t}$ and the second order center approximation (\ref{eq:fdaseccentered}) for $\frac{\partial^{2} T}{\partial x^{2}}$:\\
 
@@ -297,17 +305,17 @@ Since the wave equation contains a second order partial derivative with respect 
 
 \subsection{Boundary Conditions}
 
-\subsection{FDM as a Cellular Automaton Ruleset}
+Suppose some region lives at the left edge of a gridded region, it will not a have a neighbor to its left.  If we call the cell's position $x_{0}$, then we need to decide how to handle $x_{0}-\Delta x$.
 
-By solving PDEs using forward finite difference approximations for partial derivates with respect to time and centered finite difference approximations for partial derivatives with respect to spatial dimensions, we get a form of the PDE that reads like a cellular automaton (CA) ruleset.  Equations \ref{eq:advection1Dapprox}, \ref{eq:advection2Dapprox}, and \ref{eq:heatfda1D} have the general form: the next state of a differential element equals some function of its current state and the current state of its neighbors.\\
+\subsection{Example Code}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{reactionDiffusion.png}
-  \caption{Time sequence showing the abundance of chemical u in a Grey-Scott reaction across 2D space for 9 time steps.  CA is initialized with a random patch of chemical u at t = 0 and then solved for with the following parameters: $F = 0.0545$, $k=0.062$.  Live, interactive demo available at \href{http://git.amandaghassaei.com/ReactionDiffusionShader/}{Github}.}
-  \label{fig:willAssembler}
+  \caption{Time sequence showing the abundance of chemical u in a Gray-Scott reaction across 2D space for 9 time steps.  CA is initialized with a random patch of chemical u at t = 0 and then solved for with the following parameters: $F = 0.0545$, $k=0.062$.  Live, interactive demo available at \href{http://git.amandaghassaei.com/ReactionDiffusionShader/}{Github}.}
+  \label{fig:grayScott}
 \end{figure}
 
-A popular CA derives from the Gray-Scott \href{https://en.wikipedia.org/wiki/Reaction%E2%80%93diffusion_system#Two-component_reaction.E2.80.93diffusion_equations}{Reaction-Diffusion} equations (\ref{eq:gs1} and \ref{eq:gs2}).  These equations describe the interactions between two checmicals, u and v, as they react with each other and diffuse across space.
+A popular pair of PDEs are the Gray-Scott \href{https://en.wikipedia.org/wiki/Reaction%E2%80%93diffusion_system#Two-component_reaction.E2.80.93diffusion_equations}{Reaction-Diffusion} equations.  These equations describe the interactions between two chemicals, u and v, as they react with each other and diffuse across space:
 
  \begin{equation}\label{eq:gs1}
   \frac{\partial u}{\partial t} = D_{u}\nabla^{2} u -uv^{2} + F(1-u)
@@ -319,11 +327,173 @@ A popular CA derives from the Gray-Scott \href{https://en.wikipedia.org/wiki/Rea
   
   where $t$ is time, $u$ and $v$ are the concentrations of chemicals u and v, $D_{u}$ and $D_{v}$ are the rates of diffusion for chemicals u and v, and $F$ and $k$ are additional constants.  \\
   
-  Equation \ref{eq:gs1} tells us how quickly the abundance of chemical u is changing and equation \ref{eq:gs2} tells us how quickly the abundance of chemical v is changing.  The first terms of both equations describe the rate of diffusion of each chemical across the spatial dimensions.  The second terms describe the reaction between chemicals u and v.  We can see that the reaction between u and v depletes chemical u and generates chemical v from the sign of these second terms.  The positive third tern in equation \ref{eq:gs1} represents the replenishment of chemical u in the system; without this term, u would quickly become depleted through reactions with v.  The negative third term in equation \ref{eq:gs2} represents the diminishment of chemical v, proportional to the concentration of v; without this term v would grow uncontrollably due to reactions with u.
+  Equation \ref{eq:gs1} tells us how quickly the abundance of chemical u is changing and equation \ref{eq:gs2} tells us how quickly the abundance of chemical v is changing.  The first terms of both equations describe the rate of diffusion of each chemical across the spatial dimensions.  The second terms describe the reaction between chemicals u and v.  We can see that the reaction between u and v depletes chemical u and generates chemical v from the sign of these second terms.  The positive third term in equation \ref{eq:gs1} represents the replenishment of chemical u in the system; without this term, u would quickly become depleted through reactions with v.  The negative third term in equation \ref{eq:gs2} represents the diminishment of chemical v, proportional to the concentration of v; without this term v would grow uncontrollably due to reactions with u.\\
+  
+  A plot of a 2D Gray-Scott system (Fig \ref{fig:grayScott}) shows the concentration or chemical u over time.  I wrote an interactive demo of this system using GPU shaders that is live at  \href{http://git.amandaghassaei.com/ReactionDiffusionShader/}{Github}.  In my demo, clicking on the screen introduces more of chemical u into the system.\\
+  
+  Consider the 2D Gray Scott PDEs:
+  
+   \begin{equation}
+  \frac{\partial u}{\partial t} = D_{u}\left(\frac{\partial^{2} u}{\partial x^{2}}+\frac{\partial^{2} u}{\partial y^{2}} \right) -uv^{2} + F(1-u)
+  \end{equation}
+  
+   \begin{equation}
+  \frac{\partial v}{\partial t} = D_{v}\left(\frac{\partial^{2} v}{\partial x^{2}}+\frac{\partial^{2} v}{\partial y^{2}} \right) +uv^{2} - (F+k)v
+  \end{equation}
+  \\
+  Following the steps outlined in section \ref{sec:secondOrderExamples}, we'll approximate these PDEs using finite difference approximations.  By applying the first order forward approximation (\ref{eq:fdaForward}) to $\frac{\partial u}{\partial t}$ and $\frac{\partial v}{\partial t}$ and second order center approximations (\ref{eq:fdaseccentered}) to $\frac{\partial^{2} u}{\partial x^{2}}$, $\frac{\partial^{2} u}{\partial y^{2}}$, $\frac{\partial^{2} v}{\partial x^{2}}$, and $\frac{\partial^{2} v}{\partial y^{2}}$, we get a expressions for $u(t_{0} + \Delta  t, x_{0}, y_{0})$ and $v(t_{0} + \Delta  t, x_{0}, y_{0})$:
+  
+   \begin{multline}\label{eq:gsdifferentialu}
+    u(t_{0} + \Delta  t, x_{0}, y_{0}) = \Delta  t[-u(t_{0}, x_{0}, y_{0})v(t_{0}, x_{0}, y_{0})^{2} - (F+k)v(t_{0}, x_{0}, y_{0})] + u(t_{0}, x_{0}, y_{0})\\
+    + D_{u}\Delta  t\frac{u(t_{0},x_{0} + \Delta  x, y_{0})- 2u(t_{0},x_{0}, y_{0}) + u(t_{0},x_{0} -\Delta  x, y_{0})}{\Delta  x^{2}} \\
+    + D_{u}\Delta  t\frac{u(t_{0},x_{0} , y_{0}+ \Delta  y)- 2u(t_{0},x_{0}, y_{0}) + u(t_{0},x_{0} , y_{0}-\Delta  y)}{\Delta  y^{2}}
+  \end{multline}
+  
+    \begin{multline}\label{eq:gsdifferentialv}
+    v(t_{0} + \Delta  t, x_{0}, y_{0}) = \Delta  t[u(t_{0}, x_{0}, y_{0})v(t_{0}, x_{0}, y_{0})^{2} + F(1-u(t_{0}, x_{0}, y_{0}))] + v(t_{0}, x_{0}, y_{0})\\
+    + D_{v}\Delta  t\frac{v(t_{0},x_{0} + \Delta  x, y_{0})- 2v(t_{0},x_{0}, y_{0}) + v(t_{0},x_{0} -\Delta  x, y_{0})}{\Delta  x^{2}} \\
+    + D_{v}\Delta  t\frac{v(t_{0},x_{0} , y_{0}+ \Delta  y)- 2v(t_{0},x_{0}, y_{0}) + v(t_{0},x_{0} , y_{0}-\Delta  y)}{\Delta  y^{2}}
+  \end{multline}
+  \\
+  To implement this system on a computer, start with the following Javascript code:
 
-A longer discussion and additional examples of this method are given in Yang et al\cite{Yang2010}, further exploration of the Gray-Scott parameters by Munafro\cite{Munafo2016}.
+\begin{lstlisting}[language=JavaScript]
+//u is a 2D array with dimensions xMax, yMax
+//v is a 2D array with dimensions xMax, yMax
+//nextU is a 2D array with dimensions xMax, yMax
+//nextV is a 2D array with dimensions xMax, yMax
+//constants: Du, Dv, F, k, deltaT, deltaX, deltaY
 
-\subsection{Pseudo Code}
+while (true){ //repeat forever
+	
+    for (var x=0; x < xMax; x++){
+    	for (var y=0; y < yMax; y++){
+    	
+	    //current state
+	    var currentU = u[x][y];
+	    var currentV = v[x][y];
+		
+	    //neighbor states
+	    var currentUplusX = u[x+1][y];
+	    var currentUplusX = u[x-1][y];
+	    var currentVplusY = u[x][y+1];
+	    var currentVminusY = u[x][y-1];
+		
+		
+	    //lagrangian approximations
+	    var lagrangianU = (currentUplusX-2*currentU+currentUminusX)/(deltaX*deltaX) 
+		+ (currentUplusY-2*currentU+currentUminusY)/(deltaY*deltaY); 
+			
+	    var lagrangianV = (currentVplusX-2*currentV+currentVminusX)/(deltaX*deltaX)
+		+ (currentVplusY-2*currentV+currentVminusY)/(deltaY*deltaY); 
+		
+		
+	    nextU[x][y] = deltaT*(-currentU*currentV*currentV-(F + k)*currentV) 
+		+ currentU + Du*deltaT*lagrangianU;
+			
+	    nextV[x][y] = deltaT*(currentU*currentV*currentV+F*(1 - currentU)) 
+		+ currentV + Dv*deltaT*lagrangianV;
+    	}
+    }
+    
+    u = nextU;
+    v = nextV;
+}
+\end{lstlisting}
+
+
+Next, we must decide how to handle the boundary conditions, for now I'll set the boundaries equal to zero:
+
+\begin{lstlisting}[language=JavaScript]
+....
+
+while (true){ //repeat forever
+	
+    for (var x=0; x < xMax; x++){
+    	for (var y=0; y < yMax; y++){
+    	
+	    //current state
+	    var currentU = u[x][y];
+	    var currentV = v[x][y];
+		
+	    //neighbor states
+	    var currentUplusX;
+	    if (x == xMax-1) currentUplusX = 0;
+	    else currentUplusX = u[x+1][y];
+	    
+	    var currentUminusX;
+	    if (x == 0) currentUminusX = 0;
+	    else currentUminusX = u[x-1][y];
+	    
+	    var currentUplusY;
+	    if (y == yMax-1) currentUplusY = 0;
+	    else currentUplusY = u[x][y+1];
+	    
+	    var currentUminusY;
+	    if (y == 0) currentUminusY = 0;
+	    else currentUminusY = u[x][y-1];
+		
+	    ....
+	
+    	}
+    }
+    
+    ....
+}
+\end{lstlisting}
+
+Finally, we must set the initial conditions and constants:\\
+\begin{lstlisting}[language=JavaScript]
+var Du = 0.2;
+var Dv = 0.1;
+var F = 0.0545;
+var k = 0.062;
+var deltaT = 1;
+var deltaX = 1;
+var deltaY = 1;
+
+var xMax = 100;
+var yMax = 100;
+
+var u = initEmptyArray();
+var v = initEmptyArray();
+var nextU = initEmptyArray();
+var nextV = initEmptyArray();
+
+function initEmptyArray(){//javascript does not do this particularly gracefully
+    var array = [];
+    for (var x=0; x < xMax; x++){
+    	var column = [];
+	for (var y=0; y < yMax; y++){
+	    column.push(0);
+	}
+	array.push(column);
+    }
+    return array;
+}
+
+//set initial values in a center patch of the u and v arrays
+var patchSize = 10;
+for (var x=0; x < xMax; x++){
+    for (var y=0; y < yMax; y++){
+	if ((x > xMax/2 - patchSize) && (x < xMax/2 + patchSize) 
+	    && (y > yMax/2 - patchSize) && (y < yMax/2 + patchSize)) {
+	    //inside center patch
+	    u[x][y] = 0.5 + Math.random()*0.02 - 0.01;
+	    v[x][y] = 0.25 + Math.random()*0.2 - 0.01;
+	} else {
+	    //set u = 1 and v = 0 everywhere else
+	    u[x][y] = 1;
+	    v[x][y] = 0;
+	}
+    }
+}
+
+....
+
+\end{lstlisting}
+
+Plotting out u over time gives the images shown in Fig \ref{fig:grayScott}.  Changing the constants in the PDEs, especially F and k, will yield reaction diffusion behavior that varies wildly.  Further exploration of the Gray-Scott parameters is given by Munafro\cite{Munafo2016}.
 
 \subsection{Error Analysis}\label{sec:errorAnalysis}
 
@@ -342,6 +512,32 @@ For small changes $\Delta  x$ in the negative direction, equation  can be rearra
    \begin{equation}
  f'(x_{0}) = \frac{f(x_{0} + \Delta  x) - f(x_{0} - \Delta  x)}{2\Delta x} + \frac{R_{1}(x_{0})}{2\Delta  x}
   \end{equation}
+  
+  Finally, since these computations will more likely be happening inside a computer, it's important to take note of the aggregation of float precision error in the calculations.  Even with increasingly small $\Delta t$ and $\Delta x$, numerical results calculated on a computer will never perfectly match the exact values due to these floating point errors.
+  
+  \subsection{Decreasing FDM Error}
+  
+  \subsubsection{Relationship to Other Numerical Integration Techniques}
+  
+  \href{https://en.wikipedia.org/wiki/Euler_method}{Euler integration} is a simple numerical technique for solving differential equations that is based on the first order forward and backward finite difference approximations (\ref{eq:fdaForward} and \ref{eq:fdaBackward}).  The \href{https://en.wikipedia.org/wiki/Midpoint_method}{midpoint method} is a modification to Euler integration based on the center finite difference approximation (\ref{eq:fdaCentered}).  Euler integration and the midpoint method are the simplest forms of the \href{https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods}{Runge-Kutta method}.
+    
+  \subsection{FDM as a Cellular Automaton Ruleset}
+
+A \href{https://en.wikipedia.org/wiki/Cellular_automaton}{cellular automaton} (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical \textit{cells} and time moves forward in discrete \textit{steps}.  Each cell owns one or many state variables, which may hold binary or continuous data.  The governing equations of a CA system are codified in the \textit{ruleset} that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.\\
+
+By solving PDEs using forward finite difference approximations for partial derivates with respect to time, and centered finite difference approximations for partial derivatives with respect to spatial dimensions, we get a form of the PDE that reads like a CA ruleset.  Equations \ref{eq:advection1Dapprox}, \ref{eq:advection2Dapprox}, \ref{eq:heatfda1D}, \ref{eq:gsdifferentialu}, and \ref{eq:gsdifferentialv} have the general form: the next state of a differential element equals some function of its current state and the current state of its neighbors.\\
+
+A longer discussion of PDEs, FDM, and CAs is given in Yang et al\cite{Yang2010}
+
+\subsection{Semi-discrete FDM}
+
+We can also compute a \textit{semi-discrete} numerical solution to a PDE that is discrete in one dimension, but continuous in another.  For example, a semi-discrete FDM for the 1D heat equation (\ref{eq:heat1d}) that is continuous in time is given below:
+
+ \begin{equation}
+  \frac{\partial T}{\partial t} = c\Delta  t\frac{T(t_{0},x_{0} + \Delta  x) - 2T(t_{0},x_{0}) + T(t_{0},x_{0} -\Delta  x)}{\Delta  x^{2}}
+  \end{equation}
+  \\
+  Systems with one continuous independent variable can be solved by the \href{https://en.wikipedia.org/wiki/Method_of_lines}{Method of Lines}, using well established techniques of numerical integration of initial-value problems.
   
 \section{Differential vs Integral Forms}
 \section{Finite Element Method}
