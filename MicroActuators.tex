@@ -10,7 +10,75 @@
 
 \chapter{Micro Actuators}
 
-\section{Overview}
+In the sections below, a variety of actuator types are asses based on their performance characteristics.  The scaling laws of each actuator type are derived from the governing physics.
+
+\subsection{Performance Characteristics Definitions}
+
+\textbf{Actuation stress} ($\sigma$) is a measure of the applied force per unit cross-sectional area.  \textbf{Maximum actuation stress} ($\sigma_{max}$) gives the max impulse stress in a stroke of maximum work output.\\
+
+\textbf{Actuation strain} ($\epsilon$) is a measure of the extension/contraction of an actuator relative to its nominal length. \textbf{Maximum actuation strain} ($\epsilon_{max}$) gives the max strain in a stroke of maximum work output.  The \textbf{strain resolution} ($\epsilon_{min}$) is the minimum step in $\epsilon$ possible for a given actuator.\\
+
+\textbf{Actuator density} ($\rho$) gives the ratio of the mass of an actuator to its nominal volume in units of kg/m\textsuperscript{3}.  In this analysis, actuator density is considered independent of the mass of external power supplies, controllers, and fixturing.\\
+
+\textbf{Actuator modulus} ($E$) is the ratio small changes in $\sigma$ to small changes in $\epsilon$ ($d\sigma / d\epsilon$) for a given control signal.\\
+
+\textbf{Maximum actuation frequency} ($f_{max}$) is the max frequency of cyclic operation of a given actuator.  $f_{max}$ may require an external resetting force and may depend on external factors, such as heat dissipation or energy consumption. $f_{max}$ may be so low for some actuators, they should be considered only as single stroke actuators, rather than for cyclic operation.\\
+
+For actuators in sustainable cyclic operation, \textbf{volumetric power} ($p$) is a measure of the mechanical power output per unit volume.\\
+
+\textbf{Efficiency} ($\nu$) is the ratio of mechanical work output to energy input for one complete cycle of operation.\\
+
+
+\section{Electromagnetic}
+
+
+
+\subsection{Solenoid}
+
+\subsection{Voice Coil}
+
+\subsection{Motors}
+
+\subsection{Electro Permanent}
+
+\section{Electrostatic}
+
+%\subsection{Electrostatic Comb Drive}
+
+\section{Piezo}
+
+Piezoelectric materials strain in the presence of an applied electric field $E$.
+piezoelectricity $E$
+electrostriction $E^{2}$
+ferroelectricity (retain at E = 0)
+
+ \begin{equation}\label{eq:diffEq}
+\sigma_{max} = E\epsilon_{max}
+  \end{equation}
+\\
+In piezoelectrics, $\epsilon_{max}$ is limited by the material type.  Piezoelectric materials have a maximum tolerable electric field, above which, the material operates in a different regime.
+Low strain piezoelectrics: Quartz (SiO\textsubscript{2}), Lithium Niobate (LiNbO\textsubscript{3}), Lithium Tantalate (LiTaO\textsubscript{3})
+High strain piezoelectrics: alloys of Lead Zircoate Titanate (PbZr\textsubscript{x}Ti\textsubscript{1-x}O\textsubscript{3}, called PZT)
+
+
+\section{Shape Memory Alloy}
+
+\section{Magentostrictive}
+
+\section{Thermal}
+
+%\subsection{Wax Actuator}
+
+\section{Pneumatic}
+
+\section{Ultrasonic}
+
+\section{Biological Actuators}
+
+
+\section{Conclusions}
+
+Further comparison of the performance metrics of mechanical actuators is given in Huber et al \cite{Street1997}.
 
  is given in Table \ref{tab:actuatorTypes}.
 
@@ -63,30 +131,6 @@
     \bottomrule
 \end{tabular}
 \end{table}
-
-
-\section{Electromagnetic}
-
-\subsection{Solenoid}
-
-\subsection{Voice Coil}
-
-\section{Electrostatic}
-
-\subsection{Electrostatic Comb Drive}
-
-\section{Piezo}
-
-\section{Thermal}
-
-\subsection{Wax Actuator}
-
-\section{Pneumatic}
-
-\section{Ultrasonic}
-
-
-
 
 
 }

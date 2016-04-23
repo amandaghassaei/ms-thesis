@@ -14,6 +14,36 @@ The following sections outline current research into digital assembly across sca
 
 %An active area of synthetic biology explores the possibility of creating a viable cell from scratch based on knowledge about the core systems required for metabolism, cell maintainance, and self replication\cite{Forster2006}.  To date, efforts at creating this "minimal cell" have only been successful using a top down approach - starting with an organism with a minimal genome and reducing its genes further\cite{Glass2006}\cite{Gibson2010}.
 
+\section{Virtual Self-Assembling Systems}
+
+The primary motivation for this work is to create a virtual environment where it is possible to explore the design of a self assembling machine that obeys physics.  These types of investigations first started before the advent of modern computing.
+
+This thesis draws inspiration from virtual environments inside which the first investigations into self replication took place.
+
+\subsection{Cellular Automata}
+
+A \href{https://en.wikipedia.org/wiki/Cellular_automaton}{cellular automaton} (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical \textit{cells} and time moves forward in discrete \textit{steps}.  Each cell owns one or many state variables, which may hold discrete or continuous data.  The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.\\
+
+CAs have been used to study the requirements of self-assembling systems going back at least as early as the 1940s\cite{Neumann1966}.  To date, these CA investigations have employed very simple rulesets that violate basic physical principals: matter can be created and destroyed at will, actuators can move an infinite number of cells (cells have no mass), motions are quantized, one material can be converted into another, global synchronicity, etc.  This by no means implies that CAs are inherently non-physical; in fact, evaluating partial differential equations from physics using finite difference method can be structured of as a type of cellular automaton\cite{Yang2010}.
+
+\subsection{Conway's Game of Life}
+
+To date, self replicating machines and other complex engineered systems have been most extensively studied in the popular CA Conway's Game of Life ("Life").\\
+
+Inside Life, there is a notion of periodicity that is important in determining whether a 
+The speed of light, \textit{c}, is the rate of travel 
+
+\section{Physical Self-Assembling Systems}
+
+\subsection{Engineered Self-Assembling Systems}
+
+Man-made self assembling systems to date have not achieved the same level of complexity as biological systems, and 
+
+\subsection{Biological Systems}
+
+
+
+
 \section{Digital Assembly}
 
 Digital assembly is an emerging multimaterial fabrication technique where a finite set of discrete part types are (often reversibly) joined to form larger structures in a regular lattice.  Programmable functional behavior is achieved by patterning parts with different material properties across an assembly.  In the macro scale, the assembly process is orchestrated by one or many robotic assemblers.  Self-alignment features and the regular spacing of the parts help to minimize the complexity of a robotic assembler, and maintain global metrology through local interactions.  At nano scales, assembly is guided by programmable self-assembly mechanisms.
@@ -81,12 +111,7 @@ lattice gas\\
 Runge-Kutta\\
 Euler Integration\\
 
-\subsection{Cellular Automata}
 
-A \href{https://en.wikipedia.org/wiki/Cellular_automaton}{cellular automaton} (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical "cells" and time moves forward in discrete "steps".  Each cell owns one or many state variables, which may hold binary or continuous data.  
-The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.\\
-
-CAs have been used to study the requirements of self-assembling systems going back at least as early as the 1940s\cite{Neumann1966}.  To date, these CA investigations have employed very simple rulesets that violate basic physical principals: matter can be created and destroyed at will, actuators can move an infinite number of cells (cells have no mass), motions are quantized, one material can be converted into another, etc.  This by no means implies that CAs are inherently non-physical; in fact, finite difference method can be thought of as a type of cellular automata\cite{Yang2010}.
 
 \section{CAD and Simulation Tools for Digital Assembly}
 
@@ -94,7 +119,7 @@ At the moment of writing this, there exist several computational tools for desig
 
 \subsection{Cellular Automata-Based Tools}
 
-The CA-based simulation tools discussed here allow for computational efficiency at the cost of accuracy, often allowing for only quantized motions, interactions, and states.  In general, this classification of tools employs materials and mechanics that are not plausible in the real world, but are still of interest for purely computational investigations.  The earliest design and simulation tools for CA systems were a piece of graph paper or a Go board\cite{Gardner1970}.  With the introduction of personal computers and graphical user interfaces, it his now possible to compute large CA universes and study their behaviors.\\
+The CA-based simulation tools discussed here allow for computational efficiency at the cost of accuracy, often allowing for only quantized motions, interactions, and states.  In general, this classification of tools employs materials and mechanics that are not plausible in the real world, but are still of interest for purely computational investigations.  The earliest design and simulation tools for CA systems were a piece of graph paper or a Go board\cite{Gardner1970}.  With the introduction of personal computers and graphical user interfaces, it is now possible to compute large CA universes and study their behaviors.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{minecraft.png}
@@ -149,11 +174,3 @@ The most widely adopted example of discrete design is \href{https://minecraft.ne
 \href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/CAM environment for digital materials I've been developing that supports the research efforts into part and assembler design at CBA (Fig \ref{fig: designAssemblyGUIWide}).  In DMDesign, users design structures in a virtual 3D environment from many material types, plan out the assembly of a design by a robotic assembler, and communicate in realtime with hardware to physically realize the design\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  By abstracting the geometry of the lattice from its decomposition into parts and implementing many lattice types in the CAD workflow, users can design structures ranging from nano to meter scale for a variety of application spaces.
 
 }
-
-\section{Self-Assembling Systems}
-
-\subsection{Biological Systems}
-
-\subsection{Modular Robotics}
-
-\section{Micro Robotics}
