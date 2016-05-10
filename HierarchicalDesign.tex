@@ -15,31 +15,48 @@ Modules\\
 Systems\\
 
 
-\section{Parts}
+\section{Elements}
 
-At the lowest level, bulk materials in the form of \textit{parts} are assembled together to form multimaterial assemblies.  
-Parts components are on the order of ~1um\textsuperscript{3}.
+At the lowest level, bulk materials in the form of \textit{elements} are assembled together to form multimaterial assemblies.  
+Elemental components are on the order of ~1um\textsuperscript{3}.
 
 \section{Functions}
 
-Assemblies of \textit{parts} form components called \textit{functions}.
+Assemblies of \textit{elements} form components called \textit{functions}.
 Functional Components are on the order of ~1mm\textsuperscript{3}.
 
 degrees of freedom (function) + interface
 
 \section{Modules}
 
-\section{Systems}
+\section{Complexes}
 
-\section{Examples}
+\section{Design Hierarchy in Biology}
 
-\subsection{Biology}
+\begin{sidewaysfigure}
+  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ProteinHierarchy.png}
+  \caption{Hierarchical breakdown of protein complexes (complexes) into proteins (modules), amino acids (functions), and atoms (elements).}
+  \label{fig:ProteinHierarchy}
+\end{sidewaysfigure}
 
-At the most fundamental level, biological structures are composed of atoms of various elemental types.  Each element's unique position on the periodic table dictates its mass, the number of covalent bonds it can form, the amount of unpaired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.  These physical parameters have implications in higher-level structures formed from the elemental parts, called \textit{functional groups}.\\
+
+Currently, the only known example of a physical, self-replicating system is the biology that has evolved on Earth.  Though we observe some slight variation across species, all biological self replication involves the use of protein machinery (called \textit{protein complexes}) built primarily from a small set of amino acid building blocks.\\
+
+The construction of protein complexes takes place in a hierarchical fashion.  Figure \ref{fig:ProteinHierarchy} describes the hierarchical breakdown of protein complexes in terms of the four levels of hierarchy established earlier in this chapter; protein complexes (complex-level objects) are decomposed into proteins (modules), then into amino acids (functions), and finally into atomic elements (elements).  This hierarchical breakdown is slightly different from the primary/secondary/tertiary/quaternary structures typically used to discuss the levels of protein description.  The similarity of some of the biological nomenclature to our own hierarchical nomenclature is due to the fact that it was derived from the biological model.
+
+\subsection{Elements, Functional Groups, and Functions}
+
+At the most fundamental level, biological structures are composed of atoms of various elemental types.  Most biological molecules on Earth, especially those involved in protein synthesis and activation, are made from combinations of carbon, hydrogen, nitrogen, oxygen, phosphorus, and sulfur (CHNOPS).\\
+
+Each element's unique position on the periodic table dictates physical parameters that have implications in higher-level structures formed from the elements.  These parameters include the element's mass, the number of covalent bonds it can form, the amount of unpaired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.\\
+
+These , called \textit{functional groups}.\\
 
 
 
 In organic chemistry, functional groups are organized into a few archetypal categories \\
+
+Amino acids are categorized based on physical \cite{aminoAcidsRef}
 
 \begin{figure}
   \includegraphics[width=\textwidth]{AminosInterface.png}
@@ -59,16 +76,19 @@ PeptideBond
 
 
  that form the connections between amino acids in a polypeptide chain through peptide bonds.  Peptide bonding forms a covalent bond between two amino acids through a process called \textit{condensation}, where a single molecule of water is created as a byproduct.\\
+ 
+ \subsection{Modules and Complexes}
 
 In a process called \href{https://en.wikipedia.org/wiki/Translation_%28biology%29}{\textit{translation}}, amino acids are linked together to form protein chains in a cell.  During translation, the c-terminus (the carboxylic acid group) of the growing protein chain is connected to the n-terminus (the amine group) of the next animo acid.
 
-\begin{sidewaysfigure}
-  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ProteinHierarchy.png}
-  \caption{Hierarchical breakdown of protein complexes into modules, functions, and parts.  Bulk elements}
-  \label{fig:ProteinHierarchy}
-\end{sidewaysfigure}
+\subsection{Scale}
 
-\subsection{Conway's Game of Life}
+In the biological example, each level of hierarchy introduces a factor of about 10x in scaling.  The atoms that compose the lowest level of hierarchy have covalent diameters ranging from 50-200pm \cite{Slater1993}.  Amino acid diameter can be roughly calculated from atomic radii and three-dimensional structure to a range of 0.42-1.2nm \cite{Pool2003}.  The average protein length across prokaryotes and eukaryotes is about 200-400 amino acids, which translates to about 20-40kDa \cite{Brocchieri2005}.  Assuming a simple spherical shape, this mass translates to a typical protein diameter of about 3-4nm \cite{Erickson2009}.
+
+Typical protein complex size ranges from about 8-20nm.  
+
+
+\section{Design Hierarchy in Conway's Game of Life}
 
 \begin{figure}
   \includegraphics[width=\textwidth]{OTCADiagram.png}
@@ -82,9 +102,9 @@ In a process called \href{https://en.wikipedia.org/wiki/Translation_%28biology%2
   \label{fig:OTCAMetaHierarchy}
 \end{sidewaysfigure}
 
-\subsection{Von Neuman Universal Constructor}
+\section{Design Hierarchy in Von Neuman's Universal Constructor}
 
-\section{Exceptions}
+\section{Electronic Versus Mechanical Hierarchies}
 
 scaling mismatch between the functional density of electronic and mechanical systems, offset in hierarchical setup.
 
