@@ -9,12 +9,6 @@
 
 \chapter{Design Hierarchy}
 
-Parts\\
-Functions\\
-Modules\\
-Systems\\
-
-
 \section{Elements}
 
 At the lowest level, bulk materials in the form of \textit{elements} are assembled together to form multimaterial assemblies.  
@@ -48,44 +42,39 @@ The construction of protein complexes takes place in a hierarchical fashion.  Fi
 
 At the most fundamental level, biological structures are composed of atoms of various elemental types.  Most biological molecules on Earth, especially those involved in protein synthesis and activation, are made from combinations of carbon, hydrogen, nitrogen, oxygen, phosphorus, and sulfur (CHNOPS).\\
 
-Each element's unique position on the periodic table dictates physical parameters that have implications in higher-level structures formed from the elements.  These parameters include the element's mass, the number of covalent bonds it can form, the amount of unpaired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.\\
+Each element's unique position on the periodic table dictates its physical parameters, which have implications in higher-level structures formed from the elements.  These parameters include the element's mass, the number of covalent bonds it can form, the amount of unpaired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.\\
 
-These , called \textit{functional groups}.\\
-
-
-
-In organic chemistry, functional groups are organized into a few archetypal categories \\
-
-Amino acids are categorized based on physical \cite{aminoAcidsRef}
+Certain motifs of covalently bonded atoms form \textit{functional groups} within molecules.  Functional groups determine the ability of a molecule to undergo various characteristic reactions (addition, substitution, elimination, etc) in organic chemistry.  A subset of the important functional groups found in biochemistry are indicated in Figure \ref{fig:ProteinHierarchy}.  "R" indicates an arbitrary side-chain, where the functional group connects to the rest of the molecule.\\
 
 \begin{figure}
   \includegraphics[width=\textwidth]{AminosInterface.png}
-  \caption{Decomposition of amino acids into carboxylic acid and amine interface (blue and pink) and function (orange).}
+  \caption{(A) Decomposition of amino acids into carboxylic acid and amine interfaces and unique side-chain. (B) Formation of peptide bond at c-terminus (carboxylic acid group) of polypeptide chain with the n-terminus (amine group) of an amino acid. One molecule of water is produced as a byproduct of the peptide bonding reaction.  R, R', and R'' represent arbitrary amino acid side-chains.}
   \label{fig:AminosInterface}
 \end{figure}
 
-We can think of each of the amino acids as being composed of a standardized interface and a function.  The interface of an amino acid is formed by the carboxylic acid (COOH) and amine groups (NH\textsubscript{2}).  
+Amino acids are molecules that contain several functional groups.  As indicated in Figure \ref{fig:AminosInterface}A all amino acids contain a carboxylic acid (COOH) and an amine group (NH\textsubscript{2} or NRH).  The purpose of these groups is to form the peptide bonds between amino acids in a polypeptide chain.  Peptide bonding forms a covalent bond between two amino acids through a process called \textit{condensation}, with a single molecule of water created as a byproduct \ref{fig:AminosInterface}B.\\
 
+The remaining portion of the amino acid (indicated by "R" in the amino acid archetype in Figure \ref{fig:AminosInterface}A) determines its unique properties.  This side-chain of the molecule may consist of one or more distinct functional groups.  Amino acids may be characterized according to their unique side-chains in various ways; one grouping is shown in Figure \ref{fig:ProteinHierarchy}, with amino acids sorted by size, polarity, nucleophilicity, the presence of aromatic rings, acidity or basicity, and the presence of amide groups.\\
 
-\begin{figure}
-  \includegraphics[width=\textwidth]{PeptideBond.png}
-  \caption{Formation of peptide bond at c-terminus of polypeptide chain. One molecule of water is produced as a byproduct of the peptide bonding reaction.  R, R', and R'' represent arbitrary amino acid sidechains.}
-  \label{fig:PeptideBond}
-\end{figure}
-PeptideBond
+We can think of each of the amino acids as being composed of a standardized interface and a unique, functional sidechain in the same way that 
 
+sysnthsis of amino acids
 
- that form the connections between amino acids in a polypeptide chain through peptide bonds.  Peptide bonding forms a covalent bond between two amino acids through a process called \textit{condensation}, where a single molecule of water is created as a byproduct.\\
- 
  \subsection{Modules and Complexes}
 
-In a process called \href{https://en.wikipedia.org/wiki/Translation_%28biology%29}{\textit{translation}}, amino acids are linked together to form protein chains in a cell.  During translation, the c-terminus (the carboxylic acid group) of the growing protein chain is connected to the n-terminus (the amine group) of the next animo acid.
 
-\subsection{Scale}
+\subsection{Scaling}
 
-In the biological example, each level of hierarchy introduces a factor of about 10x in scaling.  The atoms that compose the lowest level of hierarchy have covalent diameters ranging from 50-200pm \cite{Slater1993}.  Amino acid diameter can be roughly calculated from atomic radii and three-dimensional structure to a range of 0.42-1.2nm \cite{Pool2003}.  The average protein length across prokaryotes and eukaryotes is about 200-400 amino acids, which translates to about 20-40kDa \cite{Brocchieri2005}.  Assuming a simple spherical shape, this mass translates to a typical protein diameter of about 3-4nm \cite{Erickson2009}.
+In the biological example, each level of hierarchy introduces a factor of about 10x in scaling.  The atoms that compose the lowest level of hierarchy have covalent diameters ranging from 50-200pm \cite{Slater1993}.  Amino acid diameters can be roughly calculated from atomic radii and three-dimensional structure to a range of 0.42-1.2nm \cite{Pool2003}.  The average protein length across prokaryotes and eukaryotes is about 200-400 amino acids, with a mass of about 20-40kDa \cite{Brocchieri2005}.  Assuming a simple spherical shape, this mass translates to a typical protein diameter of about 3-4nm \cite{Erickson2009}.  Known protein complexes are comprised of two to several hundred protein monomers with typical complex diameters ranging from about 8-100nm \cite{Yang2010a}.  
 
-Typical protein complex size ranges from about 8-20nm.  
+\subsection{Combinatorial Space}
+
+number of elements\\
+number of amino acids - ribozyme, other species\\
+number of protiens\\
+number of complexes - design modularity\\
+
+
 
 
 \section{Design Hierarchy in Conway's Game of Life}
@@ -101,8 +90,6 @@ Typical protein complex size ranges from about 8-20nm.
   \caption{Hierarchical breakdown of OTCA Metapixel.}
   \label{fig:OTCAMetaHierarchy}
 \end{sidewaysfigure}
-
-\section{Design Hierarchy in Von Neuman's Universal Constructor}
 
 \section{Electronic Versus Mechanical Hierarchies}
 
