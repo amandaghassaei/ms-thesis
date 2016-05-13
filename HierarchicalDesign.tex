@@ -75,7 +75,7 @@ Certain motifs of covalently bonded atoms form \textit{functional groups} within
 
 \begin{figure}
   \includegraphics[width=\textwidth]{AminosInterface.png}
-  \caption{(A) Decomposition of amino acids into carboxylic acid and amine interfaces and unique side-chain. (B) Formation of peptide bond at c-terminus (carboxylic acid group) of polypeptide chain with the n-terminus (amine group) of an amino acid. One molecule of water is produced as a byproduct of the peptide bonding reaction.  R, R', and R'' represent arbitrary amino acid side-chains.}
+  \caption{(A) Decomposition of amino acids into carboxylic acid and amine interfaces and unique side-chain. (B) Formation of peptide bond at c-terminus (carboxylic acid group) of polypeptide chain with the n-terminus (amine group) of an amino acid. One molecule of water is produced as a byproduct of the peptide bonding reaction.  R, R', and R'' represent arbitrary amino acid side-chains.  Peptide bonds bolded.}
   \label{fig:AminosInterface}
 \end{figure}
 
@@ -115,19 +115,41 @@ synthesis of amino acids? recycling, breakdown to function level
 
 \section{Design Hierarchy in Conway's Game of Life}
 
-The analogies between the game of life and our proposed assembly system are limited, due to the fact that the game of life is inherently non-physical, violates basic conservation principals, and is based on highly abstracted interactions.  However, due to the wealth of experimentation and success a community of researchers and hobbyists has had engineering complex systems within it, including a self replicating system, it is worth taking a deeper look at.
+In the 1940's Von Neumann began studying the requirements for self-replication and evolvability in artificial, CA worlds \cite{Neumann1966}.  One such world that has gained widespread notoriety is Conway's Game of Life ("Life").  Since it's inception in 1970, Life has developed a cult following of researchers, engineers, and hobbyists, pushing each other to construct increasingly elaborate "machines" from pixels on a screen.  These investigations have resulted in a lengthy taxonomy of motifs, reactions, mechanisms, and complex engineered systems within Life.  Some notable accomplishments include Gemini (an oblique spaceship encoded by a long glider tape)\cite{Wade2010}, the Linear Propagator (a self replicating machine)\cite{Greene2013}, a Universal Turing Machine \cite{Rendell2000}, and the OTCA Metapixel (a structure that behaves like a large-scale Life pixel)\cite{Due2006}.\\
+
+The analogies between machines in Life and our proposed assembly system are limited, due to the fact that Life is inherently non-physical; it violates basic conservation principals, has no notion of cell joining, and is based on highly abstracted interactions.  However it provides an example of how engineered self-replication is possible using extremely simple building blocks, so-called "non-trivial" self-replication.  A proof of the existence of non-trivial self-replicating patterns in Life was first published by Conway, Berekamp, and Guy in 1982\cite{Berekamp1982}, and several decades later the first implementations of non-trivial replicators began emerging on online Life forums.  This work argues that the basic requirements for self-replication - universal computation and universal construction - are not only \textit{not} unique to biology, but are, in fact, quite prevalent in other virtual and physical systems.  An excellent analysis of Conway's existence proof, as well as an introduction to important concepts in Life can be found in \textit{The Recursive Universe} by William Poundstone\cite{Poundstone1985}.\\
 
 \begin{figure}
-  \includegraphics[width=\textwidth]{OTCADiagram.png}
-  \caption{System level diagram of OTCA Metapixel with the most important modules highlighted.}
-  \label{fig:OTCADiagram}
+  \includegraphics[width=\textwidth]{OTCAGalaxy.png}
+  \caption{Nine timesteps of a 15x15 array of OTCA Metapixels playing out a period-8 oscillating pattern called Kok's Galaxy.  Each timestep represents 35,328 generations of Life for a total of 282,624 generations for the entire repeating sequence.  Each metacell occupies 2058x2058 Life cells, for a total of 30,800x30,800 Life cells for the whole 15x15 metacell array (this accounts for a 5 cell overlap between adjacent metacells).}
+  \label{fig:OTCAGalaxy}
 \end{figure}
+
+In the next sections, I'll analyze a particularly complex Life pattern in terms of the hierarchies I introduced earlier in the chapter.  The OTCA Metapixel was designed by Brice Due in 2006\cite{Due2006}\cite{Ghassaei2015}.  Though not the first \textit{metacell} (a structure that can mimick a CA cell), it is the first \textit{metapixel} (a structure that looks and behaves like a macro-scale CA pixel) built in Life, and it can be programmed to perform any CA ruleset that's based on a summation of a cell's 8 local neighbors.  Many metapixels can be patterned together on a grid to play out a macro-scale CA (Figure \ref{fig:OTCAGalaxy}).
+
+\subsection{Elements, Motifs, and Functions}
+
+The first few levels of hierarchy within Life are illustrated in Figure \ref{fig:OTCAMetaHierarchy}.  At the most basic level, structures within Life are constructed from \textit{cells}.  Cells are represented by one pixel on a Life grid and store a binary state - "living" or "dead".\\
+
+Small assemblies of cells form \textit{motifs} on the order of about 5 cells across.  \textit{Still Lifes} are a category of motif that are static across generations unless acted upon by another pattern.  \textit{Oscillators} morph between several conformations at some regular time interval.  Oscillators are categorized based on their periodicity, for example, the Blinker and Beacon (Figure \ref{fig:OTCAMetaHierarchy}) are period-2 oscillators, and Kok's Galaxy (Figure \ref{fig:OTCAGalaxy}) is a period-8 oscillator.  \textit{Spaceships} are oscillators that move across the Life grid as they oscillate.  Gliders are the smallest type of spaceship, they move across space in diagonal directions.  Other spaceships, like Light Weight, Medium Weight or Heavy Weight Spaceships (LWSS, MWSS, and HWSS, respectively) move in cartesian directions.  Spaceships are categorized based on their periodicity and on their speed.  \textit{Methuselahs} are small patterns that take a large number of generations to eventually stabilize.  R-Pentamino is a Methuselah of only 5 initial cells that stabilizes in 1103 generations.\\
+
+At the function-level, Life patterns on the scale of about 50 cells
 
 \begin{sidewaysfigure}
   \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{OTCAMetaHierarchy.png}
   \caption{Hierarchical breakdown of OTCA Metapixel.}
   \label{fig:OTCAMetaHierarchy}
 \end{sidewaysfigure}
+
+\subsection{Modules and Complexes}
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{OTCADiagram.png}
+  \caption{Complex-level diagram of OTCA Metapixel with the most important modules highlighted.}
+  \label{fig:OTCADiagram}
+\end{figure}
+
+
 
 \section{Electronic Versus Mechanical Hierarchies}
 
