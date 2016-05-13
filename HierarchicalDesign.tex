@@ -9,21 +9,45 @@
 
 \chapter{Design Hierarchy}
 
+with a scaling factor of about 100x between levels of hierarchy.
+
+The details of the fabrication and joining strategies for these physical parts is beyond the scope of this thesis, though current ideas are briefly addressed here.  Initial thoughts about length scales are included here, but are meant only as a starting point for the 
+
 \section{Elements}
 
-At the lowest level, bulk materials in the form of \textit{elements} are assembled together to form multimaterial assemblies.  
-Elemental components are on the order of ~1um\textsuperscript{3}.
+At the lowest level, bulk materials in the form of \textit{elements} are assembled together to form multi-material assemblies.  Our notion of "element" is not an atomic element, but rather a homogenous volume of material with characteristic material properties.  A finite set of elemental types will be chosen based on desirable physical properties, cost, ease of fabrication, and compatibility with other elemental types and assembly processes.\\
+
+For example, an aluminum element type would have the properties of being conductive, stiff, and lightweight and a rubber element type would be insulating and flexible.  Other element types of interest include magnetic and magnetically permeable types, silicon types, actuation types, and thermally conductive and insulating types.\\
+
+Elemental components will be fabricated to a size on the order of ~1-10$\mu$m\textsuperscript{3}.  Some, as yet to be determined, form of joining interface must be incorporated into the geometry of the elemental parts or applied (in the form of an adhesive) to the parts during the assembly process.  This joining strategy may or may not be permanent.
 
 \section{Functions}
 
-Assemblies of \textit{elements} form components called \textit{functions}.
-Functional Components are on the order of ~1mm\textsuperscript{3}.
+Assemblies of elements form \textit{functions} - larger scale part types with material properties defined by their constituent elements.  As the name suggests, functions are categorized based on higher-level interactions with neighboring electro-mechanical systems, rather than their bulk material properties.  Function-level components fall into one of several functional archetypes, including but not limited to n-degree-of-freedom mechanical latches, hinges, and actuators, electronic memory storage, electronic oscillators, timers, and programmable logic.  Anisotropic patterns of elemental types within a function-level component may give the function tunable anisotropic behaviors.\\
 
-degrees of freedom (function) + interface
+Examples of function-level components would be routing components, which pass one or several electronic signals to neighboring components, or a one degree-of-freedom hinge, which displays low bending stiffness around one axis and high stiffness in the remaining directions.  This level of design hierarchy would grow to include actuators with tunable anisotropy, strain, and stress, and simple programmable silicon parts.  A more complete discussion of the diversity of mechanical part types at the function-level is given in Chapter \ref{chap:functionSim}.\\
+
+Functional components will be on the order of ~1mm\textsuperscript{3}.  Some form of common interface must allow for both mechanical loads and analog electronic signals to pass from one function component to another.  At the function-level, a reversible joining interface is preferred so that reconfigurable behavior and recycling is possible.
 
 \section{Modules}
 
+\textit{Modules} are assemblies of function-level components, joined together to form robotic subsystems.  Modules combine electronic and mechanical functionality to achieve singular, high-level robotic tasks.  Modules will communicate with each other through an abstracted, digital interface.  Each module will own its own microprocessing unit that coordinates its function-level actuators and other active components.  This way, the low-level description of the structure within a module remains internal to the module itself.\\
+
+Examples of modules include end effectors like grippers, clamping mechanisms, and sensors, actuation/locomotion systems, energy storage and generation, and large memory or programmable logic banks.  Joining interfaces between modules will allow mechanical forces, power, and a few digital signals to pass from one module to the next.  As with functions, modules should be reversibly joined.  The interface between modules may consist of many parallel function-level interfaces, or a bulk, module-level interface.\\
+
+Modules will be built on the order of ~1cm\textsuperscript{3}.  Though modules may use mechanical compliance at the function-level to increase their internal degrees of freedom, at larger scales modules act as rigid bodies with internal motion.  That is, internal mechanical compliance within a module does not propagate to interactions with neighboring modules.  This idea follows from a model of how traditional solid-bodied rotary and linear actuators are viewed within a larger robotic structure.
+
 \section{Complexes}
+
+Assemblies of modules form \textit{complexes}, self-contained robotic systems that coordinate their own sensing, memory, logic, power, and/or actuation.  The key distinction between the module and complex-level is that complexes integrate inputs, outputs, logic, and memory, whereas modules specialize in only one of these tasks.  A complex could be a single, locomoting robot or manipulator, or an active, environmental system that performs sensing, actuation, or logical tasks across space.\\
+
+Complexes will interact with function-level and module-level feedstock to accomplish assembly tasks.  shuttles materials across it (like a conveyor belt)\\
+
+Complexes will be comprised of several to hundreds of individual modules, spanning length scales on the order of ten of cm to m.  Complexes should be considered independent, self-contained units.  The interface between complexes will be governed by end effector modules that the complex owns.
+
+\section{Systems of Complexes}
+
+Many complexes of various forms and functions may work together at a \textit{system}-level to accomplish large scale tasks.  More layers of hierarchy could be developed across this 
 
 \section{Design Hierarchy in Biology}
 
@@ -34,7 +58,7 @@ degrees of freedom (function) + interface
 \end{sidewaysfigure}
 
 
-Currently, the only known example of a physical, self-replicating system is the biology that has evolved on Earth.  Though we observe some slight variation across species, all biological self replication involves the use of protein machinery (called \textit{protein complexes}) built primarily from a small set of amino acid building blocks.\\
+Currently, the only known example of a physical, self-replicating system is the biology that has evolved on Earth.  Though we observe some slight variation across species, all biological self replication involves the use of protein machinery (called "protein complexes") built primarily from a small set of amino acid building blocks.\\
 
 The construction of protein complexes takes place in a hierarchical fashion.  Figure \ref{fig:ProteinHierarchy} describes the hierarchical breakdown of protein complexes in terms of the four levels of hierarchy established earlier in this chapter; protein complexes (complex-level objects) are decomposed into proteins (modules), then into amino acids (functions), and finally into atomic elements (elements).  This hierarchical breakdown is slightly different from the primary/secondary/tertiary/quaternary structures typically used to discuss the levels of protein description.  The similarity of some of the biological nomenclature to our own hierarchical nomenclature is due to the fact that it was derived from the biological model.
 
@@ -42,9 +66,12 @@ The construction of protein complexes takes place in a hierarchical fashion.  Fi
 
 At the most fundamental level, biological structures are composed of atoms of various elemental types.  Most biological molecules on Earth, especially those involved in protein synthesis and activation, are made from combinations of carbon, hydrogen, nitrogen, oxygen, phosphorus, and sulfur (CHNOPS).\\
 
-Each element's unique position on the periodic table dictates its physical parameters, which have implications in higher-level structures formed from the elements.  These parameters include the element's mass, the number of covalent bonds it can form, the amount of unpaired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.\\
+Each element's unique position on the periodic table dictates its physical properties, which have implications in higher-level structures formed from the elements.  These properties include the element's mass, the number of covalent bonds it can form, the number of paired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.\\
 
-Certain motifs of covalently bonded atoms form \textit{functional groups} within molecules.  Functional groups determine the ability of a molecule to undergo various characteristic reactions (addition, substitution, elimination, etc) in organic chemistry.  A subset of the important functional groups found in biochemistry are indicated in Figure \ref{fig:ProteinHierarchy}.  "R" indicates an arbitrary side-chain, where the functional group connects to the rest of the molecule.\\
+Certain motifs of covalently bonded atoms form \textit{functional groups} within molecules.  Functional groups determine the ability of a molecule to undergo various archetypal reactions (addition, substitution, elimination, etc) functional groups on other molecules.  A subset of the important functional groups found in biochemistry are indicated in Figure \ref{fig:ProteinHierarchy}.  "R" indicates an arbitrary side-chain, where the functional group connects to the rest of the molecule.\\
+
+%In organic chemistry, the identification of functional groups allow us to abstract the interactions between molecules based on to predict how they will react in certain conditions.
+
 
 \begin{figure}
   \includegraphics[width=\textwidth]{AminosInterface.png}
@@ -52,20 +79,28 @@ Certain motifs of covalently bonded atoms form \textit{functional groups} within
   \label{fig:AminosInterface}
 \end{figure}
 
-Amino acids are molecules that contain several functional groups.  As indicated in Figure \ref{fig:AminosInterface}A all amino acids contain a carboxylic acid (COOH) and an amine group (NH\textsubscript{2} or NRH).  The purpose of these groups is to form the peptide bonds between amino acids in a polypeptide chain.  Peptide bonding forms a covalent bond between two amino acids through a process called \textit{condensation}, with a single molecule of water created as a byproduct \ref{fig:AminosInterface}B.\\
+\textit{Amino acids} are molecules which contain several functional groups.  As indicated in Figure \ref{fig:AminosInterface}A all amino acids contain a carboxylic acid (COOH) and an amine group (NH\textsubscript{2} or NRH).  The purpose of these groups is to form the peptide bonds between amino acids in a polypeptide chain.  Peptide bonding forms a covalent bond between two amino acids through a process called "condensation", with a single molecule of water created as a byproduct \ref{fig:AminosInterface}B.\\
 
-The remaining portion of the amino acid (indicated by "R" in the amino acid archetype in Figure \ref{fig:AminosInterface}A) determines its unique properties.  This side-chain of the molecule may consist of one or more distinct functional groups.  Amino acids may be characterized according to their unique side-chains in various ways; one grouping is shown in Figure \ref{fig:ProteinHierarchy}, with amino acids sorted by size, polarity, nucleophilicity, the presence of aromatic rings, acidity or basicity, and the presence of amide groups.\\
+The remaining portion of an amino acid molecule (indicated by "R" in the amino acid archetype in Figure \ref{fig:AminosInterface}A, we'll call it "\textit{the} side-chain") determines its unique properties specific to each type of amino acid.  This side-chain may consist of one or more distinct functional groups.  Amino acids are characterized according to their side-chains in several ways; one grouping is shown in Figure \ref{fig:ProteinHierarchy}, with amino acids described by size, polarity, nucleophilicity, the presence of aromatic rings, acidity or basicity, and the presence of amide groups.\\
 
-We can think of each of the amino acids as being composed of a standardized interface and a unique, functional sidechain in the same way that 
-
-sysnthsis of amino acids
+We can think of each of the amino acids as being composed of a standard interface and a unique, functional side-chain in the same way that our function-level engineered parts will be comprised of a standard interface and a unique, functional interior.  The carboxylic and amine groups common to all amino acids allow for polymerization along one dimension, and subsequent folding into three dimensions; we plan to design our interface to accommodate something analogous to "polymerization" in three dimensions.\\
 
  \subsection{Modules and Complexes}
 
+Polypeptide chains typically consisting of hundreds of amino acids fold to form three dimensional \textit{proteins}.  
+
+\subsection{Systems}
+
+Beyond protein complexes, more levels of hierarchy exist within biological organisms to carry out systems-level tasks.  Protein complexes can be grouped according to the chemical pathways they interact with within a cell, by the organelles they belong to                                                                                                                                                                                                 
+
+Organelles are organized within cells, cells within tissues, tissues within organs, organs within even higher level systems, and ultimately these systems come together in one complete organism.
 
 \subsection{Scaling}
 
-In the biological example, each level of hierarchy introduces a factor of about 10x in scaling.  The atoms that compose the lowest level of hierarchy have covalent diameters ranging from 50-200pm \cite{Slater1993}.  Amino acid diameters can be roughly calculated from atomic radii and three-dimensional structure to a range of 0.42-1.2nm \cite{Pool2003}.  The average protein length across prokaryotes and eukaryotes is about 200-400 amino acids, with a mass of about 20-40kDa \cite{Brocchieri2005}.  Assuming a simple spherical shape, this mass translates to a typical protein diameter of about 3-4nm \cite{Erickson2009}.  Known protein complexes are comprised of two to several hundred protein monomers with typical complex diameters ranging from about 8-100nm \cite{Yang2010a}.  
+In the biological example, each level of hierarchy introduces a factor of about 10x in scaling.  The atoms that compose the lowest level of hierarchy have covalent diameters ranging from 50-200pm \cite{Slater1993}.  Amino acid diameters can be roughly calculated from atomic radii and three-dimensional structure to a range of 0.42-1.2nm \cite{Pool2003}.  The average protein length across prokaryotes and eukaryotes is about 200-400 amino acids, with a mass of about 20-40kDa \cite{Brocchieri2005}.  Assuming a simple spherical shape, this mass translates to a typical protein diameter of about 3-4nm \cite{Erickson2009}.  Known protein complexes are comprised of two to several hundred protein monomers with typical complex diameters ranging from about 8-100nm \cite{Yang2010a}.\\
+
+Beyond these first four hierarchical levels, higher systems...
+Assembly within is not carried out by a single protein complex, but rather, by the coordinated efforts of several complexes.
 
 \subsection{Combinatorial Space}
 
@@ -74,10 +109,13 @@ number of amino acids - ribozyme, other species\\
 number of protiens\\
 number of complexes - design modularity\\
 
+\subsection{Fabrication}
 
-
+synthesis of amino acids? recycling, breakdown to function level
 
 \section{Design Hierarchy in Conway's Game of Life}
+
+The analogies between the game of life and our proposed assembly system are limited, due to the fact that the game of life is inherently non-physical, violates basic conservation principals, and is based on highly abstracted interactions.  However, due to the wealth of experimentation and success a community of researchers and hobbyists has had engineering complex systems within it, including a self replicating system, it is worth taking a deeper look at.
 
 \begin{figure}
   \includegraphics[width=\textwidth]{OTCADiagram.png}
@@ -99,7 +137,7 @@ scaling mismatch between the functional density of electronic and mechanical sys
 
 increasing simulation abstraction as hierarchical level increases\\
 
-In the next chapters, I'll describe the methods used to simulate parts and functions, and describe how abstractions of the parts-level simulation are adapted to the functions-level.
+In the next chapters, I'll describe the methods used to simulate assemblies of elements and functions, and describe how abstractions of the element-level simulation are adapted to the function-level.
 
 
 
