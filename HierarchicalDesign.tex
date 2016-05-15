@@ -141,18 +141,13 @@ Small assemblies of cells form \textit{motifs} on the order of about 5 cells acr
 
 At the function-level, Life patterns on the scale of about 50 cells interact with each other in more structured and predictable ways.  In order for two function-level patterns to be compatible, they must have compatible periods.  For example, a train of period-4 LWSSes is compatible with a period-46 Twin Bees Shuttle as long the LWSSes in the train are spaced out by 11.5 cycles or some multiple of 11.5 cycles.\\
 
-\textit{Shuttles} are patterns an active region that oscillates between two stabilizing ends.  Interactions with shuttles can serve a wide variety of functions.  For example, the Twin Bees Shuttle can reflect (change the direction of) gliders, LWSSes, and MWSSes, and it can convert gliders to LWSSes or LWSSes to MWSSes.  The Twin Bees Shuttle forms the basis of the "Out of the Blue" MWSS gun as well as many other period-46 oscillators.  The Queen Bee Shuttle  is made from a Queen Bee that oscillates between two stabilizing blocks.  Two Queen Bee Shuttles form the basis of the Gosper Glider Gun and many other period 30 oscilallators.\\
+\textit{Guns} are oscillators that create a train of regularly-spaced spaceships.  Guns are categorized based on the type of spaceships they produce and the frequency at which they produce them.  \textit{Shuttles} are patterns an active region that oscillates between two stabilizing ends.  Interactions with shuttles can serve a wide variety of functions.  For example, the Twin Bees Shuttle can reflect (change the direction of) gliders, LWSSes, and MWSSes, and it can convert gliders to LWSSes or LWSSes to MWSSes.  The Twin Bees Shuttle forms the basis of the "Out of the Blue" MWSS gun as well as many other period-46 oscillators.  The Queen Bee Shuttle  is made from a Queen Bee that oscillates between two stabilizing blocks.  Two Queen Bee Shuttles form the basis of the Gosper Glider Gun and many other period 30 oscilallators.\\
 
-\textit{Guns} are oscillators that create a train of regularly-spaced spaceships.
-\\
-
-\textit{Reactions} are collisions of Life objects that produce useful outcomes.  
+\textit{Reactions} are collisions of Life objects that produce useful outcomes.  The Honeybit reaction is used several times in the OTCA Metapixel to write, store, and read a single bit of data.  In the Honeybit reaction, a glider collides with a Beehive to produce a Pond and a Block - this sets the bit.  Then a LWSS collides with the pond, destroying the LWSS and returning the Pond/Block back to its original Beehive state.  If the bit is not set, the LWSS passes by the beehive unharmed.  \textit{Glider Synthesis} is a process by which complex Life patterns are created solely through the collisions of gliders.  Glider synthesis forms a large subset of known and actively studied Life reactions, and it was a critical piece of Conway's existence proof of a self-replicating universal constructor in Life.  The initial glider configuration pictured in Figure \ref{fig:OTCAMetaHierarchy} is a 6-glider synthesis for the Queen Bee Shuttle; an 8-glider synthesis is known for the Gosper Glider Gun and the Twin Bees Shuttle.\\
 
 A more complete discussion of Life patterns and their history can be found on the Life Wiki\cite{Authors2016} or the Life Lexicon\cite{Silver2016}.
 
 \subsection{Modules and Complexes}
-
-Spaceship trains are often used to store, move, and execute binary information in Life machines.  These tapes are read through collisions with other objects; the presence or absence of a spaceship in a given position on the tape will dictate the outcome of the collision.  Collisions between two tapes form basic bit-wise logical operations.  Information on the tapes is often duplicated prior to being operated on in order to preserve the original data.
 
 \begin{figure}
   \includegraphics[width=\textwidth]{OTCADiagram.png}
@@ -160,11 +155,33 @@ Spaceship trains are often used to store, move, and execute binary information i
   \label{fig:OTCADiagram}
 \end{figure}
 
+LWSS Train
+Spaceship trains are often used to store, move, and execute binary information in Life machines.  These tapes are read through collisions with other objects; the presence or absence of a spaceship in a given position on the tape will dictate the outcome of the collision.  Collisions between two tapes form basic bit-wise logical operations.  Information on the tapes is often duplicated prior to being operated on in order to preserve the original data.
+
+events timer
+
+output display
+
+rules register
+
+logic analyzer
+
+\subsection{Systems}
+
+larger scale structures
+interactions between machines and env - evolution
+
 \subsection{Scaling}
+
+10-50x scaling
 
 \subsection{Fabrication Insights}
 
+any at all?
+
 \subsection{Combinatorial Design Space}
+
+reuse, modularity
 
 \section{Electronic Versus Mechanical Hierarchies}
 
