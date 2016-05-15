@@ -102,16 +102,16 @@ In the biological example, each level of hierarchy introduces a factor of about 
 Beyond these first four hierarchical levels, higher systems...
 Assembly within is not carried out by a single protein complex, but rather, by the coordinated efforts of several complexes.
 
-\subsection{Combinatorial Space}
+\subsection{Fabrication Insights}
+
+synthesis of amino acids? recycling, breakdown to function level
+
+\subsection{Combinatorial Design Space}
 
 number of elements\\
 number of amino acids - ribozyme, other species\\
 number of protiens\\
 number of complexes - design modularity\\
-
-\subsection{Fabrication}
-
-synthesis of amino acids? recycling, breakdown to function level
 
 \section{Design Hierarchy in Conway's Game of Life}
 
@@ -121,7 +121,7 @@ The analogies between machines in Life and our proposed assembly system are limi
 
 \begin{figure}
   \includegraphics[width=\textwidth]{OTCAGalaxy.png}
-  \caption{Nine timesteps of a 15x15 array of OTCA Metapixels playing out a period-8 oscillating pattern called Kok's Galaxy.  Each timestep represents 35,328 generations of Life for a total of 282,624 generations for the entire repeating sequence.  Each metacell occupies 2058x2058 Life cells, for a total of 30,800x30,800 Life cells for the whole 15x15 metacell array (this accounts for a 5 cell overlap between adjacent metacells).}
+  \caption{Nine timesteps of a 15x15 array of OTCA Metapixels playing out a period-8 oscillating pattern called "Kok's Galaxy".  Each timestep represents 35,328 generations of Life; the entire 8 step sequence takes 282,624 generations to complete.  Each metacell occupies 2058x2058 Life cells; the complete 15x15 metapixel array totals 30,800x30,800 Life cells (accounting for a 5 cell overlap between adjacent metacells).  10x magnification of a "living" and "dead" cell are shown at the top of the image.}
   \label{fig:OTCAGalaxy}
 \end{figure}
 
@@ -129,11 +129,11 @@ In the next sections, I'll analyze a particularly complex Life pattern in terms 
 
 \subsection{Elements, Motifs, and Functions}
 
-The first few levels of hierarchy within Life are illustrated in Figure \ref{fig:OTCAMetaHierarchy}.  At the most basic level, structures within Life are constructed from \textit{cells}.  Cells are represented by one pixel on a Life grid and store a binary state - "living" or "dead".\\
+The first few levels of hierarchy within Life are illustrated in Figure \ref{fig:OTCAMetaHierarchy}.  At the most basic level, structures within Life are constructed from \textit{cells}.  Each cell is represented by one pixel on a Life grid and stores a binary state - "living" or "dead".  Cells interact with each other according to Conway's rules: living cells with 2 or 3 neighbors stay alive, dead cells with exactly 3 neighbors become living, and all other configurations die or stay dead.  Though the logic of cell-cell interactions is simple, the long term behavior of a given initial condition is often impossible to intuit. \\
 
-Small assemblies of cells form \textit{motifs} on the order of about 5 cells across.  \textit{Still Lifes} are a category of motif that are static across generations unless acted upon by another pattern.  \textit{Oscillators} morph between several conformations at some regular time interval.  Oscillators are categorized based on their periodicity, for example, the Blinker and Beacon (Figure \ref{fig:OTCAMetaHierarchy}) are period-2 oscillators, and Kok's Galaxy (Figure \ref{fig:OTCAGalaxy}) is a period-8 oscillator.  \textit{Spaceships} are oscillators that move across the Life grid as they oscillate.  Gliders are the smallest type of spaceship, they move across space in diagonal directions.  Other spaceships, like Light Weight, Medium Weight or Heavy Weight Spaceships (LWSS, MWSS, and HWSS, respectively) move in cartesian directions.  Spaceships are categorized based on their periodicity and on their speed.  \textit{Methuselahs} are small patterns that take a large number of generations to eventually stabilize.  R-Pentamino is a Methuselah of only 5 initial cells that stabilizes in 1103 generations.\\
+Small assemblies of cells form \textit{motifs} on the order of about 5 cells across.  \textit{Still Lifes} are a category of motif that are static across generations unless acted upon by another pattern.  \textit{Oscillators} repeatedly morph between several conformations at some regular time interval.  Oscillators are categorized based on their period, for example, the Blinker and Beacon (Figure \ref{fig:OTCAMetaHierarchy}) are period-2 oscillators, and Kok's Galaxy (Figure \ref{fig:OTCAGalaxy}) is a period-8 oscillator.  \textit{Spaceships} are oscillators that move across the Life grid as they oscillate.  Gliders, the smallest type of spaceship in Life, move across space in diagonal directions (Figure \ref{fig:OTCAMetaHierarchy}).  Other spaceships, such as Light Weight, Medium Weight or Heavy Weight Spaceships (LWSS, MWSS, and HWSS, respectively) move in cartesian directions (Figure \ref{fig:OTCAMetaHierarchy}).  Spaceships are categorized based on their period and on their speed.  \textit{Methuselahs} are small patterns that take a large number of generations to eventually stabilize.  R-Pentamino is a Methuselah of only 5 initial cells that stabilizes in 1103 generations (Figure \ref{fig:OTCAMetaHierarchy}).\\
 
-At the function-level, Life patterns on the scale of about 50 cells
+At the function-level, Life patterns on the scale of about 50 cells interact with each other in more structured and predictable ways.  In order for two function-level patterns to be compatible, their periods must have some common factor.  For example, period-4 LWSSes are compatible with 
 
 \begin{sidewaysfigure}
   \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{OTCAMetaHierarchy.png}
@@ -149,7 +149,11 @@ At the function-level, Life patterns on the scale of about 50 cells
   \label{fig:OTCADiagram}
 \end{figure}
 
+\subsection{Scaling}
 
+\subsection{Fabrication Insights}
+
+\subsection{Combinatorial Design Space}
 
 \section{Electronic Versus Mechanical Hierarchies}
 
