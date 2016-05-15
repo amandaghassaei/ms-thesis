@@ -9,9 +9,14 @@
 
 \chapter{Design Hierarchy}
 
+some definite structure
+
 with a scaling factor of about 100x between levels of hierarchy.
 
 The details of the fabrication and joining strategies for these physical parts is beyond the scope of this thesis, though current ideas are briefly addressed here.  Initial thoughts about length scales are included here, but are meant only as a starting point for the 
+
+functions are minimal parts with diverse, codified interactions
+functions are base feedstock
 
 \section{Elements}
 
@@ -89,24 +94,22 @@ We can think of each of the amino acids as being composed of a standard interfac
 
 Polypeptide chains typically consisting of hundreds of amino acids fold to form three dimensional \textit{proteins}.  
 
-\subsection{Systems}
+\subsection{Insights}
 
-Beyond protein complexes, more levels of hierarchy exist within biological organisms to carry out systems-level tasks.  Protein complexes can be grouped according to the chemical pathways they interact with within a cell, by the organelles they belong to                                                                                                                                                                                                 
-
-Organelles are organized within cells, cells within tissues, tissues within organs, organs within even higher level systems, and ultimately these systems come together in one complete organism.
-
-\subsection{Scaling}
+\subsubsection{Scaling}
 
 In the biological example, each level of hierarchy introduces a factor of about 10x in scaling.  The atoms that compose the lowest level of hierarchy have covalent diameters ranging from 50-200pm \cite{Slater1993}.  Amino acid diameters can be roughly calculated from atomic radii and three-dimensional structure to a range of 0.42-1.2nm \cite{Pool2003}.  The average protein length across prokaryotes and eukaryotes is about 200-400 amino acids, with a mass of about 20-40kDa \cite{Brocchieri2005}.  Assuming a simple spherical shape, this mass translates to a typical protein diameter of about 3-4nm \cite{Erickson2009}.  Known protein complexes are comprised of two to several hundred protein monomers with typical complex diameters ranging from about 8-100nm \cite{Yang2010a}.\\
 
 Beyond these first four hierarchical levels, higher systems...
 Assembly within is not carried out by a single protein complex, but rather, by the coordinated efforts of several complexes.
+Beyond protein complexes, more levels of hierarchy exist within biological organisms to carry out systems-level tasks.  Protein complexes can be grouped according to the chemical pathways they interact with within a cell, by the organelles they belong to                                                                                                                                                                                                 
 
-\subsection{Fabrication Insights}
+Organelles are organized within cells, cells within tissues, tissues within organs, organs within even higher level systems, and ultimately these systems come together in one complete organism.
+
+\subsubsection{Design and Fabrication}
 
 synthesis of amino acids? recycling, breakdown to function level
-
-\subsection{Combinatorial Design Space}
+functions made through large-scale, parallel, batch-processing
 
 number of elements\\
 number of amino acids - ribozyme, other species\\
@@ -117,11 +120,11 @@ number of complexes - design modularity\\
 
 In the 1940's Von Neumann began studying the requirements for self-replication and evolvability in artificial, CA worlds \cite{Neumann1966}.  One such world that has gained widespread notoriety is Conway's Game of Life ("Life").  Since it's inception in 1970, Life has developed a cult following of researchers, engineers, and hobbyists, pushing each other to construct increasingly elaborate "machines" from pixels on a screen.  These investigations have resulted in a lengthy taxonomy of motifs, reactions, mechanisms, and complex engineered systems within Life.  Some notable accomplishments include Gemini (an oblique spaceship encoded by a long glider tape)\cite{Wade2010}, the Linear Propagator (a self replicating machine)\cite{Greene2013}, a Universal Turing Machine \cite{Rendell2000}, and the OTCA Metapixel (a structure that behaves like a large-scale Life pixel)\cite{Due2006}.\\
 
-The analogies between machines in Life and our proposed assembly system are limited, due to the fact that Life is inherently non-physical; it violates basic conservation principals, has no notion of cell joining, and is based on highly abstracted interactions.  However it provides an example of how engineered self-replication is possible using extremely simple building blocks, so-called "non-trivial" self-replication.  A proof of the existence of non-trivial self-replicating patterns in Life was first published by Conway, Berekamp, and Guy in 1982\cite{Berekamp1982}, and several decades later the first implementations of non-trivial replicators began emerging on online Life forums\cite{Greene2013a}.  This work argues that the basic requirements for self-replication - universal computation and universal construction - are not only \textit{not} unique to biology, but are, in fact, quite prevalent in other virtual and physical systems.  An excellent analysis of Conway's existence proof, as well as an introduction to important concepts in Life can be found in \textit{The Recursive Universe} by William Poundstone\cite{Poundstone1985}.\\
+The analogies between machines in Life and our proposed assembly system are limited, due to the fact that Life is inherently non-physical; it violates basic conservation principals, has no notion of cell joining, and is based on highly abstracted interactions.  However it provides an example of how human-designed self-replication is possible using extremely simple building blocks, so-called "non-trivial" self-replication.  A proof of the existence of non-trivial self-replicating patterns in Life was first published by Conway, Berekamp, and Guy in 1982\cite{Berekamp1982}, and several decades later the first implementations of non-trivial replicators began emerging on online Life forums\cite{Greene2013a}.  This work argues that the basic requirements for self-replication - universal computation and universal construction - are not only \textit{not} unique to biology, but are, in fact, quite prevalent in other virtual and physical systems.  An excellent analysis of Conway's existence proof, as well as an introduction to important concepts in Life can be found in \textit{The Recursive Universe} by William Poundstone\cite{Poundstone1985}.\\
 
 \begin{figure}
   \includegraphics[width=\textwidth]{OTCAGalaxy.png}
-  \caption{Nine timesteps of a 15x15 array of OTCA Metapixels playing out a period-8 oscillating pattern called "Kok's Galaxy".  Each timestep represents 35,328 generations of Life; the entire 8 step sequence takes 282,624 generations to complete.  Each metacell occupies 2058x2058 Life cells; the complete 15x15 metapixel array totals 30,800x30,800 Life cells (accounting for a 5 cell overlap between adjacent metacells).  10x magnification of a "living" and "dead" cell are shown at the top of the image.}
+  \caption{Nine timesteps of a 15x15 array of OTCA Metapixels playing out a period-8 oscillating pattern called "Kok's Galaxy".  Each time-step represents 35,328 generations of Life; the entire 8 step sequence takes 282,624 generations to complete.  Each metacell occupies 2058x2058 Life cells; the complete 15x15 metapixel array totals 30,800x30,800 Life cells (accounting for a 5 cell overlap between adjacent metacells).  10x magnification of a "living" and "dead" cell are shown at the top of the image.}
   \label{fig:OTCAGalaxy}
 \end{figure}
 
@@ -131,7 +134,7 @@ In the next sections, I'll analyze a particularly complex Life pattern in terms 
 
 \begin{sidewaysfigure}
   \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{OTCAMetaHierarchy.png}
-  \caption{Hierarchical breakdown of OTCA Metapixel.}
+  \caption{Hierarchical breakdown of OTCA Metapixel into modules, functions, motifs, and elements.  Complex-level diagram is shown in Figure \ref{fig:OTCADiagram}.}
   \label{fig:OTCAMetaHierarchy}
 \end{sidewaysfigure}
 
@@ -141,7 +144,7 @@ Small assemblies of cells form \textit{motifs} on the order of about 5 cells acr
 
 At the function-level, Life patterns on the scale of about 50 cells interact with each other in more structured and predictable ways.  In order for two function-level patterns to be compatible, they must have compatible periods.  For example, a train of period-4 LWSSes is compatible with a period-46 Twin Bees Shuttle as long the LWSSes in the train are spaced out by 11.5 cycles or some multiple of 11.5 cycles.\\
 
-\textit{Guns} are oscillators that create a train of regularly-spaced spaceships.  Guns are categorized based on the type of spaceships they produce and the frequency at which they produce them.  \textit{Shuttles} are patterns an active region that oscillates between two stabilizing ends.  Interactions with shuttles can serve a wide variety of functions.  For example, the Twin Bees Shuttle can reflect (change the direction of) gliders, LWSSes, and MWSSes, and it can convert gliders to LWSSes or LWSSes to MWSSes.  The Twin Bees Shuttle forms the basis of the "Out of the Blue" MWSS gun as well as many other period-46 oscillators.  The Queen Bee Shuttle  is made from a Queen Bee that oscillates between two stabilizing blocks.  Two Queen Bee Shuttles form the basis of the Gosper Glider Gun and many other period 30 oscilallators.\\
+\textit{Guns} are oscillators that create a train of regularly-spaced spaceships.  Guns are categorized based on the type of spaceships they produce and the frequency at which they produce them.  \textit{Shuttles} are patterns an active region that oscillates between two stabilizing ends.  Interactions with shuttles can serve a wide variety of functions.  For example, the Twin Bees Shuttle can reflect (change the direction of) gliders, LWSSes, and MWSSes, and it can convert gliders to LWSSes or LWSSes to MWSSes.  The Twin Bees Shuttle forms the basis of the "Out of the Blue" MWSS gun as well as many other period-46 oscillators.  The Queen Bee Shuttle  is made from a Queen Bee that oscillates between two stabilizing blocks.  Two Queen Bee Shuttles form the basis of the Gosper Glider Gun and many other period 30 oscillators.\\
 
 \textit{Reactions} are collisions of Life objects that produce useful outcomes.  The Honeybit reaction is used several times in the OTCA Metapixel to write, store, and read a single bit of data.  In the Honeybit reaction, a glider collides with a Beehive to produce a Pond and a Block - this sets the bit.  Then a LWSS collides with the pond, destroying the LWSS and returning the Pond/Block back to its original Beehive state.  If the bit is not set, the LWSS passes by the beehive unharmed.  \textit{Glider Synthesis} is a process by which complex Life patterns are created solely through the collisions of gliders.  Glider synthesis forms a large subset of known and actively studied Life reactions, and it was a critical piece of Conway's existence proof of a self-replicating universal constructor in Life.  The initial glider configuration pictured in Figure \ref{fig:OTCAMetaHierarchy} is a 6-glider synthesis for the Queen Bee Shuttle; an 8-glider synthesis is known for the Gosper Glider Gun and the Twin Bees Shuttle.\\
 
@@ -151,37 +154,33 @@ A more complete discussion of Life patterns and their history can be found on th
 
 \begin{figure}
   \includegraphics[width=\textwidth]{OTCADiagram.png}
-  \caption{Complex-level diagram of OTCA Metapixel with the most important modules highlighted.}
+  \caption{Complex-level diagram of OTCA Metapixel with the most important modules highlighted.  Further breakdown of modules into functions, motifs, and elements given in Figure \ref{fig:OTCAMetaHierarchy}.}
   \label{fig:OTCADiagram}
 \end{figure}
 
-LWSS Train
-Spaceship trains are often used to store, move, and execute binary information in Life machines.  These tapes are read through collisions with other objects; the presence or absence of a spaceship in a given position on the tape will dictate the outcome of the collision.  Collisions between two tapes form basic bit-wise logical operations.  Information on the tapes is often duplicated prior to being operated on in order to preserve the original data.
+Modules in Life are designed from functions and motifs to complete a singular, high-level task in a Life machine.  Modules typically range in size from 100 to several thousand cells across.  As with functions, modules must have compatible periods in order to be compatible with one another.  Modules dictate the overall frequency at which a Life machine operates.\\
 
-events timer
+Spaceship \textit{tapes} are often used to store, move, and execute binary information in Life machines.  These tapes are read through collisions with other objects; the presence or absence of a spaceship in a given position on the tape will dictate the outcome of the collision.  Collisions between two tapes form basic bit-wise logical operations.  Information on the tapes is often duplicated prior to being operated on in order to preserve the original data.  The Spaceship Train (of LWSSes) in the OTCA Metapixel travels in a loop around the perimeter of the cell, collecting a tally of the neighboring states through collisions with Honeybits.  The components of this module include the train itself, the reflectors and other modifiers used to direct the train along its course, and the Honeybit reactions set by neighboring cells.\\
 
-output display
+Machines often require a central \textit{events timer} to trigger the start and stop of key tasks.  A Tractor Beam clock is typically used for this purpose in Life.  Tractors beams are guns aimed at a still life, such that each collision between the gun's spaceships and the still life moves the still life some increment closer to the gun.  In a sense a tractor beam "pulls" the still life toward it.  When the still life reaches some critical distance to the gun, it is destroyed and re-synthesized in its original starting position.  The time it takes for the still life to complete one cycle of this behavior determines the overall period of the tractor beam clock; this period is programmed by controlling the initial distance of the still life from the gun.  The OTCA Metapixel's events timer shoots a stream of LWSSes and MWSSes towards a Block, moving the Block towards down by 8 cells in each collision; a complete cycle of the events timer takes 35,328 generations.  The events timer has an added feature that a glider is ejected to the right during each collision with the Block.  A fence of Eaters typically annihilates the glider immediately, but programmed holes in the fence allow the glider to pass through and trigger events at arbitrary phases of one complete cycle.\\
 
-rules register
+The OTCA Metapixel \textit{displays its current state} by toggling on and off two banks of MWSS guns, whose streams intersect and mutually annihilate each other in the center of the pattern.  Each bank is controlled by a simple latching mechanism, which toggles on and off a LWSS gun.  When this gun is on, it interacts with a bank of shuttles in an "Out of the Blue" reaction, effectively turning them into MWSS guns.\\
 
-logic analyzer
+A rules \textit{register} is a type of persistent memory that is used, in the case of the OTCA Metapixel, to encode the rules of a CA.  Inside the register, a collision with the Spaceship Train and a Honeybit reaction compare the number of living neighbors with the rules stored in the register.\\
 
-\subsection{Systems}
+A static \textit{logic bank} is constructed within a machine to interpret data, typically from incoming spaceship tapes.  Simple bitwise logical operators (not, and, or, nor, etc) can be computed on one or more pieces of data.  The output from the OTCA Metapixel's rules register is fed into a logic bank in order to determine the next state of the metacell.
 
-larger scale structures
-interactions between machines and env - evolution
+\subsection{Insights}
 
-\subsection{Scaling}
+The previous sections illustrates design hierarchy in one example of a complex, programmable Life machine.  Moving from elemental cells, to motifs and functions, to modules, and finally to complexes introduces scaling on the order of 10-50x at each level.  As with biological systems, function and motif-level structures are highly reusable in the design of module-level objects.  Modules tend to be more highly tuned to the specific needs of the larger complex they belong to, both in terms of their time-dependencies and geometric layout; in general this means a module may need some editing to work within a complex it was not originally designed for.
 
-10-50x scaling
+\subsubsection{Design and Fabrication}
 
-\subsection{Fabrication Insights}
+Human-directed design in Life occurs at the level of motif and function-level building blocks, based on a knowledge of codified interactions between them.  It is entirely possible that a seemingly random assortment of Life cells produce desired high-level behaviors such as programmable self-replication.  However, it would not be possible for a human to design a complex machine in Life by placing elemental parts without some notion of hierarchical abstraction.  As with functional groups in organic chemistry, motifs and functions in Life provide a useful abstraction from the low level physics of the system.  Without this abstraction, it is nearly impossible to develop an intuition about how a complex Life pattern will behave.  Furthermore, it is likely that we would recognize familiar motifs within any complex Life pattern, human-designed or not.  Small still lifes, oscillators, and spaceships spontaneously arise from random initial conditions with high frequency\cite{Flammenkamp2004}.
 
-any at all?
+\subsubsection{Evolution and Complexity}
 
-\subsection{Combinatorial Design Space}
-
-reuse, modularity
+Interactions between a machine and debris in the environment could edit spaceship tapes, change logical outcomes, or affect other programmed functions of the machine.  Some of these interactions could result in permanent changes to the functioning of the machine.  As with genetic mutations in coding regions of the genome, most changes to the machine's inner workings would be deleterious to the overall functioning of the machine, however, some changes could eventually endow it with new behaviors.
 
 \section{Electronic Versus Mechanical Hierarchies}
 
