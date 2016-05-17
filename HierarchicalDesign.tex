@@ -111,22 +111,32 @@ In the biological example, each level of hierarchy introduces a factor of about 
 %
 %Organelles are organized within cells, cells within tissues, tissues within organs, organs within even higher level systems, and ultimately these systems come together in one complete organism.
 
+\subsubsection{Combinatorics}
+
+This feedstock should be built from an even smaller set of elemental types.\\
+
+A major design consideration in our proposed assembly system is the number of function building blocks to include in the feedstock.\\
+
+A widely accepted hypothesis of the origin of life is the "RNA world", a time before DNA and proteins when RNA was used both for information storage and catalytic behaviors.  Over time, proteins superseded RNA as the primary catalytic and structural component of life.  Current thought suggests that because proteins are made from 20 building blocks rather than just 4, they formed more versatile structures which were better suited for mechanistic tasks\cite{Alberts2002}.  Some artifacts from the RNA world persist today: several RNA-based enzymes, called "ribozymes" carry out tasks within the cell, and many protein complexes, included the ribosome, are made from both protein and RNA subunits.\\
+
+Other evidence points to an expansion of proteinogenic amino acids over time.\\
+
+An amino acid is defined as a molecule with an amine group, a carboxylic acid group, and a side-chain.  Only 23 amino acids are proteinogenic, meaning they are used to build proteins, however non-proteinogenic amino acids are found elsewhere in the cell.  As of 1983 there were about 500 known naturally occurring amino acids.  Some of these compounds form intermediates in biochemical pathways, including pathways to synthesize proteinogenic amino acids\cite{Wagner1983}.  Many of them are toxic to humans.\\
+
+why not more?\\
+
+number of protiens\\
+number of complexes - design modularity
+
 \subsubsection{Design and Fabrication}
 
-The biological model argues that function-level parts are the raw feedstock of assembly.  Humans only synthesize 11 of the 20 standard amino acids; we must absorb the remaining "essential" amino acids from food.  Even considering organisms that do make all their amino acids, biological synthesis pathways begin with reactive precursors rather than exclusively elemental forms of atomic feedstock.  Disassembly takes place with similar granularity.  Cells break down proteins into amino acids in a process called "proteolysis"; the freed amino acids are then used to construct new proteins.  We should aim to produce a system that can perform high-level tasks given a feedstock of function-level components.\\
+The biological model argues that function-level parts are the raw feedstock of assembly.  Humans only synthesize 11 of the 20 standard amino acids; we must absorb the remaining "essential" amino acids from food.  Even considering organisms that do make all their amino acids, biological synthesis pathways begin with reactive precursors rather than exclusively elemental forms of atomic feedstock\cite{Stryer1988}.  Biochemical precursors have been observed in the dust and gas around newly formed stars, suggesting that the origins of life may have begun in space\cite{J¿rgensen2012}.  Disassembly takes place with similar granularity.  Cells break down proteins into amino acids in a process called "proteolysis"; the freed amino acids are then used to construct new proteins.  We should aim to produce a system that can perform high-level tasks given a feedstock of function-level components.\\
 
-Functions do not need to be disassembled into element-level components in our engineered system.  Typically, amino acids are not metabolized into smaller components unless the cell has an excess of amino acids or lacks the glucose needed meet its energy needs\cite{Stryer1988}.  Instead, function-level components could be produced in large-scale, batch processes without a disassembly strategy in mind.  Interfacing strategies between elements could include permanent adhesives or other chemical bonding techniques.\\
+Functions do not need to be disassembled into element-level components in our engineered system.  Typically, amino acids are not metabolized into smaller components unless the cell has an excess of amino acids or lacks the glucose needed meet its energy needs\cite{Stryer1988}.  Instead, function-level components could be produced in large-scale, batch processes without a disassembly strategy in mind.  Interfaces between elements could include permanent adhesives or other chemical bonding techniques.\\
 
 Conversely, the interface between function-level components must be reversible.  Peptide bonding is a reversible process that occurs in both directions in a cell.  A condensation reaction removes a molecule of water and covalently bonds amino acids (Figure \ref{fig:AminosInterface}B).  A hydrolysis reaction reverses this process, using a molecule of water to break the peptide bond.  In some sense we can think of the water molecule as a type of locking mechanism in a reversible, pinned interface.  The enzymes that catalyze the forward and backward reactions are like the machinery needed to lock and unlock the pin.\\
 
-The interface/sidechain breakdown of amino acid structure depicted in Figure \ref{fig:AminosInterface}A should be mirrored by our own function-level components.  In other words, a function-level part is comprised of a unique inner region with a standardized interface that connects it to its neighbors.  In biology, polypeptide polymerization happens in one dimension; we must design our joining interface to accommodate something analogous to "polymerization" in three dimensions.\\
-
-number of elements\\
-number of amino acids - ribozyme, other species\\
-number of protiens\\
-number of complexes - design modularity\\
-
-
+The interface/sidechain breakdown of amino acid structure depicted in Figure \ref{fig:AminosInterface}A should be mirrored by our own function-level components.  In other words, a function-level part is comprised of a unique inner region with a standardized interface that connects it to its neighbors.  In biology, polypeptide polymerization happens in one dimension; we must design our joining interface to accommodate something analogous to "polymerization" in three dimensions.
 
 \section{Design Hierarchy in Conway's Game of Life}
 
