@@ -93,7 +93,7 @@ We can think of each of the amino acids as being composed of a standard interfac
  \subsection{Modules and Complexes}
 
 The unique sequence of amino acids along the one dimensional polypeptide chain informs the module-level behavior of a protein.
-Hydrogen bonding and other electrostatic interactions between amino acid side-chains, along with external effects, determine the three dimensional structure of a protein.
+Hydrogen bonding and other non-covalent interactions between amino acid side-chains, along with external effects, determine the three dimensional structure of a protein.
 This folding process geometry, defines an active region of the protein, 
 
 
@@ -126,7 +126,7 @@ An amino acid is defined as a molecule with an amine group, a carboxylic acid gr
 why not more?\\
 
 number of protiens\\
-number of complexes - design modularity
+number of complexes - design modularity, reusability of modules
 
 \subsubsection{Design and Fabrication}
 
@@ -140,7 +140,7 @@ The interface/sidechain breakdown of amino acid structure depicted in Figure \re
 
 \section{Design Hierarchy in Conway's Game of Life}
 
-In the 1940's Von Neumann began studying the requirements for self-replication and evolvability in artificial, CA worlds \cite{Neumann1966}.  One such world that has gained widespread notoriety is Conway's Game of Life ("Life").  Since its inception in 1970, Life has developed a cult following of researchers, engineers, and hobbyists, pushing each other to construct increasingly elaborate "machines" from pixels on a screen.  These investigations have resulted in a lengthy taxonomy of motifs, reactions, mechanisms, and complex engineered systems within Life.  Some notable accomplishments include Gemini (an oblique spaceship encoded by a long glider tape)\cite{Wade2010}, the Linear Propagator (a self replicating machine)\cite{Greene2013}, a Universal Turing Machine \cite{Rendell2000}, and the OTCA Metapixel (a structure that behaves like a large-scale Life pixel)\cite{Due2006}.\\
+In the 1940's Von Neumann began studying the requirements for self-replication and evolvability in artificial, CA worlds \cite{Neumann1966}.  One such world that has gained widespread notoriety is Conway's Game of Life ("Life").  Since its inception in 1970, Life has developed a cult following of researchers, engineers, and hobbyists, pushing each other to construct increasingly elaborate "machines" from pixels on a screen.  These investigations have resulted in a lengthy taxonomy of motifs, reactions, mechanisms, and complex engineered systems within Life.  Some notable accomplishments include Gemini (an oblique spaceship encoded by a long glider tape)\cite{Wade2010}, the Linear Propagator (a self replicating machine)\cite{Greene2013}, a universally extensible Turing Machine \cite{Rendell2000}, the Minsky Register Machine (a finite universal computer)\cite{Chapman2002}, and the OTCA Metapixel (a structure that behaves like a large-scale Life pixel)\cite{Due2006}.\\
 
 The analogies between machines in Life and our proposed assembly system are limited, due to the fact that Life is inherently non-physical; it violates basic conservation principals, has no notion of cell joining, and is based on highly abstracted interactions.  However, it provides an example of how humans can engineer self-replication from extremely simple building blocks, so-called "non-trivial" self-replication.  A proof of the existence of non-trivial self-replicating patterns in Life was first published by Conway, Berekamp, and Guy in 1982\cite{Berekamp1982}, and several decades later the first implementations of non-trivial replicators began emerging on online Life forums\cite{Greene2013a}.  This work argues that the basic requirements for self-replication - universal computation and universal construction - are not only \textit{not} unique to biology, but are, in fact, quite prevalent in virtual and physical systems.  An excellent analysis of Conway's existence proof, as well as an introduction to important concepts in Life can be found in \textit{The Recursive Universe} by William Poundstone\cite{Poundstone1985}.\\
 
@@ -188,7 +188,7 @@ Machines often require a central \textit{events timer} to trigger the start and 
 
 The OTCA Metapixel \textit{displays its current state} by toggling on and off two banks of MWSS guns, whose streams intersect and mutually annihilate each other in the center of the pattern.  Each bank is controlled by a simple latching mechanism, which toggles a LWSS gun on and off.  When this gun is on, it interacts with a bank of shuttles in an "Out of the Blue" reaction, effectively turning them into MWSS guns.\\
 
-A rules \textit{register} is a type of persistent memory that is used, in the case of the OTCA Metapixel, to encode the rules of a CA.  Inside the register, a collision with the Spaceship Train and a Honeybit reaction compare the number of living neighbors with the rules stored in the register.\\
+A rules \textit{register} is a type of persistent memory that is used, in the case of the OTCA Metapixel, to encode the rules of a CA.  Inside the register, a collision with the Spaceship Train and a Honeybit reaction compare the number of living neighbors with the rules stored in the register.  The OTCA metapixel's register capacity tops off at 16 bits of information.  In order to store arbitrarily large numbers in this type of register or on one of the tapes described above, the register/tape would need to be infinite.  Marvin Minsky described a type of finite-sized memory register with infinite memory capacity that solves this problem in 1967\cite{Minsky1967}.  Dean Hickerson designed the Minsky register in Life\cite{Hickerson1900} in 1990 based on a description given by Conway in Winning Ways\cite{Berekamp1982}.  This paved the way for the development of a universal computer with finite size, built by Paul Chapman in 2002\cite{Chapman2002}.\\
 
 A static \textit{logic bank} is constructed within a machine to interpret data, typically from incoming spaceship tapes.  Simple bitwise logical operators (not, and, or, nor, etc) can be computed on one or more pieces of data.  The output from the OTCA Metapixel's rules register is fed into a logic bank in order to determine the next state of the metacell.
 

@@ -14,36 +14,6 @@ The following sections outline current research into digital assembly across sca
 
 %An active area of synthetic biology explores the possibility of creating a viable cell from scratch based on knowledge about the core systems required for metabolism, cell maintainance, and self replication\cite{Forster2006}.  To date, efforts at creating this "minimal cell" have only been successful using a top down approach - starting with an organism with a minimal genome and reducing its genes further\cite{Glass2006}\cite{Gibson2010}.
 
-\section{Virtual Self-Assembling Systems}
-
-The primary motivation for this work is to create a virtual environment where it is possible to explore the design of a self assembling machine that obeys physics.  These types of investigations first started before the advent of modern computing.
-
-This thesis draws inspiration from virtual environments inside which the first investigations into self replication took place.
-
-\subsection{Cellular Automata}
-
-A \href{https://en.wikipedia.org/wiki/Cellular_automaton}{cellular automaton} (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical \textit{cells} and time moves forward in discrete \textit{steps}.  Each cell owns one or many state variables, which may hold discrete or continuous data.  The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.\\
-
-CAs have been used to study the requirements of self-assembling systems going back at least as early as the 1940s\cite{Neumann1966}.  To date, these CA investigations have employed very simple rulesets that violate basic physical principals: matter can be created and destroyed at will, actuators can move an infinite number of cells (cells have no mass), motions are quantized, one material can be converted into another, global synchronicity, etc.  This by no means implies that CAs are inherently non-physical; in fact, evaluating partial differential equations from physics using finite difference method can be structured of as a type of cellular automaton\cite{Yang2010}.
-
-\subsection{Conway's Game of Life}
-
-To date, self replicating machines and other complex engineered systems have been most extensively studied in the popular CA Conway's Game of Life ("Life").\\
-
-Inside Life, there is a notion of periodicity that is important in determining whether a 
-The speed of light, \textit{c}, is the rate of travel 
-
-\section{Physical Self-Assembling Systems}
-
-\subsection{Engineered Self-Assembling Systems}
-
-Man-made self assembling systems to date have not achieved the same level of complexity as biological systems, and 
-
-\subsection{Biological Systems}
-
-
-
-
 \section{Digital Assembly}
 
 Digital assembly is an emerging multimaterial fabrication technique where a finite set of discrete part types are (often reversibly) joined to form larger structures in a regular lattice.  Programmable functional behavior is achieved by patterning parts with different material properties across an assembly.  In the macro scale, the assembly process is orchestrated by one or many robotic assemblers.  Self-alignment features and the regular spacing of the parts help to minimize the complexity of a robotic assembler, and maintain global metrology through local interactions.  At nano scales, assembly is guided by programmable self-assembly mechanisms.
@@ -83,6 +53,84 @@ DNA bricks is a system of discrete assembly based on complementary base pair int
 
 CBA is actively involved in the design of nano-manipulation devices and work toward scaling down the micro-electronic parts designed by Langford\cite{Langford2014} into the nanoscale.
 
+\section{Self Replication}
+
+Some of the first known formal investigations into the nature of self-replicating systems were conducted by John Von Neumann as early as the 1940s.  This work was published, posthumously, by Arthur Burks in the 1960s\cite{Burks1969}.
+
+\subsubsection{Construction vs Computation}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{selfRepVenn.png}
+  \caption{Non-trivial self-replication and its relationship to universal computation and universal construction.}
+  \label{fig:selfRepVenn}
+\end{figure}
+
+
+If a system is able to perform universal computation and universal construction, it has the ability to self-replicate.  The reverse statement is more complicated.  Some self-replicating systems
+
+In order to prove universal computation, a system must exhibit the following properties:
+\begin{itemize}
+  \item Infinite memory
+  \item Clock
+  \item Data transmission mechanism
+  \item Universal boolean logic (AND and NOT gates are sufficient)
+\end{itemize}
+
+
+
+
+\subsection{Trivial Self-Replication}
+
+Within the study of self-replication, there is a critical distinction between so called "trivial" and "non-trivial" self-replication.
+For example, crystal growth or polymerization could be considered a type of non-trivial self-replication.
+While the ability of a system to self-replicate is an important feature for exponential growth, it is not the only quality we are interested in.
+self-replicating systems which can \textit{only} self-replicate are not useful for 
+
+\subsubsection{Penrose Tiles}
+
+\cite{Penrose1958}
+
+\subsection{Non-Trivial Self-Replication}
+
+Non-Trivial self replication
+Going forward, references in this work to "self-replication" will imply non-trivial self-replication.
+
+\section{Physical Self-Replicating Systems}
+
+\subsection{Biological Systems}
+
+\subsection{Engineered Self-Replicating Systems}
+
+Man-made self assembling systems to date have not achieved the same level of complexity as biological systems, and 
+Some proposed non-trivial self assembling systems are described below.
+
+\subsubsection{Drexler's Mechanical Nanobots}
+
+https://en.wikipedia.org/wiki/Drexler%E2%80%93Smalley_debate_on_molecular_nanotechnology
+
+\section{Virtual Self-Replicating Systems}
+
+The primary motivation for this work is to create a virtual environment where it is possible to explore the design of a self assembling machine that obeys physics.  These types of investigations first started before the advent of modern computing.
+
+This thesis draws inspiration a lineage of virtual environments inside which the first investigations into self replication took place.\\
+
+\subsection{Cellular Automata}
+
+A cellular automaton (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical \textit{cells} and time moves forward in discrete \textit{steps}.  Each cell owns one or many state variables, which may hold discrete or continuous data.  The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.  Some CA's consider cells to be static with changing state, others employ kinematic rules, where cells can move in space.\\
+
+CAs have been used to study the requirements of self-assembling systems since Von Neumann's first investigations{Neumann1966}.  To date, these CA investigations have employed very simple rulesets that violate basic physical principals: matter can be created and destroyed at will, actuators can move an infinite number of cells (cells have no mass), motions are quantized, one material can be converted into another, global synchronicity, etc.  This by no means implies that CAs are inherently non-physical; in fact, evaluating partial differential equations from physics using finite difference method can be structured of as a type of cellular automaton\cite{Yang2010}.
+
+\subsection{Von Neumann's Universal Constructor}
+
+
+
+\subsection{Conway's Game of Life}
+
+To date, self replicating machines and other complex engineered systems have been most extensively studied in the popular CA Conway's Game of Life ("Life").\\
+
+Inside Life, there is a notion of periodicity that is important in determining whether a 
+The speed of light, \textit{c}, is the rate of travel 
+
 \section{Dynamic Simulation Techniques}
 
 \subsection{Dynamic Simulation of Elastic Solids}
@@ -104,13 +152,6 @@ FEA vs Mass-Spring vs CA\\
 few works well for linear - non linear for large deformations may require remeshing\\
 mass spring methods - widely used in computer graphics, better for large deformations and non linear, less accurate\\
 differential elements\\
-lattice gas\\
-
-\subsubsection{Numerical Integration Techniques}
-
-Runge-Kutta\\
-Euler Integration\\
-
 
 
 \section{CAD and Simulation Tools for Digital Assembly}
@@ -119,17 +160,18 @@ At the moment of writing this, there exist several computational tools for desig
 
 \subsection{Cellular Automata-Based Tools}
 
-The CA-based simulation tools discussed here allow for computational efficiency at the cost of accuracy, often allowing for only quantized motions, interactions, and states.  In general, this classification of tools employs materials and mechanics that are not plausible in the real world, but are still of interest for purely computational investigations.  The earliest design and simulation tools for CA systems were a piece of graph paper or a Go board\cite{Gardner1970}.  With the introduction of personal computers and graphical user interfaces, it is now possible to compute large CA universes and study their behaviors.\\
+The CA-based simulation tools discussed here allow for computational efficiency at the cost of accuracy, often allowing for only quantized motions, interactions, and states.  In general, this classification of tools employs materials and mechanics that are not plausible in the real world, but are still of interest for purely computational investigations.  The earliest design and simulation tools for CA systems were a piece of graph paper or a Go board\cite{Gardner1970}.  With the introduction of personal computers and graphical user interfaces, it is now possible for anyone to compute large CA universes and study their behaviors.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{minecraft.png}
   \caption{Screenshot of a 16 bit computer built in Minecraft by user Ohm.  Full video available on \href{https://www.youtube.com/watch?v=KzrFzkb3A4o}{YouTube}. \textit{Image Credit: Ohm 2011}}
   \label{fig:minecraft}
 \end{figure}
+
 The most widely adopted example of discrete design is \href{https://minecraft.net/}{Minecraft}, a PC game that gives players the ability to construct their own worlds from over 100 different block types (Fig \ref{fig:minecraft}).  A subset of these block types form the basis of digital logic in the game and another set of part provide a means of simple 1-bit mechanical actuation\cite{MinecraftWik2016}.  Gameplay and available block types are extendable through various mods and user scripts.
 \\
 
-\href{http://golly.sourceforge.net/}{Golly} is a 2D CA simulator originally intended for Conway's game of life, but is extendable to other rulesets.  It implements Gosper's "hashlife" algorithm for optimizing the performance of the simulation\cite{Gosper1984}.  In 2010 Andrew Wade published \href{https://www.youtube.com/watch?v=A8B5MbHPlH0}{Gemini}, a self replicating machine designed in Golly using Conway's ruleset.  In 2014, Luke Shaeffer implemented a physically universal CA ruleset in Golly, based on interactions between moving particles\cite{Shaffer2014}.\\
+\href{http://golly.sourceforge.net/}{Golly} is a 2D CA simulator originally intended for Conway's game of life, but is extendable to other rulesets.  It implements Gosper's "hashlife" algorithm for optimizing the performance of the simulation\cite{Gosper1984}.  In 2013 Dave Greene Wade published the "Linear Propagator", a self replicating machine designed in Golly using Conway's ruleset\cite{Greene2013a}.  In 2014, Luke Shaeffer implemented a physically universal CA ruleset in Golly, based on interactions between moving particles\cite{Shaffer2014}.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{stevensConstructor.png}
