@@ -14,9 +14,18 @@ The following sections outline current research into digital assembly across sca
 
 %An active area of synthetic biology explores the possibility of creating a viable cell from scratch based on knowledge about the core systems required for metabolism, cell maintainance, and self replication\cite{Forster2006}.  To date, efforts at creating this "minimal cell" have only been successful using a top down approach - starting with an organism with a minimal genome and reducing its genes further\cite{Glass2006}\cite{Gibson2010}.
 
+\section{Programmable Materials}
+
+The term "programmable matter" was first used to describe CAM8, a computing architecture in which physical phenomena could be efficiently simulated based on local interactions between parallel computing elements \cite{Toffoli1991}.  It has since come to describe materials that can be programmed to change their physical properties based on user input or environmental changes.  Often, programmable materials are composed of many smaller constituent elements, whose structural arrangement and local interactions are the source of larger-scale programmable properties.  Some forms of programmable material include metamaterials, modular robotics, 
+
+
+the constituent elements that make up a piece of programmable matter do not have any inherient \\
+
+Digital materials
+
 \section{Digital Assembly}
 
-Digital assembly is an emerging multimaterial fabrication technique where a finite set of discrete part types are (often reversibly) joined to form larger structures in a regular lattice.  Programmable functional behavior is achieved by patterning parts with different material properties across an assembly.  In the macro scale, the assembly process is orchestrated by one or many robotic assemblers.  Self-alignment features and the regular spacing of the parts help to minimize the complexity of a robotic assembler, and maintain global metrology through local interactions.  At nano scales, assembly is guided by programmable self-assembly mechanisms.
+Digital assembly is an emerging multimaterial fabrication technique where a finite set of discrete part types are (often reversibly) joined to form larger structures in a regular lattice.  Programmable functional behavior is achieved by patterning parts with different material properties across an assembly.  In the macro scale, the assembly process is orchestrated by one or many robotic assemblers.  Self-alignment features and the regular spacing of the parts help to minimize the complexity of a robotic assembler, and maintain global metrology through local interactions.  At nano scales, assembly is often guided by programmable self-assembly mechanisms.
 
 
 \subsection{Macro Assembly}
@@ -38,20 +47,20 @@ Cheung showed that carbon fiber composite parts can be reversibly assembled to f
 %  \label{fig: objetMultimaterial}
 %\end{figure}
 
-Langford demonstrated how conducting, insulating, and resistive part types ranging in scale from mm-$\mu$m could be assembled to form any passive electronic component, including antennas and matching networks\cite{Langford2014}.  Langford designed and built a dual-material assembler (Fig: \ref{fig:willAssembler}) for constructing passive electronic structures from conducting and insulating parts (\href{http://dma.cba.mit.edu/stapler/video/dualstapler_full_1.mp4}{video})\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  Langford suggests that by extending the part types to include several types of silicon components, discretely-assembled active components like diodes and transistors would be possible.  Work toward the fabrication and realization of these silicon components is ongoing.  This work follows from previous work by Popescu et al. on reversibly assembled "GIK" structures spanning many length scales and material types\cite{Popescu} and also work by Ward on discretely assembled electronics\cite{Ward2010}.
+Langford demonstrated how conducting, insulating, and resistive part types ranging in scale from mm-$\mu$m could be assembled to form any passive electronic component, including antennas and RF matching networks\cite{Langford2014}.  Langford designed and built a dual-material assembler (Fig: \ref{fig:willAssembler}) for constructing passive electronic structures from conducting and insulating parts (\href{http://dma.cba.mit.edu/stapler/video/dualstapler_full_1.mp4}{video})\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  Langford suggests that by extending the part types to include several types of silicon components, discretely-assembled active components like diodes and transistors would be possible.  Work toward the fabrication and realization of these silicon components is ongoing.  This work follows from previous work by Popescu et al. on reversibly assembled "GIK" structures spanning many length scales and material types\cite{Popescu} and also work by Ward on discretely assembled electronics\cite{Ward2010}.
 \\
 
-Hiller et al. propose a method of additive manufacturing using multimaterial voxel building blocks\cite{Hiller2009a}.  They explore various voxel decompositions of 3D geometry and assess their suitability for rapid, parallel assembly processes (\href{https://www.youtube.com/watch?v=-szjlhVMGh4}{video}).  Possible applications discussed include desktop manufacturing, especially for electromechanical and microfluidic devices.  Hiller et al. also propose reversible processes for disassembling a voxel assembly back into its constituent parts\cite{Hiller2005}.
+Hiller et al. propose a method of additive manufacturing using multimaterial voxel building blocks\cite{Hiller2009a}.  They explore various voxel decompositions of 3D geometry and assess their suitability for rapid, parallel assembly processes (\href{https://www.youtube.com/watch?v=-szjlhVMGh4}{video}).  Possible applications discussed include desktop manufacturing, especially for electromechanical and microfluidic devices.  Hiller et al. also propose reversible processes for disassembling voxel assemblies back into their constituent parts\cite{Hiller2005}.
 \\
 
 Though not a reversible process, multimaterial 3D printing (most notably by the Objet printer) deposits material in voxels on the order of ~10$\mu$m$^{3}$ with a total build volume on the order of 1x10$^{10}$ voxels\cite{Objet1000}.  Multimaterial 3d printing has been demonstrated in optical\cite{Willis2012}, electronic\cite{Ahn2009}, and structural applications\cite{Skouras2013}\cite{Schumacher}\cite{Bacher2014}.
 
 \subsection{Nano Assembly}
 
-DNA bricks is a system of discrete assembly based on complementary base pair interactions of short segments of DNA\cite{Ke2012}; DNA bricks is a branch of a field called DNA origami\cite{Rothemund2006} or DNA computing\cite{Seeman1982}\cite{Adleman1994}.  The brick assemblies have a spatial resolution of 2.5nm and the longest dimension of a DNA brick assembly measures on the order of 1$\mu$M\cite{Ke2014}.  Unlike the previously discusses processes, DNA bricks assembly takes place through passive, stochastic interactions between DNA strands in solution, rather than guided assembly by robotic assemblers.
+"DNA bricks" is a method of discrete nano-assembly based on complementary base pair interactions of short segments of DNA\cite{Ke2012}; DNA bricks forms a branch of a field called DNA origami\cite{Rothemund2006} or DNA computing\cite{Seeman1982}\cite{Adleman1994}.  The brick assemblies have a spatial resolution of 2.5nm; the longest dimension of a DNA brick assembly measures on the order of 1$\mu$M\cite{Ke2014}.  Unlike the previously discussed processes, assembly of DNA bricks takes place through passive, stochastic interactions between DNA strands in solution, rather than guided assembly by robotic assemblers.
 \\
 
-CBA is actively involved in the design of nano-manipulation devices and work toward scaling down the micro-electronic parts designed by Langford\cite{Langford2014} into the nanoscale.
+CBA is actively involved scaling down the micro-electronic parts designed by Langford\cite{Langford2014} into the nanoscale and assembling them using nano-manipulation devices.
 
 \section{Self Replication}
 

@@ -1,0 +1,1691 @@
+{
+	"assembly": {
+		"cellsMin": {
+			"x": -24,
+			"y": -1,
+			"z": 0
+		},
+		"cellsMax": {
+			"x": -1,
+			"y": 8,
+			"z": 2
+		},
+		"numCells": 61,
+		"units": "mm",
+		"scale": 1,
+		"cellType": "cube",
+		"connectionType": "face",
+		"applicationType": "default",
+		"aspectRatio": {
+			"x": 1,
+			"y": 1,
+			"z": 1
+		},
+		"partType": null,
+		"cells": [
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "conductiveBend"
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": 0,
+							"_y": -0.7071067811865472,
+							"_z": 0,
+							"_w": -0.7071067811865478
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0,
+							"_y": -0.7071067811865479,
+							"_z": 0,
+							"_w": 0.7071067811865471
+						}
+					}
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.7071067811865475,
+							"_z": 0,
+							"_w": 0.7071067811865476
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": 0,
+							"_y": -0.7071067811865472,
+							"_z": 0,
+							"_w": -0.7071067811865478
+						}
+					},
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.7071067811865481,
+							"_z": 0,
+							"_w": -0.7071067811865469
+						}
+					}
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.7071067811865475,
+							"_z": 0,
+							"_w": 0.7071067811865476
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.707106781186549,
+							"_z": 0,
+							"_w": -0.707106781186546
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0,
+							"_y": -0.7071067811865468,
+							"_z": 0,
+							"_w": -0.7071067811865482
+						}
+					}
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "conductiveJunction1",
+						"quaternion": {
+							"_x": 0,
+							"_y": 1,
+							"_z": 0,
+							"_w": 2.220446049250313e-16
+						}
+					},
+					null,
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.707106781186549,
+							"_z": 0,
+							"_w": -0.707106781186546
+						}
+					}
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.7071067811865477,
+							"_z": 0,
+							"_w": -0.7071067811865474
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0,
+							"_y": -1,
+							"_z": 0,
+							"_w": -1.7763568394002505e-15
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0,
+							"_y": -1.27675647831893e-15,
+							"_z": 0,
+							"_w": 1
+						}
+					}
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.7071067811865477,
+							"_z": 0,
+							"_w": -0.7071067811865474
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": 0,
+							"_y": -0.7071067811865472,
+							"_z": 0,
+							"_w": -0.7071067811865478
+						}
+					},
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": 0,
+							"_y": 0.7071067811865481,
+							"_z": 0,
+							"_w": -0.7071067811865469
+						}
+					}
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 1.110223024625156e-16,
+							"_y": -2.55351295663786e-15,
+							"_z": -2.35513868802566e-16,
+							"_w": 0.9999999999999998
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0.9999999999999998,
+							"_y": -3.3306690738754696e-16,
+							"_z": 1.9984014443252818e-15,
+							"_w": -1.1102230246251597e-16
+						}
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0,
+							"_y": -0.7071067811865472,
+							"_z": 0,
+							"_w": -0.7071067811865478
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": 0,
+							"_y": -0.7071067811865472,
+							"_z": 0,
+							"_w": -0.7071067811865478
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": 0,
+							"_y": 1,
+							"_z": 0,
+							"_w": 7.216449660063518e-16
+						}
+					}
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": -0.7071067811865491,
+							"_y": 1.5700924586837734e-16,
+							"_z": 0.7071067811865457,
+							"_w": 3.140184917367552e-16
+						}
+					},
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": -0.7071067811865458,
+							"_y": 3.1401849173675523e-16,
+							"_z": -0.707106781186549,
+							"_w": -1.570092458683773e-16
+						}
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					{
+						"materialID": "conductiveJunction1",
+						"quaternion": {
+							"_x": -0.9999999999999999,
+							"_y": 3.3306690738754696e-16,
+							"_z": -2.3869795029440866e-15,
+							"_w": 1.1102230246251593e-16
+						}
+					},
+					{
+						"materialID": "signal",
+						"quaternion": {
+							"_x": -0.9999999999999999,
+							"_y": 3.3306690738754696e-16,
+							"_z": -2.3869795029440866e-15,
+							"_w": 1.1102230246251593e-16
+						}
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": -0.7071067811865491,
+							"_y": 1.5700924586837734e-16,
+							"_z": 0.7071067811865457,
+							"_w": 3.140184917367552e-16
+						}
+					},
+					{
+						"materialID": "conductive",
+						"quaternion": {
+							"_x": -0.7071067811865458,
+							"_y": 3.1401849173675523e-16,
+							"_z": -0.707106781186549,
+							"_w": -1.570092458683773e-16
+						}
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": -2.55351295663786e-15,
+							"_y": -1.1102230246251585e-16,
+							"_z": 0.9999999999999998,
+							"_w": 3.3306690738754696e-16
+						}
+					},
+					{
+						"materialID": "conductiveBend",
+						"quaternion": {
+							"_x": -0.7071067811865458,
+							"_y": 3.1401849173675523e-16,
+							"_z": -0.707106781186549,
+							"_w": -1.570092458683773e-16
+						}
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					}
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					}
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating"
+					},
+					{
+						"materialID": "insulating"
+					},
+					{
+						"materialID": "insulating"
+					}
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating"
+					},
+					{
+						"materialID": "insulating"
+					},
+					{
+						"materialID": "insulating"
+					}
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "insulating"
+					},
+					{
+						"materialID": "insulating"
+					}
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					}
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					}
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": 1.4988010832439613e-15,
+							"_y": -0.7071067811865475,
+							"_z": -0.7071067811865475,
+							"_w": -1.8318679906315083e-15
+						}
+					},
+					{
+						"materialID": "insulating",
+						"quaternion": {
+							"_x": 1.4988010832439613e-15,
+							"_y": -0.7071067811865475,
+							"_z": -0.7071067811865475,
+							"_w": -1.8318679906315083e-15
+						}
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": -2.35513868802566e-16,
+							"_y": -0.9999999999999999,
+							"_z": -1.1102230246251565e-16,
+							"_w": -2.3551386880256627e-15
+						}
+					},
+					{
+						"materialID": "bending1DOF",
+						"quaternion": {
+							"_x": 0.9999999999999999,
+							"_y": -4.3177542613803847e-16,
+							"_z": 2.394390999492757e-15,
+							"_w": 1.1102230246251565e-16
+						}
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating"
+					},
+					{
+						"materialID": "insulating"
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "bending1DOF"
+					},
+					{
+						"materialID": "bending1DOF"
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			],
+			[
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					{
+						"materialID": "insulating"
+					},
+					{
+						"materialID": "insulating"
+					},
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				],
+				[
+					null,
+					null,
+					null
+				]
+			]
+		]
+	},
+	"materials": {},
+	"emSim": {
+		"gravity": 9.8,
+		"gravityVector": {
+			"x": 0,
+			"y": 0,
+			"z": -1
+		},
+		"dtSolver": 10,
+		"dtRender": 100,
+		"fixedIndices": [],
+		"groundHeight": 0,
+		"friction": true,
+		"lattice": {
+			"signals": []
+		}
+	}
+}
