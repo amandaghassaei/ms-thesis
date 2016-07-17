@@ -45,9 +45,9 @@ The geometric stiffness of a structure relates the bulk properties of a material
 
 Stiffness and damping are used to characterize the response of cell's internal degrees of freedom to applied external forces.  In three dimensions, each cell's passive mechanical properties are parameterized by 15 stiffness and damping constants:
 
-\[ k =  \left\{ \begin{array}{ccc}
+\[ k  \left\{ \begin{array}{ccc}
 k_{longitudinal_x}\\
-k_{ongitudinal_y}\\
+k_{longitudinal_y}\\
 k_{longitudinal_z}\\
 \\
 k_{shear_{xy}}\\
@@ -66,7 +66,7 @@ k_{torsional_y}\\
 k_{torsional_z}
  \end{array} \right\} 
  \qquad\qquad
- d =  \left\{ \begin{array}{ccc}
+ d  \left\{ \begin{array}{ccc}
 d_{longitudal_x}\\
 d_{longitudal_y}\\
 d_{longitudal_z}\\
@@ -116,11 +116,63 @@ A linear scale showing the range of physically achievable 1-DOF bending \textit{
 
 \section{Translational Forces}
 
+In the simplest case without rotation, the force applied to cell 1 by cell 2 ($f_{2 \rightarrow 1}$) is given by:
+
 \begin{figure}
   \includegraphics[width=\linewidth]{translationalSim.png}
   \caption{translationalSim.}
   \label{fig:translationalSim}
 \end{figure}
+
+\begin{equation} \label{eq:translationalForce}
+\vec{f_{2\rightarrow1}} = \vec{k} \circ (\vec{p_2} - \vec{p_1}) + \vec{d} \circ (\vec{v_2} - \vec{v_1})
+\end{equation}
+where $\vec{p_1}$ and $\vec{p_2}$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v_1}$ and $\vec{v_2}$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $k$ and $d$ are 3D vectors containing the appropriate stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a longitudinal constant should be used for displacements along x and shear constants should be used for displacements along y and z:
+\[ k =  \left[ \begin{array}{ccc}
+k_{longitudinal_x}\\
+k_{shear_{xy}}\\
+k_{shear_{xz}}
+ \end{array} \right]  
+  \qquad\qquad
+  d =  \left[ \begin{array}{ccc}
+d_{longitudinal_x}\\
+d_{shear_{xy}}\\
+d_{shear_{xz}}
+ \end{array} \right] \]\\
+ 
+If we wish to consider the orientations of the cells, denoted by the unit quaternions $q1$ and $q2$, we will need to adjust equation \ref{eq:translationalForce}. \\
+  
+  We can rotate a vector $v$ in 3-space by a quaternion $q$ in 4-space:
+    \[ v_{rotated} = q*v*q^* \]
+  
+  by treating $v$ as a 4-space vector [x, y, z, w] with w=0, using the Hamilton product:
+  \[ a*b =  \left[ \begin{array}{ccc}
+a_wb_x + a_xb_w + a_yb_z - a_zb_y\\
+a_wb_y - a_xb_z + a_yb_w + a_zb_x\\
+a_wb_z + a_xb_y - a_yb_x + a_zb_w\\
+a_wb_w - a_xb_x - a_yb_y - a_zb_z
+ \end{array} \right] \] 
+ 
+   with $q^*$ denoting the conjugate of $q$:
+    \[ q^{*} =  \left[ \begin{array}{ccc}
+-q_x\\
+-q_y\\
+-q_z\\
+q_w
+ \end{array} \right] \] 
+ 
+By performing a spherical linear interpolation (slerp) halfway between $q1$ and $q2$, we can calculate the average orientation of the two cells:
+  \[ q_{avg} = slerp(q_{1}, q_{2}; 0.5) \]
+  
+Using $q_{avg}$, we can rotate the stiffness and damping vectors from equation \ref{eq:translationalForce} into this average reference frame, and substitute the rotated vectors back into equation \ref{eq:translationalForce}:
+
+ \[ \vec{k_{rot}} = (q_{avg}*\vec{k}*q_{avg}^*)\]
+  \[ \vec{d_{rot}} = (q_{avg}*\vec{d}*q_{avg}^*)\]
+ \[ \vec{f_{2\rightarrow1}} = \vec{k_{rot}} \circ (\vec{p_2} - \vec{p_1}) + \vec{d_{rot}} \circ (\vec{v_2} - \vec{v_1})\]
+ 
+ rotate nom dist and apply to translation
+
+
 
 %I started with a simple dynamic mechanical model where the forces acting on each cell in the lattice are computed based on local interactions with its six neighbors and gravity.  In the model, virtual springs and dampers constrain translational and rotational motion of a cell relative to its neighbors (Fig \ref{fig: helloWorldLocalInteraction}).  At each time step all forces acting on each cell in the lattice are summed and the position, orientation, and translational and rotational velocities of the cell are solved by Euler integration.  All cells are updated synchronously, so the order of evaluation of the cells is not important.  All physical constants used in these calculations (mass of the cell, moment of inertia, spring stiffness, damping coefficient) are derived from the geometry and material properties of each cell.\\
 %
@@ -207,8 +259,14 @@ A linear scale showing the range of physically achievable 1-DOF bending \textit{
 %%\end{figure}
 %
 %
-%\section{Rotational Forces}
-%
+\section{Rotational Forces}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{rotationalSim.png}
+  \caption{rotationalSim}
+  \label{fig:rotationalSim}
+\end{figure}
+
 \section{Time Integration}
 
 For linear systems, explicit forward time integration can be achieved using a variety of methods, each with associated error and computational cost.  The simplest and most computationally efficient approach is forward Euler:\\
@@ -229,6 +287,22 @@ Higher order methods such as Runge-Kutta (RK4) reduce error further, but require
 
 
 \section{Electronic Simulation}\label{sec:electronicSim}
+
+\section{Performance Speedups}
+
+A faster method of applying quaternions to vectors is given by
+\[ t = 2 \left[ \begin{array}{ccc}
+q_x\\
+q_y\\
+q_z
+ \end{array} \right] \times v\]
+\[ v_{rotated} = v + q_wt +  \left[ \begin{array}{ccc}
+q_x\\
+q_y\\
+q_z
+ \end{array} \right] \times t\]
+ https://blog.molecular-matters.com/2013/05/24/a-faster-quaternion-vector-multiplication/
+
 
 %\section{Deviations from Reality}
 %
