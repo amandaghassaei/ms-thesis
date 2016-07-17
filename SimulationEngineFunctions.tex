@@ -7,7 +7,7 @@
 
 \singlespacing{
 
-\chapter{Simulation of Function-Level Parts}\label{chap:functionSim}
+\chapter{Simulation}\label{chap:functionSim}
 
 Simulation of function-level parts is carried out through a mass/spring/damper model.  In this model, neighboring face-connected cells apply forces and torques on one another through local interactions.  Translational and rotational positions and velocities are calculated from these forces using discrete-time integration techniques.  Internal degrees of freedom of \textit{functions} are parameterized by 15 stiffness and damping coefficients, $k$ and $d$.  Actuation is achieved by modulating the nominal distance of adjacent cells along a particular degree of freedom.  %In a sense, this type of simulation could be thought of as a dynamic constraint-solving system between solid elements with various degrees of freedom.
 
@@ -20,11 +20,11 @@ FEA
 
 \begin{figure}
   \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
-  \caption{Deformations of a solid element under four types of applied forces.  In modeling assemblies of \textit{functions}, these characteristic deformations are referred to as "internal degrees of freedom".}
+  \caption{Deformations of a solid element under four types of applied forces.  In modeling assemblies of \textit{functions}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, longitudinal (compression and tension) and shear forces cause translational displacement and bending and torsional forces cause rotational displacement.}
   \label{fig:SolidMechanicsDOF}
 \end{figure}
 
-In solid mechanics, we can consider the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  Forces acting on these finite elements fall into four categories: longitudinal (tension and compression), bending, shear, and torsion.  Each type of applied force causes a characteristic deformation of the finite element, indicated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.\\
+In solid mechanics, we can consider the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  Forces acting on these finite elements fall into four categories: longitudinal (tension and compression), bending, shear, and torsion.  Each type of applied force causes a characteristic deformation of the finite element, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.\\
 
 In this model, simulation of an assembly happens at the granularity of identically-sized \textit{function}-level parts, which we'll call "cells".  When describing mechanical behavior of a particular cell type, we refer to its deformations as "internal degrees of freedom" (DOF).  For example, a 1-DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.\\
 
@@ -35,7 +35,7 @@ Cells at the function-level are defined not only by their mechanical properties,
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CombinatoricsOfFunctions.png}
-  \caption{Combinatorial space of function types.}
+  \caption{Combinatorial space of \textit{function} types with six examples explicitly described in terms of their electronic and mechanical properties.  Note - any individual degree of freedom within a cell falls on the spectrum described in Figure \ref{fig:BendingStiffnessContinuoum}.  A cell is described at a high level as having a particular degree of freedom if its corresponding stiffness in that dimension is sufficiently flexible to allow for significant deformation uder applled load.  There are no infinitely stiff or fully unconstrained degrees of freedom in this system.}
   \label{fig:CombinatoricsOfFunctions}
 \end{figure}
 
@@ -96,16 +96,16 @@ $k_{shear}$ and $d_{shear}$ are broken out into six parameters of the form $shea
   \label{fig:ShearDOFs}
 \end{figure}
 
-The stiffness and damping constants of each \textit{function} type may be calculated from bulk properties of the constituent materials that make up a \textit{function}, or they may be measured empirically.  For example, an isotropic \textit{function} made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses defined by:
+The stiffness and damping constants of each cell type may be calculated from bulk properties of the constituent materials that make up the cell, or they may be measured empirically.  For example, an isotropic cell made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses defined by:
 
 \[ k_{longitudinal} = \dfrac{aE}{l}\]
-\[ k_{shear} = \dfrac{Ga}{l}\]
+\[ k_{shear} = \dfrac{Ga}{l} ??\]
 \[ k_{torsion} = \dfrac{GJ}{l}\]
-\[ k_{bending} = \dfrac{aE}{l}\]
+\[ k_{bending} = \dfrac{aE}{l} ??\]
 \\
-where $a$ is the cross sectional area and $l$ is the length of the \textit{function}.\\
+where $a$ is the cross sectional area and $l$ is the length of the ce;;.\\
 
-A linear scale showing the range of physically achievable 1-DOF bending \textit{function} types compared with the range of theoretically possible types is shown in Figure \ref{fig:BendingStiffnessContinuoum}.  Due to manufacturing and material constraints, we do not envision \textit{functions} that occupy the region near zero bending stiffness (e.g. a frictionless pin joint) or infinite bending stiffness.
+A linear scale showing the range of physically achievable 1-DOF bending cell types compared with the range of theoretically possible types is shown in Figure \ref{fig:BendingStiffnessContinuoum}.  Due to manufacturing and material constraints, we do not envision \textit{function}-level cells that occupy the region near zero bending stiffness (e.g. a frictionless pin joint) or infinite bending stiffness (zero compliance material).
 
 \begin{figure}
   \includegraphics[width=\linewidth]{BendingStiffnessContinuoum.png}
@@ -116,7 +116,7 @@ A linear scale showing the range of physically achievable 1-DOF bending \textit{
 
 \section{Translational Forces}
 
-In the simplest case without rotation, the force applied to cell 1 by cell 2 ($f_{2 \rightarrow 1}$) is given by:
+In the simplest case without rotation, the force $f_{1 \rightarrow 2}$ applied to cell 2 by cell 1 is given by:
 
 \begin{figure}
   \includegraphics[width=\linewidth]{translationalSim.png}
@@ -125,9 +125,9 @@ In the simplest case without rotation, the force applied to cell 1 by cell 2 ($f
 \end{figure}
 
 \begin{equation} \label{eq:translationalForce}
-\vec{f_{2\rightarrow1}} = \vec{k} \circ (\vec{p_2} - \vec{p_1}) + \vec{d} \circ (\vec{v_2} - \vec{v_1})
+\vec{f_{1\rightarrow2}} = \vec{k} \circ (\vec{p_2} - \vec{p_1}) + \vec{d} \circ (\vec{v_2} - \vec{v_1})
 \end{equation}
-where $\vec{p_1}$ and $\vec{p_2}$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v_1}$ and $\vec{v_2}$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $k$ and $d$ are 3D vectors containing the appropriate stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a longitudinal constant should be used for displacements along x and shear constants should be used for displacements along y and z:
+where $\vec{p_1}$ and $\vec{p_2}$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v_1}$ and $\vec{v_2}$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $\vec{k}$ and $\vec{d}$ are 3D vectors containing the appropriate stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a longitudinal constant should be used for displacements along x and shear constants should be used for displacements along y and z:
 \[ k =  \left[ \begin{array}{ccc}
 k_{longitudinal_x}\\
 k_{shear_{xy}}\\
@@ -145,7 +145,7 @@ If we wish to consider the orientations of the cells, denoted by the unit quater
   We can rotate a vector $v$ in 3-space by a quaternion $q$ in 4-space:
     \[ v_{rotated} = q*v*q^* \]
   
-  by treating $v$ as a 4-space vector [x, y, z, w] with w=0, using the Hamilton product:
+  by treating $v$ as a 4-space vector [x, y, z, w] with w=0, with $*$ denoting the Hamilton product:
   \[ a*b =  \left[ \begin{array}{ccc}
 a_wb_x + a_xb_w + a_yb_z - a_zb_y\\
 a_wb_y - a_xb_z + a_yb_w + a_zb_x\\
@@ -153,7 +153,7 @@ a_wb_z + a_xb_y - a_yb_x + a_zb_w\\
 a_wb_w - a_xb_x - a_yb_y - a_zb_z
  \end{array} \right] \] 
  
-   with $q^*$ denoting the conjugate of $q$:
+   and $q^*$ denoting the conjugate of $q$:
     \[ q^{*} =  \left[ \begin{array}{ccc}
 -q_x\\
 -q_y\\
@@ -161,17 +161,29 @@ a_wb_w - a_xb_x - a_yb_y - a_zb_z
 q_w
  \end{array} \right] \] 
  
-By performing a spherical linear interpolation (slerp) halfway between $q1$ and $q2$, we can calculate the average orientation of the two cells:
+By performing a spherical linear interpolation (slerp) halfway between $q1$ and $q2$, we can calculate the average orientation of the two cells as a unit quaternion:
   \[ q_{avg} = slerp(q_{1}, q_{2}; 0.5) \]
   
-Using $q_{avg}$, we can rotate the stiffness and damping vectors from equation \ref{eq:translationalForce} into this average reference frame, and substitute the rotated vectors back into equation \ref{eq:translationalForce}:
+Using $q_{avg}$, we can rotate the stiffness and damping vectors from Equation \ref{eq:translationalForce} into this average reference frame, and substitute the rotated vectors back into equation \ref{eq:translationalForce}:
 
  \[ \vec{k_{rot}} = (q_{avg}*\vec{k}*q_{avg}^*)\]
   \[ \vec{d_{rot}} = (q_{avg}*\vec{d}*q_{avg}^*)\]
- \[ \vec{f_{2\rightarrow1}} = \vec{k_{rot}} \circ (\vec{p_2} - \vec{p_1}) + \vec{d_{rot}} \circ (\vec{v_2} - \vec{v_1})\]
+  \begin{equation} \label{eq:translationalForceRotStep}
+ \vec{f_{1\rightarrow2}} = \vec{k_{rot}} \circ (\vec{p_2} - \vec{p_1}) + \vec{d_{rot}} \circ (\vec{v_2} - \vec{v_1})
+ \end{equation}
  
- rotate nom dist and apply to translation
+Finally, we need to make an adjustment to the nominal differential position between the cells, indicated in Figure \ref{fig:translationalSim}.  The form above assumes the nominal distance between the centers of the cells is the unrotated distance between them in their initial lattice configuration, $\vec{l_{nom}}$.  Rotating $\vec{l_{nom}}$ into the average rotational reference frame of the two cells gives
+ \[\vec{l_{rot}} = q_{avg}*\vec{l_{nom}}*q_{avg}^*\]
+ 
+introducing this to Equation \ref{eq:translationalForceRotStep} gives the final form:
+ \begin{equation} \label{eq:translationalForceRot}
+  \vec{f_{1\rightarrow2}} = \vec{k_{rot}} \circ (\vec{p_2} - \vec{p_1} + \vec{l_{nom}}-\vec{l_{rot}}) + \vec{d_{rot}} \circ (\vec{v_2} - \vec{v_1})
+  \end{equation}
 
+The force $\vec{f_{2\rightarrow1}}$ exerted on cell 2 by cell 1 is equal in magnitude to $\vec{f_{1\rightarrow2}}$ and opposite in direction:
+\[  \vec{f_{2\rightarrow1}} = -\vec{f_{1\rightarrow2}} = \vec{k_{rot}} \circ (\vec{p_1} - \vec{p_2} - \vec{l_{nom}}+\vec{l_{rot}}) + \vec{d_{rot}} \circ (\vec{v_1} - \vec{v_2}) \]
+
+Only $\vec{f_{1\rightarrow2}}$ is indicated with a solid pink arrow in Figure \ref{fig:translationalSim}.
 
 
 %I started with a simple dynamic mechanical model where the forces acting on each cell in the lattice are computed based on local interactions with its six neighbors and gravity.  In the model, virtual springs and dampers constrain translational and rotational motion of a cell relative to its neighbors (Fig \ref{fig: helloWorldLocalInteraction}).  At each time step all forces acting on each cell in the lattice are summed and the position, orientation, and translational and rotational velocities of the cell are solved by Euler integration.  All cells are updated synchronously, so the order of evaluation of the cells is not important.  All physical constants used in these calculations (mass of the cell, moment of inertia, spring stiffness, damping coefficient) are derived from the geometry and material properties of each cell.\\
@@ -267,26 +279,25 @@ Using $q_{avg}$, we can rotate the stiffness and damping vectors from equation \
   \label{fig:rotationalSim}
 \end{figure}
 
-\section{Time Integration}
+\section{Sources of Error}
 
-For linear systems, explicit forward time integration can be achieved using a variety of methods, each with associated error and computational cost.  The simplest and most computationally efficient approach is forward Euler:\\
+\subsection{Numerical Time Integration}
 
+For linear systems, explicit forward time integration can be achieved using a variety of methods, each with associated error and computational cost.  The simplest and most computationally efficient approach is forward Euler:
 \[ \vec{v}_{t+1} = \vec{v}_{t} +  \vec{a}_{t}\Delta t\]
 \[ \vec{p}_{t+1} = \vec{p}_{t} +  \vec{v}_{t}\Delta t\]
 
-
 Verlet integration requires storing the previous two position calculations (at time t and t-1) in order to calculate the next position:
-
 \[ \vec{p}_{t+1} = 2\vec{p}_{t} - \vec{p}_{t-1} +  \vec{a}_{t}\Delta t^2\]
 \[ \vec{v}_{t+1} = \dfrac{\vec{p}_{t+1} - \vec{p}_{t}}{\Delta t}\]
 
 Higher order methods such as Runge-Kutta (RK4) reduce error further, but require multiple calculations in order to solve for a single time step.
 
- \subsection{Translational Time Integration}
- \subsection{Rotational Time Integration}
-
+\subsection{Floating Point Operations}
 
 \section{Electronic Simulation}\label{sec:electronicSim}
+
+\section{Hierarchical Simulation}
 
 \section{Performance Speedups}
 
