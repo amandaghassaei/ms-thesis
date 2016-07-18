@@ -39,7 +39,15 @@ Cells at the function-level are defined not only by their mechanical properties,
   \label{fig:CombinatoricsOfFunctions}
 \end{figure}
 
-\section{Geometric Stiffness}
+A linear scale showing the range of physically achievable 1-DOF bending cell types compared with the range of theoretically possible types is shown in Figure \ref{fig:BendingStiffnessContinuoum}.  Due to manufacturing and material constraints, we do not envision \textit{function}-level cells that occupy the region near zero bending stiffness (e.g. a frictionless pin joint) or infinite bending stiffness (zero compliance material).
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{BendingStiffnessContinuoum.png}
+  \caption{Continuum of bending stiffness in a 1 DOF hinge.}
+  \label{fig:BendingStiffnessContinuoum}
+\end{figure}
+
+\section{Spring-Damper Characteristics}
 
 The geometric stiffness of a structure relates the bulk properties of a material to its 3d geometry.  For example, an I-beam has a higher geometric bending stiffness than an equal length rectangular bar made from the same amount of the same material.  Unless otherwise noted, "stiffness" in this analysis refers to geometric stiffness.\\
 
@@ -103,20 +111,11 @@ The stiffness and damping constants of each cell type may be calculated from bul
 \[ k_{torsion} = \dfrac{GJ}{l}\]
 \[ k_{bending} = \dfrac{aE}{l} ??\]
 \\
-where $a$ is the cross sectional area and $l$ is the length of the ce;;.\\
-
-A linear scale showing the range of physically achievable 1-DOF bending cell types compared with the range of theoretically possible types is shown in Figure \ref{fig:BendingStiffnessContinuoum}.  Due to manufacturing and material constraints, we do not envision \textit{function}-level cells that occupy the region near zero bending stiffness (e.g. a frictionless pin joint) or infinite bending stiffness (zero compliance material).
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{BendingStiffnessContinuoum.png}
-  \caption{Continuum of bending stiffness in a 1 DOF hinge.}
-  \label{fig:BendingStiffnessContinuoum}
-\end{figure}
-
+where $a$ is the cross sectional area and $l$ is the length of the cell.\\
 
 \section{Translational Forces}
 
-In the simplest case without rotation, the force $f_{1 \rightarrow 2}$ applied to cell 2 by cell 1 is given by:
+In the simplest case without rotation, the force $\vec{f}_{1 \rightarrow 2}$ applied to cell 2 by cell 1 is given by:
 
 \begin{figure}
   \includegraphics[width=\linewidth]{translationalSim.png}
@@ -125,27 +124,46 @@ In the simplest case without rotation, the force $f_{1 \rightarrow 2}$ applied t
 \end{figure}
 
 \begin{equation} \label{eq:translationalForce}
-\vec{f_{1\rightarrow2}} = \vec{k} \circ (\vec{p_2} - \vec{p_1}) + \vec{d} \circ (\vec{v_2} - \vec{v_1})
+\vec{f}_{1\rightarrow2} = \vec{k} \circ (\vec{p}_1 - \vec{p}_2) + \vec{d} \circ (\vec{v}_1 - \vec{v}_2)
 \end{equation}
-where $\vec{p_1}$ and $\vec{p_2}$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v_1}$ and $\vec{v_2}$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $\vec{k}$ and $\vec{d}$ are 3D vectors containing the appropriate stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a longitudinal constant should be used for displacements along x and shear constants should be used for displacements along y and z:
-\[ k =  \left[ \begin{array}{ccc}
+where $\vec{p}_1$ and $\vec{p}_2$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v}_1$ and $\vec{v}_2$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $\vec{k}$ and $\vec{d}$ are 3D vectors containing the appropriate stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a longitudinal constant should be used for displacements along x and shear constants should be used for displacements along y and z:
+\[ \vec{k} =  \left[ \begin{array}{ccc}
 k_{longitudinal_x}\\
 k_{shear_{xy}}\\
 k_{shear_{xz}}
  \end{array} \right]  
   \qquad\qquad
-  d =  \left[ \begin{array}{ccc}
+  \vec{d} =  \left[ \begin{array}{ccc}
 d_{longitudinal_x}\\
 d_{shear_{xy}}\\
 d_{shear_{xz}}
- \end{array} \right] \]\\
+ \end{array} \right] \]
+ 
+ In the case that the cells have different stiffness or damping constants, a composite stiffness or damping constant must be calculated for each element of $\vec{k}$ and $\vec{d}$ in order to properly model the junction between the cells.  Composite stiffness can be calculated according to the following formula:
+ \begin{equation} \label{eq:springseries}
+ k_{composite} = \dfrac{2k_1k_2}{k_1+k_2}
+ \end{equation}
+
+similarly, composite damping is calculated by:
+ \begin{equation} \label{eq:damperseries}
+d_{composite} = \dfrac{2d_1d_2}{d_1+d_2}
+ \end{equation}
+ 
+ Equations \ref{eq:springseries} and \ref{eq:damperseries} are equivalent to the formulas for two springs or two dampers of half length in series.  Notice, for example, in the case of $k1=k2$, Equation \ref{eq:springseries} reduces to $ k_{composite} = k1 = k2$.  This is demonstrated graphically in Figure \ref{fig:SeriesCoupling}.\\
+ 
+ \begin{figure}
+  \includegraphics[width=\linewidth]{SeriesCoupling.png}
+  \caption{Calculation of composite stiffness and damping of two cells with different k and d constants.}
+  \label{fig:SeriesCoupling}
+\end{figure}
+ 
  
 If we wish to consider the orientations of the cells, denoted by the unit quaternions $q1$ and $q2$, we will need to adjust equation \ref{eq:translationalForce}. \\
   
-  We can rotate a vector $v$ in 3-space by a quaternion $q$ in 4-space:
-    \[ v_{rotated} = q*v*q^* \]
+  We can rotate a vector $\vec{v}$ in 3-space by a quaternion $q$ in 4-space:
+    \[ \vec{v}_{rotated} = q*\vec{v}*q^* \]
   
-  by treating $v$ as a 4-space vector [x, y, z, w] with w=0, with $*$ denoting the Hamilton product:
+  by treating $\vec{v}$ as a 4-space vector $[x, y, z, w]$ with $w=0$.  The operator $*$ denotes the Hamilton product:
   \[ a*b =  \left[ \begin{array}{ccc}
 a_wb_x + a_xb_w + a_yb_z - a_zb_y\\
 a_wb_y - a_xb_z + a_yb_w + a_zb_x\\
@@ -153,7 +171,7 @@ a_wb_z + a_xb_y - a_yb_x + a_zb_w\\
 a_wb_w - a_xb_x - a_yb_y - a_zb_z
  \end{array} \right] \] 
  
-   and $q^*$ denoting the conjugate of $q$:
+   and $q^*$ denotes the conjugate of $q$:
     \[ q^{*} =  \left[ \begin{array}{ccc}
 -q_x\\
 -q_y\\
@@ -166,24 +184,35 @@ By performing a spherical linear interpolation (slerp) halfway between $q1$ and 
   
 Using $q_{avg}$, we can rotate the stiffness and damping vectors from Equation \ref{eq:translationalForce} into this average reference frame, and substitute the rotated vectors back into equation \ref{eq:translationalForce}:
 
- \[ \vec{k_{rot}} = (q_{avg}*\vec{k}*q_{avg}^*)\]
-  \[ \vec{d_{rot}} = (q_{avg}*\vec{d}*q_{avg}^*)\]
+ \[ \vec{k}_{rot} = (q_{avg}*\vec{k}*q_{avg}^*)\]
+  \[ \vec{d}_{rot} = (q_{avg}*\vec{d}*q_{avg}^*)\]
   \begin{equation} \label{eq:translationalForceRotStep}
- \vec{f_{1\rightarrow2}} = \vec{k_{rot}} \circ (\vec{p_2} - \vec{p_1}) + \vec{d_{rot}} \circ (\vec{v_2} - \vec{v_1})
+ \vec{f}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_2 - \vec{p}_1) + \vec{d}_{rot} \circ (\vec{v}_2 - \vec{v}_1)
  \end{equation}
  
-Finally, we need to make an adjustment to the nominal differential position between the cells, indicated in Figure \ref{fig:translationalSim}.  The form above assumes the nominal distance between the centers of the cells is the unrotated distance between them in their initial lattice configuration, $\vec{l_{nom}}$.  Rotating $\vec{l_{nom}}$ into the average rotational reference frame of the two cells gives
- \[\vec{l_{rot}} = q_{avg}*\vec{l_{nom}}*q_{avg}^*\]
+Finally, we need to make an adjustment to the nominal differential position between the cells, indicated in Figure \ref{fig:translationalSim}.  The form above assumes the nominal distance between the centers of the cells is the unrotated distance from cells 2 to cell 1 in their initial lattice configuration, $\vec{l}_{nom21}$:
+ \[\vec{l}_{nom21} = \vec{p}_{abs2}-\vec{p}_{abs1}\]
  
-introducing this to Equation \ref{eq:translationalForceRotStep} gives the final form:
+ where $\vec{p}_{abs}$ is the absolute position of a cell in the world reference frame.
+ Rotating $\vec{l}_{nom}$ into the average rotational reference frame of the two cells gives
+ \[\vec{l}_{rot21} = q_{avg}*\vec{l}_{nom21}*q_{avg}^*\]
+ 
+introducing this correction to Equation \ref{eq:translationalForceRotStep} gives the final form:
  \begin{equation} \label{eq:translationalForceRot}
-  \vec{f_{1\rightarrow2}} = \vec{k_{rot}} \circ (\vec{p_2} - \vec{p_1} + \vec{l_{nom}}-\vec{l_{rot}}) + \vec{d_{rot}} \circ (\vec{v_2} - \vec{v_1})
+  \vec{f}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_2 - \vec{p}_1 + \vec{l}_{nom21}-\vec{l}_{rot21}) + \vec{d}_{rot} \circ (\vec{v}_2 - \vec{v}_1)
   \end{equation}
 
-The force $\vec{f_{2\rightarrow1}}$ exerted on cell 2 by cell 1 is equal in magnitude to $\vec{f_{1\rightarrow2}}$ and opposite in direction:
-\[  \vec{f_{2\rightarrow1}} = -\vec{f_{1\rightarrow2}} = \vec{k_{rot}} \circ (\vec{p_1} - \vec{p_2} - \vec{l_{nom}}+\vec{l_{rot}}) + \vec{d_{rot}} \circ (\vec{v_1} - \vec{v_2}) \]
+The force $\vec{f}_{2\rightarrow1}$ exerted on cell 2 by cell 1 is equal in magnitude to $\vec{f}_{1\rightarrow2}$ and opposite in direction:
+\[  \vec{f}_{2\rightarrow1} = -\vec{f}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2) \]
 
-Only $\vec{f_{1\rightarrow2}}$ is indicated with a solid pink arrow in Figure \ref{fig:translationalSim}.
+Only $\vec{f_{1\rightarrow2}}$ is indicated with a solid pink arrow in Figure \ref{fig:translationalSim}.\\
+
+Dividing by the mass, we can calculate the acceleration of cells 1 and 2 due to interactions between them:
+
+ \[ \vec{a}_{1\rightarrow2} = \dfrac{\vec{f}_{1\rightarrow2}}{m_2} 
+  \qquad\qquad
+   \vec{a}_{2\rightarrow1} = \dfrac{\vec{f}_{2\rightarrow1}}{m_1} 
+  \]
 
 
 %I started with a simple dynamic mechanical model where the forces acting on each cell in the lattice are computed based on local interactions with its six neighbors and gravity.  In the model, virtual springs and dampers constrain translational and rotational motion of a cell relative to its neighbors (Fig \ref{fig: helloWorldLocalInteraction}).  At each time step all forces acting on each cell in the lattice are summed and the position, orientation, and translational and rotational velocities of the cell are solved by Euler integration.  All cells are updated synchronously, so the order of evaluation of the cells is not important.  All physical constants used in these calculations (mass of the cell, moment of inertia, spring stiffness, damping coefficient) are derived from the geometry and material properties of each cell.\\
