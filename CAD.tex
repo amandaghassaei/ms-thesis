@@ -11,12 +11,23 @@
 
 \begin{figure}
   \includegraphics[width=\linewidth]{20151215DMDesignscreenshotsx8.png}
-  \caption{20151215DMDesignscreenshotsx8.}
-  \label{fig:DMDesignscreenshotsx8}
+  \caption{Screenshots of my current work with DMDesign, a CAD/Simulation/CAM software package for Digital Materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that can toggle between a geometric and parts design representation \textbf{(A, C)}. Simulation of the potential field around conducting elements of an LC structure designed from conductive and insulating parts \textbf{(E)}. Path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
+  \label{fig: designAssemblyGUIWide}
 \end{figure}
 
+\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/CAM environment for digital materials that supports the research efforts into part and assembler design at CBA (Fig \ref{fig: designAssemblyGUIWide}).  In DMDesign, users design structures in a virtual 3D environment from many material types, plan out the assembly of a design by a robotic assembler, and communicate in realtime with hardware to physically realize the design\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  By abstracting the geometry of the lattice from its decomposition into parts and implementing many lattice types in the CAD workflow, users can design structures ranging from nano to meter scale for a variety of application spaces.
 
-\section{Part Abstraction}
+
+\section{Design Abstraction}
+
+In developing a CAD tool that accommodates the wide variety of parts and processes being developed around digital materials and assembly, a first major insight was to separate the underlying lattice geometry from the physical instantiation and connectivity of the parts being assembled.  Instead, the design end of DMDesign allows uses to 
+
+Rather than placing individual parts, 
+For example, in the face, edge, and vertex connected octa trusses, one cell may be made from multiple physical parts.  However, only parts that have been joined together to form one constrained cell add rigidity to the structure.  This idea propagates into the setup of simulation for these lattices - only parts that are fully constrained should be
+
+Abstraction was used to simplify the design interface and allow for a separation of the underlying geometry of a structure from the physical parts that it is composed of
+
+scale, application, part type, simulation physics, assembly process.
 
 \begin{figure}
   \includegraphics[width=\linewidth]{MechanicalLattices.png}
@@ -30,13 +41,13 @@
   \label{fig:PartAbstraction}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[width=\linewidth]{FunctionalGikIRL.png}
-  \caption{FunctionalGikIRL.png.}
-  \label{fig:FunctionalGikIRL}
-\end{figure}
+%    \begin{figure}
+%    \includegraphics[width=\linewidth]{FunctionalGikIRL.png}
+%    \caption{FunctionalGikIRL.png.}
+%    \label{fig:FunctionalGikIRL}
+%    \end{figure}
 
-\section{Hierarchy}
+\section{Design Hierarchy}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{HierarchyGik.png}
@@ -44,6 +55,50 @@
   \label{fig:HierarchyGik}
 \end{figure}
 
-\section{CAM Workflows}
+\section{Simulation of Parts}
+
+Once a lattice is constructed in the design workflow of DMDesign, its cell-level representation is used in simulation.
+
+\section{Assembler Abstraction}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{machineabstraction.png}
+  \caption{Three assembly processes controlled by DMDesign.  Top shows assembly of octahedron voxels in an edge-connected octa lattice by the "Batmen" assembler by Ben Jenett and Matt Carney.  Middle shows assembly of the same octahedron voxels by a 3-axis shopbot with custon end-effector designed by Ben Jenett.  Bottom show assembly of conducting and insulation GIK parts in a cubic lattice by the "Stapler" assembler by Will Langford.  \textit{Image Credit: (top left) Matt Carney 2015 and (bottom left) Will Langford 2015}}
+  \label{fig:machineabstraction}
+\end{figure}
+
+Due to the variety of lattice configurations and assembly strategies, I've organized the CAM workflow of DMDesign so that users can construct a diversity of machine configurations through a simple interface using a few modular, abstract classes.  In addition to general machine configuration, global CAM variables, including lattice pitch, machines origin, clearances, and feed rates are all accessible through the DMDesign (Figure \ref{fig:CAMmachineglobals}).  Once a user has dialed in their settings, a "stock simulation" of the assembly process may be visualized within the software, showing a complete run through of all g-code or other machine commands with a side by side 3D visualization of the assembler.  Finally, using a nodeJS interface, machine commands can be sent directly from DMDesign to the assembler.\\
+
+At the time of writing this, three different machines have been used to assemble parts through DMDesign, depicted in Figure \ref{fig:machineabstraction}.  The "Batmen" assembler (its name deriving from a portmanteau of its creators - Ben Jenett and Matt Carney) is a 3-axis XYZ gantry with locking feet that locomotes across a lattice while placing octahedron voxels.  It is driven by a TinyG controller \cite{Synthetos2016} and consumes standard g-code commands.  The Shopbot is a 3-axis XYZ gantry with a custom end effector designed by Ben Jenett to pick and place the same octahedron voxels as Batmen.  The Shopbot runs off a simplified g-code-like protocol called shopbot protocol (OpenSBP) \cite{Shopbot2016}.  The "Stapler" assembler, designed by Will Langford, is a 4-axis XYZ gantry with a rotary stage that assembles GIK electronic components in an alternating "LEGO" configuration on a cubic lattice.  Like Batmen, the Stapler runs off a TinyG controller.  Many more machine configurations are theoretically supported by DMDesign.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{CAMmachineglobals.png}
+  \caption{Interface for defining global assembly variables such as lattice pitch, machines origin, clearances, and feed rates.}
+  \label{fig:CAMmachineglobals}
+\end{figure}
+
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{CAMmachinesetup.png}
+  \caption{Machine configuration interface allows users to edit and save their own custom machine configuration files.  Using a format similar to the Universal Robot Description Format, machine kinematics and constraints are described by a series of links and joints connected to each other through parent/child relationships.  The parameters of the machine description are used to calculate inverse kinematics.}
+  \label{fig:CAMmachinesetup}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{CAMbodydetail.png}
+  \caption{Another view of the machine configuration interface shows a detail view of the setup for the "Stapler" assembler z-axis.}
+  \label{fig:CAMbodydetail}
+\end{figure}
+
+
+Custom machine configurations are stored in a compact JSON format based on the Universal Robot Description Format (URDF) \cite{ROS2016}.  In this description, "links" and "joints" are connected to each other through parent/child relationships (Figure \ref{fig:CAMmachinesetup}).  Links are the rigid bodies in a machine; each link contains information about its kinematic properties and any meshes that might be associated with it (Figure \ref{fig:CAMbodydetail}).  Joints describe the constraints that govern the motion between two links - prismatic, rotary, etc - and the range of motion available.  From this information, the inverse kinematics of the machine can be calculated and used to generate a valid path planning strategy.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{CAMcustomCode.png}
+  \caption{Scripting interface for custom machine configuration.  This screenshot shows a user-defined function that calculates XY traversals with added backlash compensation specific to the "Stapler" assembler.  Other user-defined functions are listed in the bottom right, including: context variables, header, place part, footer, and others.}
+  \label{fig:CAMcustomCode}
+\end{figure}
+
+Unique machine configurations often require special control logic to address the idiosyncrasies of a particular assembly process.  In order to accommodate a wide variety of potential machine configurations (and give more power to the end user) I've created a set of user-definable functions that can be edited and saved within DMDesign.  Users can define their own environmental variables and construct custom functions to handle traversals, picking up and placing parts, and headers and footers.  Within each of these functions, information such as current part index, position, material type, and any user-defined variables are available.  To date, this feature has been used for backlash compensation and multimaterial head placement of the "Stapler" assembler.  Eventually, this capability could grow to support closed-loop control between the machine and DMDesign for on-the-fly path planning or error correction.\\
 
 }

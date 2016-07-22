@@ -18,13 +18,31 @@ The details of the fabrication and joining strategies for these physical parts i
 functions are minimal parts with diverse, codified interactions
 functions are base feedstock
 
+\begin{sidewaysfigure}
+ \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{FullHierarchy.png}
+  \caption{Diagram of hierarchical breakdown of robotic modules into functional parts, functional primitives, and finally bulk material elements.  A more detailed view of the relationship between parts at the element and functional primitive levels is given in Figure \ref{fig:Hierarchy-ElementsParts}, and again, for the functional primitive and functional parts levels in Figure \ref{fig:Hierarchy-FunctionPrimitivesParts}.  \textit{Image Credit (for photos of fabricated parts): Will Langford 2016} }
+  \label{fig:FullHierarchy}
+\end{sidewaysfigure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{Hierarchy-ElementsParts.png}
+  \caption{Detail view of translation between bulk material elements and functional primitives.}
+  \label{fig:Hierarchy-ElementsParts}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{Hierarchy-FunctionPrimitivesParts.png}
+  \caption{Detail view of translation between bulk functional primitives and functional parts.}
+  \label{fig:Hierarchy-FunctionPrimitivesParts}
+\end{figure}
+
 \section{Elements}
 
 At the lowest level, bulk materials in the form of \textit{elements} are assembled together to form multi-material assemblies.  Our notion of "element" is not an atomic element, but rather a homogenous volume of material with characteristic material properties.  A finite set of elemental types will be chosen based on desirable physical properties, cost, ease of fabrication, and compatibility with other elemental types and assembly processes.\\
 
-For example, an aluminum element type would have the properties of being conductive, stiff, and lightweight and a rubber element type would be insulating and flexible.  Other element types of interest include magnetic and magnetically permeable types, silicon types, actuation types, and thermally conductive and insulating types.\\
+For example, an aluminum element type would have the properties of being conductive, stiff, and lightweight and a rubber element type would be insulating and flexible.  Current elements types are described in Figure \ref{fig:Hierarchy-ElementsParts}.  Other element types may include magnetic and magnetically permeable types, additional actuation types, and thermally conductive and insulating types.\\
 
-Elemental components will be fabricated to a size on the order of $\sim$1-10$\mu$m\textsuperscript{3}.  Some, as yet to be determined, form of joining interface must be incorporated into the geometry of the elemental parts or applied (in the form of an adhesive) to the parts during the assembly process.  This joining strategy may or may not be permanent.
+Elemental components will be fabricated to a size on the order of $\sim$1-10$\mu$m\textsuperscript{3}.  Some, as yet to be determined, form of joining interface must be incorporated into the geometry of the elemental parts or applied (in the form of an adhesive) to the parts during the assembly process.  At this point in time, we envision a permanent joining strategy between elemental parts.
 
 \section{Functions}
 
@@ -203,17 +221,5 @@ Human-directed design in Life occurs at the level of motif and function-level bu
 \subsubsection{Evolution and Complexity}
 
 Interactions between a Life machine and debris in the environment could edit spaceship tapes, change logical outcomes, or affect other programmed functions of the machine.  Some of these interactions could result in permanent changes to the functioning of the machine.  As with genetic mutations in coding regions of the genome, most changes to the machine's inner workings would be deleterious to the overall functioning of the machine, however, some changes could eventually endow it with new behaviors.
-
-\section{Electronic Versus Mechanical Hierarchies}
-
-scaling mismatch between the functional density of electronic and mechanical systems, offset in hierarchical setup.
-
-\section{Hierarchy in Simulation}
-
-increasing simulation abstraction as hierarchical level increases\\
-
-In the next chapters, I'll describe the methods used to simulate assemblies of elements and functions, and describe how abstractions of the element-level simulation are adapted to the function-level.
-
-
 
 }
