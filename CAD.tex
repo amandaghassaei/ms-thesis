@@ -11,7 +11,7 @@
 
 \begin{figure}
   \includegraphics[width=\linewidth]{20151215DMDesignscreenshotsx8.png}
-  \caption{Screenshots of DMDesign, a CAD / Simulation / CAM software package for digital materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that can toggle between a geometric and parts design representation \textbf{(A, C)}. Simulation of the potential field around conducting elements of an LC structure designed from conductive and insulating parts \textbf{(E)}. Path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
+  \caption{Screenshots of DMDesign, a CAD / Simulation / CAM software package for digital materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that toggles between a "cell" and "parts" design representation \textbf{(A, C)}.  Simulation tools include mapping the potential field around arbitrary configurations of conducting and insulating parts \textbf{(E)}. CAM interface includes path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
   \label{fig: designAssemblyGUIWide}
 \end{figure}
 
@@ -23,11 +23,11 @@ DMDesign was built to simplify the process of designing and manufacturing digita
 
 \begin{figure}
   \includegraphics[width=\linewidth]{MechanicalLattices.png}
-  \caption{A variety of lattice geometries and their corresponding digital material assemblies.  From left to right: cubic lattice with electronic GIK assembly (A), cuboctahedron lattice with carbon-fiber composite assembly (B), edge-connected octahedron lattice with laser cut delron voxel assembly (C), face-connected octahedron lattice with injection molded glass-filled nylon truss (D), and Kelvin lattice with electronic "phoxel" assembly (E).}
+  \caption{A variety of lattice geometries and their corresponding digital material assemblies.  From left to right: cubic lattice with electronic GIK assembly \textbf{(A)}, cuboctahedron lattice with carbon-fiber composite assembly \textbf{(B)}, edge-connected octahedron lattice with laser cut delron voxel assembly \textbf{(C)}, face-connected octahedron lattice with injection molded glass-filled nylon truss \textbf{(D)}, and Kelvin lattice with electronic "phoxel" assembly \textbf{(E)}.}
   \label{fig:MechanicalLattices}
 \end{figure}
 
-As described in Chapter \ref{chapter:RelatedWork}, digital materials are discrete elements that interconnect with each other to form a regular, periodic lattice.  Accordingly, the DMDesign internals assume an underlying discrete representation of geometry.  The core of the CAD interface prompts users to arrange cells into 3D lattice \textit{assemblies}.  The particular lattice topology used in the CAD workflow is application specific; several available lattice types are depicted in Figure \ref{fig:MechanicalLattices}.\\
+As described in Chapter \ref{chapter:RelatedWork}, digital materials are discrete parts that interconnect to form a regular, periodic lattice.  Accordingly, the DMDesign internals assume an underlying discrete representation of geometry.  The core of the CAD interface prompts users to arrange cells into 3D lattice \textit{assemblies}.  The particular lattice topology used in the CAD workflow is application specific; several available lattice types are depicted in Figure \ref{fig:MechanicalLattices}.  At the time of writing this, a total of 11 different lattice topologies are supported in DMDesign.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{PartAbstraction.png}
@@ -37,15 +37,15 @@ As described in Chapter \ref{chapter:RelatedWork}, digital materials are discret
 
 The fundamental unit of geometry in this tool is a lattice cell; this applies to both the outward facing CAD interface and the internal data representation.  This may seem strange since the assembly process happens at the granularity of a part, which may be different than a cell, both in its geometry and its connectivity on the lattice.  This abstraction was used to simplify the design interface and allow for a separation of the underlying geometrical representation of an assembly from its decomposition into parts.\\
 
-Design abstraction maximizes portability of a single assembly definition across different processes and parts.  Figure \ref{fig:PartAbstraction} shows how a single lattice cell represents a variety of potential part types.  Different joining strategies may require breaking up the same underlying lattice geometry in different ways.  For example, a vertex-connected octahedron lattice may be broken up into interconnected X-shaped parts, square-shaped parts, or even 3D octahedral voxels.  
+Design abstraction maximizes portability of a single assembly definition across different processes and parts.  Figure \ref{fig:PartAbstraction} shows how a single lattice cell represents a variety of potential part types.  Different joining strategies may require breaking up the same underlying lattice geometry into different repeating units.  For example, a vertex-connected octahedron lattice may be broken up into interconnected X-shaped parts, square-shaped parts, or even 3D octahedral voxels.\\ 
 
-Additionally, only parts that have been joined together to form one constrained cell add rigidity to the structure, and in simulation we are only concerned with the behavior of the rigid elements.\\
+Additionally, cells are a more useful unit of geometry as we move into simulation.  Parts that have been joined together to form a complete, constrained cell add rigidity to the structure.  In simulation we are typically concerned only with the behavior of these constrained, rigid elements of the lattice, as is the case for many high-performance aerospace applications.
 
 \section{Design Hierarchy}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CompositeCells.png}
-  \caption{Hierarchical assembly of a vertex-connected octahedron lattice.  Full assembly is shows at top in both hierarchical view and cell view.  Composite cell definitions 1 and 2 each contain two cell material types.  Composite cell definition 3 contains a mixture of composite cells and non-composite cells.  Composite cell 3 is shown in the middle in both hierarchical view and cell view.}
+  \caption{Hierarchical assembly of a vertex-connected octahedron lattice.  Full assembly depicted in both hierarchical view and cell view (top, left and right).  Composite cell definitions 2 and 1 each contain two cell material types (bottom, left and right).  Composite cell definition 3 contains a mixture of composite cells and non-composite cells, depicted in both hierarchical view and cell view (middle, left and right).}
   \label{fig:CompositeCells}
 \end{figure}
 
@@ -55,7 +55,7 @@ Composite cells are essentially sub-assemblies of cells, illustrated in Figure \
 
 \begin{figure}
   \includegraphics[width=\linewidth]{HierDataStructure.png}
-  \caption{Sparse, hierarchical data structure behind the lattice assembly shown in Figure \ref{fig:CompositeCells}.  White squares indicate null elements.  The full lattice assembly is stored in an 11x1x1 array with only three non-null elements, shown at the top. Within each purple cell is a 5x7x5 cell definition, containing two more types of composite cells and one non-composite cell type.}
+  \caption{Sparse, hierarchical data structure behind the lattice assembly shown in Figure \ref{fig:CompositeCells}.  White squares indicate null elements.  The full lattice assembly is stored in an 11x1x1 array with only three non-null elements, shown at the top. Within each purple cell (composite cell 3) is a 5x7x5 cell definition, containing two more types of composite cells and one non-composite cell type.  Composite cell 2 (bottom left) contains a 4x2x1 cell array and composite cell 1 (bottom right) contains a 2x2x2 cell array, both filled with non-composite cell types.}
   \label{fig:HierDataStructure}
 \end{figure}
 
@@ -79,13 +79,13 @@ Under certain circumstances, hierarchy manifests itself in one more way.  For so
   \label{fig:machineabstraction}
 \end{figure}
 
-Due to the variety of lattice configurations and assembly strategies, I've organized the CAM workflow of DMDesign so that users can construct a diversity of machine configurations through a simple interface using a few modular, abstract classes.  In addition to general machine configuration, global CAM variables, including lattice pitch, machines origin, clearances, and feed rates are all accessible through the DMDesign (Figure \ref{fig:CAMmachineglobals}).  Once a user has dialed in their settings, a "stock simulation" of the assembly process may be visualized within the software, showing a complete run through of all g-code or other machine commands with a side by side 3D visualization of the assembler.  Finally, using a nodeJS interface, machine commands can be sent directly from DMDesign to the assembler.\\
+Due to the variety of lattice configurations and assembly strategies, I've organized the CAM workflow of DMDesign so that users can construct a diversity of machine configurations through a simple interface using a few modular, abstract classes.  In addition to general machine configuration, global CAM variables, including lattice pitch, machine origin, clearances, and feed rates are all accessible through DMDesign (Figure \ref{fig:CAMmachineglobals}).  Once a user has dialed in their settings, a "stock simulation" of the assembly process may be visualized within the software, showing a complete run through of all g-code or other machine commands with a side by side 3D visualization of the assembler.  Finally, using a nodeJS interface, machine commands can be sent directly from DMDesign to the assembler.\\
 
-At the time of writing this, three different machines have been used to assemble parts through DMDesign, depicted in Figure \ref{fig:machineabstraction}.  The "Batmen" assembler (its name deriving from a portmanteau of its creators - Ben Jenett and Matt Carney) is a 3-axis XYZ gantry with locking feet that locomotes across a lattice while placing octahedron voxels.  It is driven by a TinyG controller \cite{Synthetos2016} and consumes standard g-code commands.  The Shopbot is a 3-axis XYZ gantry with a custom end effector designed by Ben Jenett to pick and place the same octahedron voxels as Batmen.  The Shopbot runs off a simplified g-code-like protocol called shopbot protocol (OpenSBP) \cite{Shopbot2016}.  The "Stapler" assembler, designed by Will Langford, is a 4-axis XYZ gantry with a rotary stage that assembles GIK electronic components in an alternating "LEGO" configuration on a cubic lattice.  Like Batmen, the Stapler runs off a TinyG controller.  Many more machine configurations are theoretically supported by DMDesign.\\
+At the time of writing this, three different machines have been used to assemble parts through DMDesign, depicted in Figure \ref{fig:machineabstraction}.  The "Batmen" assembler (its name deriving from a portmanteau of its creators - Ben Jenett and Matt Carney) is a 3-axis XYZ gantry with locking feet that locomotes across a lattice while placing octahedron voxels.  It is driven by a TinyG controller \cite{Synthetos2016} and consumes standard g-code commands.  The Shopbot is a 3-axis XYZ gantry with a custom end effector designed by Ben Jenett to pick and place the same octahedron voxels as Batmen.  The Shopbot runs off a simplified g-code-like protocol called shopbot protocol (OpenSBP) \cite{Shopbot2016}.  The "Stapler" assembler, designed by Will Langford, is a 4-axis XYZ gantry with a rotary stage that assembles GIK electronic components in an alternating "lego" configuration on a cubic lattice.  Like Batmen, the Stapler runs off a TinyG controller.  Many more machine configurations are theoretically supported by DMDesign.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CAMmachineglobals.png}
-  \caption{Interface for defining global assembly variables such as lattice pitch, machines origin, clearances, and feed rates.}
+  \caption{Interface for defining global assembly variables such as lattice pitch, machine origin, clearances, and feed rates.}
   \label{fig:CAMmachineglobals}
 \end{figure}
 
@@ -121,6 +121,6 @@ Unique machine configurations often require special control logic to address the
 
 The intention behind DMDesign is not to replace all existing design and manufacturing workflows, but rather, to create an environment that better accommodates and, at times, leverages the discrete construction of digital materials.  In some cases, users will want to interface between DMDesign and other CAD, simulation, and CAM processes.\\
 
-Currently, DMDesign supports \href{https://en.wikipedia.org/wiki/STL_(file_format)}{STL} export of assembly geometries.  Users can geometry by material, and choose between the abstracted cell meshes or the more detailed part geometry.  These STLs have been used in 3D printing workflows, included nano-3D-printing (Figure \ref{fig:BrickSet}), high quality rendering in \href{https://www.blender.org/}{Blender}, and as reference geometry for simulations in \href{https://www.comsol.com/}{COMSOL}.
+Currently, DMDesign supports \href{https://en.wikipedia.org/wiki/STL_(file_format)}{STL} export of assembly geometries.  Users can export geometry by material, and choose between the abstracted cell meshes or the more detailed part geometry.  These STLs have been used in 3D printing workflows, included nano-3D-printing (Figure \ref{fig:BrickSet}), photorealistic rendering in \href{https://www.blender.org/}{Blender}, and as reference geometry for simulations in \href{https://www.comsol.com/}{COMSOL}.
 
 }
