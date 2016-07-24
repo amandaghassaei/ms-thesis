@@ -11,43 +11,35 @@
 
 \begin{figure}
   \includegraphics[width=\linewidth]{20151215DMDesignscreenshotsx8.png}
-  \caption{Screenshots of my current work with DMDesign, a CAD / Simulation / CAM software package for Digital Materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that can toggle between a geometric and parts design representation \textbf{(A, C)}. Simulation of the potential field around conducting elements of an LC structure designed from conductive and insulating parts \textbf{(E)}. Path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
+  \caption{Screenshots of DMDesign, a CAD / Simulation / CAM software package for digital materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that can toggle between a geometric and parts design representation \textbf{(A, C)}. Simulation of the potential field around conducting elements of an LC structure designed from conductive and insulating parts \textbf{(E)}. Path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
   \label{fig: designAssemblyGUIWide}
 \end{figure}
 
-\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/Simulation/CAM environment for digital materials that supports the research efforts into part and assembler design at CBA (Fig \ref{fig: designAssemblyGUIWide}).  In DMDesign, users design structures in a virtual 3D environment from many material types, plan out the assembly of a design by a robotic assembler, and communicate in realtime with hardware to physically realize the design\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  By abstracting the geometry of the lattice from its decomposition into parts and implementing many lattice types in the CAD workflow, users can design structures ranging from nano to meter scale for a variety of applications.
+\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/Simulation/CAM environment for digital materials that supports the research efforts into part and assembler design at CBA.  In DMDesign, users construct multimaterial lattice assemblies in a virtual 3D environment, simulate their physical properties, plan out an assembly process, and communicate in realtime with assemblers to physically realize the design \cite{LangfordWillGhassaeiAmandaGershenfeld2016}.   A graphical overview of these capabilities is shown in Figure \ref{fig: designAssemblyGUIWide}.\\
 
+DMDesign was built to simplify the process of designing and manufacturing digital material assemblies across a range of scales, application spaces, lattice topologies, and assembly processes. This chapter introduces some of the design principles behind DMDesign, namely, how abstraction is used to support a diversity of forms and functions.
 
 \section{Design Abstraction}
 
-
-
-In developing a CAD tool that accommodates the wide variety of parts and processes being developed around digital materials and assembly, a first major insight was to separate the underlying lattice geometry from the physical instantiation and connectivity of the parts being assembled.  Instead, the design end of DMDesign allows uses to 
-
-Rather than placing individual parts, 
-For example, in the face, edge, and vertex connected octa trusses, one cell may be made from multiple physical parts.  However, only parts that have been joined together to form one constrained cell add rigidity to the structure.  This idea propagates into the setup of simulation for these lattices - only parts that are fully constrained should be
-
-Abstraction was used to simplify the design interface and allow for a separation of the underlying geometry of a structure from the physical parts that it is composed of
-
-scale, application, part type, simulation physics, assembly process.
-
 \begin{figure}
   \includegraphics[width=\linewidth]{MechanicalLattices.png}
-  \caption{MechanicalLattices.png.}
+  \caption{A variety of lattice geometries and their corresponding digital material assemblies.  From left to right: cubic lattice with electronic GIK assembly (A), cuboctahedron lattice with carbon-fiber composite assembly (B), edge-connected octahedron lattice with laser cut delron voxel assembly (C), face-connected octahedron lattice with injection molded glass-filled nylon truss (D), and Kelvin lattice with electronic "phoxel" assembly (E).}
   \label{fig:MechanicalLattices}
 \end{figure}
 
+As described in Chapter \ref{chapter:RelatedWork}, digital materials are discrete elements that interconnect with each other to form a regular, periodic lattice.  Accordingly, the DMDesign internals assume an underlying discrete representation of geometry.  The core of the CAD interface prompts users to arrange cells into 3D lattice \textit{assemblies}.  The particular lattice topology used in the CAD workflow is application specific; several available lattice types are depicted in Figure \ref{fig:MechanicalLattices}.\\
+
 \begin{figure}
   \includegraphics[width=\linewidth]{PartAbstraction.png}
-  \caption{PartAbstraction.png.}
+  \caption{Abstraction of cell representation from physical part geometry.  In the "lego"-connected cubic lattice, cells are placed in an an assembly with no notion of the physical parts they represent.  For example, a cell could represent a piece of LEGO, an electronic GIK part, or even a single strand of DNA in a DNA Bricks assembly.  \textit{Image Credit: Will Langford (GIK Images), Ke et al. (DNA Bricks) \ref{Ke2012}}}
   \label{fig:PartAbstraction}
 \end{figure}
 
-%    \begin{figure}
-%    \includegraphics[width=\linewidth]{FunctionalGikIRL.png}
-%    \caption{FunctionalGikIRL.png.}
-%    \label{fig:FunctionalGikIRL}
-%    \end{figure}
+The fundamental unit of geometry in this tool is a lattice cell; this applies to both the outward facing CAD interface and the internal data representation.  This may seem strange since the assembly process happens at the granularity of a part, which may be different than a cell, both in its geometry and its connectivity on the lattice.  This abstraction was used to simplify the design interface and allow for a separation of the underlying geometrical representation of an assembly from its decomposition into parts.\\
+
+Design abstraction maximizes portability of a single assembly definition across different processes and parts.  Figure \ref{fig:PartAbstraction} shows how a single lattice cell represents a variety of potential part types.  Different joining strategies may require breaking up the same underlying lattice geometry in different ways.  For example, a vertex-connected octahedron lattice may be broken up into interconnected X-shaped parts, square-shaped parts, or even 3D octahedral voxels.  
+
+Additionally, only parts that have been joined together to form one constrained cell add rigidity to the structure, and in simulation we are only concerned with the behavior of the rigid elements.\\
 
 \section{Design Hierarchy}
 
@@ -63,7 +55,7 @@ Composite cells are essentially sub-assemblies of cells, illustrated in Figure \
 
 \begin{figure}
   \includegraphics[width=\linewidth]{HierDataStructure.png}
-  \caption{Sparse, hierarchical data structure behind lattice assembly shown in Figure \ref{fig:CompositeCells}.  The full lattice assembly is stored in an 11x1x1 array with only three non-null elements, shown at the top. Within each purple cell is a 5x7x5 cell definition, containing two more types of composite cells and one non-composite cell type.}
+  \caption{Sparse, hierarchical data structure behind the lattice assembly shown in Figure \ref{fig:CompositeCells}.  White squares indicate null elements.  The full lattice assembly is stored in an 11x1x1 array with only three non-null elements, shown at the top. Within each purple cell is a 5x7x5 cell definition, containing two more types of composite cells and one non-composite cell type.}
   \label{fig:HierDataStructure}
 \end{figure}
 
@@ -78,10 +70,6 @@ Along with a concise design description, hierarchy offers other advantages.  Cha
 \end{figure}
 
 Under certain circumstances, hierarchy manifests itself in one more way.  For some applications, the physical part being represented is not contained wholly within a single cell object.  For example, in a GIK lattice, one GIK part is made from four cells on a cubic lattice.  In order to enforce valid GIK designs and allow the user to control the grouping of cells on the lattice into GIK parts, cells are organized into a mid-level hierarchical structure called a "supercell" (Figure \ref{fig:HierarchyGik}).  These supercells are the lowest level object that can be placed in the GIK design workflow.  Applications for which one cell represents one physical part or a collection of parts do not have the supercell delineation.
-
-\section{Simulation of Parts}
-
-Once a lattice is constructed in the design workflow of DMDesign, its cell-level representation is used in simulation.
 
 \section{Assembler Abstraction}
 
@@ -101,7 +89,6 @@ At the time of writing this, three different machines have been used to assemble
   \label{fig:CAMmachineglobals}
 \end{figure}
 
-
 \begin{figure}
   \includegraphics[width=\linewidth]{CAMmachinesetup.png}
   \caption{Machine configuration interface allows users to edit and save their own custom machine configuration files.  Using a format similar to the Universal Robot Description Format, machine kinematics and constraints are described by a series of links and joints connected to each other through parent/child relationships.  The parameters of the machine description are used to calculate inverse kinematics.}
@@ -114,7 +101,6 @@ At the time of writing this, three different machines have been used to assemble
   \label{fig:CAMbodydetail}
 \end{figure}
 
-
 Custom machine configurations are stored in a compact JSON format based on the Universal Robot Description Format (URDF) \cite{ROS2016}.  In this description, "links" and "joints" are connected to each other through parent/child relationships (Figure \ref{fig:CAMmachinesetup}).  Links are the rigid bodies in a machine; each link contains information about its kinematic properties and any meshes that might be associated with it (Figure \ref{fig:CAMbodydetail}).  Joints describe the constraints that govern the motion between two links - prismatic, rotary, etc - and the range of motion available.  From this information, the inverse kinematics of the machine can be calculated and used to generate a valid path planning strategy.\\
 
 \begin{figure}
@@ -124,5 +110,17 @@ Custom machine configurations are stored in a compact JSON format based on the U
 \end{figure}
 
 Unique machine configurations often require special control logic to address the idiosyncrasies of a particular assembly process.  In order to accommodate a wide variety of potential machine configurations (and give more power to the end user) I've created a set of user-definable functions that can be edited and saved within DMDesign.  Users can define their own environmental variables and construct custom functions to handle traversals, picking up and placing parts, and headers and footers.  Within each of these functions, information such as current part index, position, material type, and any user-defined variables are available.  To date, this feature has been used for backlash compensation and multimaterial head placement of the "Stapler" assembler.  Eventually, this capability could grow to support closed-loop control between the machine and DMDesign for on-the-fly path planning or error correction.\\
+
+\section{Off-Ramps}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{Brickset.png}
+  \caption{SEM image of a 3D printed GIK asembly, built using an exported STL file from DMDesign.  \textit{Image Credit: Prashant Patil 2015}}
+  \label{fig:BrickSet}
+\end{figure}
+
+The intention behind DMDesign is not to replace all existing design and manufacturing workflows, but rather, to create an environment that better accommodates and, at times, leverages the discrete construction of digital materials.  In some cases, users will want to interface between DMDesign and other CAD, simulation, and CAM processes.\\
+
+Currently, DMDesign supports \href{https://en.wikipedia.org/wiki/STL_(file_format)}{STL} export of assembly geometries.  Users can geometry by material, and choose between the abstracted cell meshes or the more detailed part geometry.  These STLs have been used in 3D printing workflows, included nano-3D-printing (Figure \ref{fig:BrickSet}), high quality rendering in \href{https://www.blender.org/}{Blender}, and as reference geometry for simulations in \href{https://www.comsol.com/}{COMSOL}.
 
 }
