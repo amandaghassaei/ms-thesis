@@ -11,14 +11,16 @@
 
 \begin{figure}
   \includegraphics[width=\linewidth]{20151215DMDesignscreenshotsx8.png}
-  \caption{Screenshots of my current work with DMDesign, a CAD/Simulation/CAM software package for Digital Materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that can toggle between a geometric and parts design representation \textbf{(A, C)}. Simulation of the potential field around conducting elements of an LC structure designed from conductive and insulating parts \textbf{(E)}. Path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
+  \caption{Screenshots of my current work with DMDesign, a CAD / Simulation / CAM software package for Digital Materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that can toggle between a geometric and parts design representation \textbf{(A, C)}. Simulation of the potential field around conducting elements of an LC structure designed from conductive and insulating parts \textbf{(E)}. Path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
   \label{fig: designAssemblyGUIWide}
 \end{figure}
 
-\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/CAM environment for digital materials that supports the research efforts into part and assembler design at CBA (Fig \ref{fig: designAssemblyGUIWide}).  In DMDesign, users design structures in a virtual 3D environment from many material types, plan out the assembly of a design by a robotic assembler, and communicate in realtime with hardware to physically realize the design\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  By abstracting the geometry of the lattice from its decomposition into parts and implementing many lattice types in the CAD workflow, users can design structures ranging from nano to meter scale for a variety of application spaces.
+\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/CAM environment for digital materials that supports the research efforts into part and assembler design at CBA (Fig \ref{fig: designAssemblyGUIWide}).  In DMDesign, users design structures in a virtual 3D environment from many material types, plan out the assembly of a design by a robotic assembler, and communicate in realtime with hardware to physically realize the design\cite{LangfordWillGhassaeiAmandaGershenfeld2016}.  By abstracting the geometry of the lattice from its decomposition into parts and implementing many lattice types in the CAD workflow, users can design structures ranging from nano to meter scale for a variety of applications.
 
 
 \section{Design Abstraction}
+
+
 
 In developing a CAD tool that accommodates the wide variety of parts and processes being developed around digital materials and assembly, a first major insight was to separate the underlying lattice geometry from the physical instantiation and connectivity of the parts being assembled.  Instead, the design end of DMDesign allows uses to 
 
@@ -50,10 +52,32 @@ scale, application, part type, simulation physics, assembly process.
 \section{Design Hierarchy}
 
 \begin{figure}
+  \includegraphics[width=\linewidth]{CompositeCells.png}
+  \caption{Hierarchical assembly of a vertex-connected octahedron lattice.  Full assembly is shows at top in both hierarchical view and cell view.  Composite cell definitions 1 and 2 each contain two cell material types.  Composite cell definition 3 contains a mixture of composite cells and non-composite cells.  Composite cell 3 is shown in the middle in both hierarchical view and cell view.}
+  \label{fig:CompositeCells}
+\end{figure}
+
+Design hierarchy is the establishment of parent/child relationships between elements of a design.  In the context of DMDesign, hierarchical data structures allow for a more sparse description of assemblies that contain many similar regions.  Hierarchical structures within DMDesign are called "composite cells".\\
+
+Composite cells are essentially sub-assemblies of cells, illustrated in Figure \ref{fig:CompositeCells}.  A composite cell definition may contain cells of composite or non-composite types.  Each composite cell type is defined once, and all instantiations of a composite cell type within an assembly point to the same composite cell definition.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{HierDataStructure.png}
+  \caption{Sparse, hierarchical data structure behind lattice assembly shown in Figure \ref{fig:CompositeCells}.  The full lattice assembly is stored in an 11x1x1 array with only three non-null elements, shown at the top. Within each purple cell is a 5x7x5 cell definition, containing two more types of composite cells and one non-composite cell type.}
+  \label{fig:HierDataStructure}
+\end{figure}
+
+The hierarchical data structure used in DMDesign is depicted graphically in Figure \ref{fig:HierDataStructure}.  In this structure, cells are stored in a minimally-sized 3D array whose upper and lower bounds change as the bounds of the assembly grow and shrink.  Each composite cell type has a definition that includes its own 3D array of cells.  This structure allows for a potentially very concise description of assemblies with many regions of self-similarity.  In order to render an assembly to the screen, a lattice data structure must be parsed recursively until all composite definitions have been fully evaluated down to their lowest level of description.\\
+
+Along with a concise design description, hierarchy offers other advantages.  Changes to a composite cell definition propagate out to all the instances of that composite cell within an assembly or any parent composite cell definitions.  This means users can rapidly design large assemblies of cells and achieve some basic parametric control over their composition.    Hierarchical delineations often correspond to behavioral compartmentalization within a design.  Though not yet explored in this work, it would be interesting to leverage hierarchical design structure in simulation.\\
+
+\begin{figure}
   \includegraphics[width=\linewidth]{HierarchyGik.png}
-  \caption{HierarchyGik.png.}
+  \caption{Four views of the same capacitive assembly of a GIK Lattice.  Nine conducting and insulating GIK parts are arranged to form a capacitive unit structure.  A composite cell consisting of this capacitive unit pattern is stacked vertically five times to form a larger capacitive tower.  Top left shows the individual composite cells in blue, top right shows the composite cells broken down into their constituent supercells.  Each GIK supercell is made from four cells in a cubic lattice, this deconstruction is visualized at the cell level (bottom left).  Finally, the underlying physical geometry of the assembly is depicted in the bottom right.  Lattices in which the physical part is wholly contained within unit cell do not have the supercell layer of description.}
   \label{fig:HierarchyGik}
 \end{figure}
+
+Under certain circumstances, hierarchy manifests itself in one more way.  For some applications, the physical part being represented is not contained wholly within a single cell object.  For example, in a GIK lattice, one GIK part is made from four cells on a cubic lattice.  In order to enforce valid GIK designs and allow the user to control the grouping of cells on the lattice into GIK parts, cells are organized into a mid-level hierarchical structure called a "supercell" (Figure \ref{fig:HierarchyGik}).  These supercells are the lowest level object that can be placed in the GIK design workflow.  Applications for which one cell represents one physical part or a collection of parts do not have the supercell delineation.
 
 \section{Simulation of Parts}
 
