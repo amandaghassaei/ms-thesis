@@ -7,7 +7,7 @@
 
 \singlespacing{
 
-\chapter{Software Workflows for Digital Materials}
+\chapter{Software Workflows for Digital Materials}\label{chap:CAD}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{20151215DMDesignscreenshotsx8.png}
@@ -15,7 +15,7 @@
   \label{fig: designAssemblyGUIWide}
 \end{figure}
 
-\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/Simulation/CAM environment for digital materials that supports the research efforts into part and assembler design at CBA.  In DMDesign, users construct multimaterial lattice assemblies in a virtual 3D environment, simulate their physical properties, plan out an assembly process, and communicate in realtime with assemblers to physically realize the design \cite{LangfordWillGhassaeiAmandaGershenfeld2016}.   A graphical overview of these capabilities is shown in Figure \ref{fig: designAssemblyGUIWide}.\\
+\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/Simulation/CAM environment for digital materials that supports the current research efforts into part and assembler design at CBA.  In DMDesign, users construct multimaterial lattice assemblies in a virtual 3D environment, simulate their physical properties, plan out an assembly process, and communicate in realtime with assemblers to physically realize the design \cite{LangfordWillGhassaeiAmandaGershenfeld2016}.   A graphical overview of these capabilities is shown in Figure \ref{fig: designAssemblyGUIWide}.\\
 
 DMDesign was built to simplify the process of designing and manufacturing digital material assemblies across a range of scales, application spaces, lattice topologies, and assembly processes. This chapter introduces some of the design principles behind DMDesign, namely, how abstraction is used to support a diversity of forms and functions.
 
@@ -35,7 +35,7 @@ As described in Chapter \ref{chapter:RelatedWork}, digital materials are discret
   \label{fig:PartAbstraction}
 \end{figure}
 
-The fundamental unit of geometry in this tool is a lattice cell; this applies to both the outward facing CAD interface and the internal data representation.  This may seem strange since the assembly process happens at the granularity of a part, which may be different than a cell, both in its geometry and its connectivity on the lattice.  This abstraction was used to simplify the design interface and allow for a separation of the underlying geometrical representation of an assembly from its decomposition into parts.\\
+The fundamental unit of geometry in DMDesign is a lattice cell, both in its outward facing CAD interface and its internal data representation.  This may seem strange since the assembly process happens at the granularity of a part, which may be different than a cell in terms of its geometry and connectivity on the lattice.  This abstraction was used to simplify the design interface and allow for a separation of the underlying geometrical representation of an assembly from its decomposition into parts.\\
 
 Design abstraction maximizes portability of a single assembly definition across different processes and parts.  Figure \ref{fig:PartAbstraction} shows how a single lattice cell represents a variety of potential part types.  Different joining strategies may require breaking up the same underlying lattice geometry into different repeating units.  For example, a vertex-connected octahedron lattice may be broken up into interconnected X-shaped parts, square-shaped parts, or even 3D octahedral voxels.\\ 
 
@@ -61,7 +61,7 @@ Composite cells are essentially sub-assemblies of cells, illustrated in Figure \
 
 The hierarchical data structure used in DMDesign is depicted graphically in Figure \ref{fig:HierDataStructure}.  In this structure, cells are stored in a minimally-sized 3D array whose upper and lower bounds change as the bounds of the assembly grow and shrink.  Each composite cell type has a definition that includes its own 3D array of cells.  This structure allows for a potentially very concise description of assemblies with many regions of self-similarity.  In order to render an assembly to the screen, a lattice data structure must be parsed recursively until all composite definitions have been fully evaluated down to their lowest level of description.\\
 
-Along with a concise design description, hierarchy offers other advantages.  Changes to a composite cell definition propagate out to all the instances of that composite cell within an assembly or any parent composite cell definitions.  This means users can rapidly design large assemblies of cells and achieve some basic parametric control over their composition.    Hierarchical delineations often correspond to behavioral compartmentalization within a design.  Though not yet explored in this work, it would be interesting to leverage hierarchical design structure in simulation.\\
+Along with a concise design description, hierarchy offers other advantages.  Changes to a composite cell definition propagate out to all the instances of that composite cell within an assembly, including instances contained within any parent composite cell definitions.  This means users can rapidly design large assemblies of cells and achieve some basic parametric control over their composition.    Hierarchical delineations often correspond to behavioral compartmentalization within a design.  Though not yet explored in this work, it would be interesting to leverage hierarchical design structure in simulation.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{HierarchyGik.png}
@@ -101,7 +101,7 @@ At the time of writing this, three different machines have been used to assemble
   \label{fig:CAMbodydetail}
 \end{figure}
 
-Custom machine configurations are stored in a compact JSON format based on the Universal Robot Description Format (URDF) \cite{ROS2016}.  In this description, "links" and "joints" are connected to each other through parent/child relationships (Figure \ref{fig:CAMmachinesetup}).  Links are the rigid bodies in a machine; each link contains information about its kinematic properties and any meshes that might be associated with it (Figure \ref{fig:CAMbodydetail}).  Joints describe the constraints that govern the motion between two links - prismatic, rotary, etc - and the range of motion available.  From this information, the inverse kinematics of the machine can be calculated and used to generate a valid path planning strategy.\\
+Custom machine configurations are stored in a compact JSON format based on the Universal Robot Description Format (URDF) \cite{ROS2016}.  In this description, "links" and "joints" are connected to each other through parent/child relationships (Figure \ref{fig:CAMmachinesetup}).  Links are the rigid bodies in a machine; each link contains information about its kinematic properties and any meshes that might be associated with it (Figure \ref{fig:CAMbodydetail}).  Joints describe the constraints that govern the motion between two links and the range of motion available.  From this information, the inverse kinematics of the machine can be calculated and used to generate a valid path planning strategy.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CAMcustomCode.png}

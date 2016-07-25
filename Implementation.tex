@@ -9,11 +9,11 @@
 
 \chapter{Implementation}
 
-The motivation for this work is to ultimately create a deployable tool that allows others to interact with the virtual environment I've created.  Though it's not central to the themes of this thesis, a lot of time and effort was spent designing an interactive, graphical interface around the ideas discussed in previous chapters. \\
+The motivation for this work is to ultimately create a deployable tool that allows others to interact with the virtual environment I've created.  Though it's not central to the themes of this thesis, a lot of time and effort was spent designing an interactive, graphical interface around the ideas discussed in previous chapters. 
+
+\section{Javascript/WebGL}
 
 I used HTML5/Javascript for this application because it allows easier access to the code than any other platform.  Though user studies are not a component of this work, there is a long history of communities of users building things in these types of sandbox environments that surpass anything the developers were able to imagine.  There is a lot of talent beyond the immediate neighborhood of CBA, and I'd like to try to make this codebase as available as possible for anyone interested in exploring this new way of making things.
-
-\subsection{Javascript/WebGL}
 
 The app was written with the following dependencies:
 \begin{itemize}
@@ -25,8 +25,10 @@ The app was written with the following dependencies:
 \item \href{http://underscorejs.org/}{Underscore} is a library with lots of useful functions for dealing with arrays and javascript objects
 \end{itemize}
 
-\subsection{GPU Programming}
+\section{GPU Programming}
 
 Computing in the GPU does create some hardware dependencies for this application that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory and accessed by each GPU core at a time.  In this case I've implemented a back up \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays}{typed array} engine that should be supported by all hardware configurations.
 
 }
+
+\section{Design Studies}

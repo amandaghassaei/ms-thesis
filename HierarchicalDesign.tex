@@ -7,32 +7,40 @@
 
 \singlespacing{
 
-\chapter{Design Hierarchy}\label{chapter:HierarchicalDesign}
+\chapter{Digital Materials and Self-Assembling Assemblers}\label{chapter:HierarchicalDesign}
 
-some definite structure
+The future research trajectory of CBA explores ways to build self-assembling systems from micron-scale electronic and mechanical digital materials.  We imagine this work will involve new part types with higher-level functionality than the bulk material parts discussed in Chapter \ref{chap:CAD}.  Building on previous work with DMDesign, my role in CBA's newly materializing research roadmap is to create CAD and simulation tools around these more functionally-dense assemblies of parts.  My aim is to provide a means of virtually exploring this new design space through realistic, physically-based simulation techniques.  The remainder of this thesis discusses the nomenclature and hierarchical scaling of complexity in engineered self-assembling system (this chapter), initial progress towards simulating parts (Chapter \ref{chap:functionSim}), comparison with current state of the art CAD/simulation techniques (Chapter \ref{chap:evaluation}), and future work in this research roadmap (Chapter \ref{chap:futureWork}).\\
 
-with a scaling factor of about 100x between levels of hierarchy.
+Self assembly is particularly interesting in the context of digital assembly because it provides a means of exponential scaling.  For example, if we image 1$\mu$m\textsuperscript{3} digital material feedstock assembled together in a serial assembly process, the time it would take to assemble something on the order of 1m\textsuperscript{3} would be approximately:
 
-The details of the fabrication and joining strategies for these physical parts is beyond the scope of this thesis, though current ideas are briefly addressed here.  Initial thoughts about length scales are included here, but are meant only as a starting point for the 
+\[assembly\ time\ (seconds) = 10\textsuperscript{18}/f\]
 
-functions are minimal parts with diverse, codified interactions
-functions are base feedstock
+where $f$ is the frequency of assembly in Hz.\\
+
+Assuming a 10Hz assembly rate, the total time required is 10\textsuperscript{17} seconds, or about 3 billion years.  Clearly, this process only becomes tractable through the coordinated assembly of millions or billions of serial assemblers in parallel.  In order to produce assemblers in this quantity, the assemblers must be made from their own feedstock so that one assembler can construct a working replica of itself.  Given the ability to duplicate itself, it would only take 30 duplication cycles for one assembler to spawn more than 1 billion child assemblers.\\
+
+In our proposed self-assembly system, we've identified a four-layer hierarchical breakdown of machine components from the full assembler, to its subsystem modules, all the way down to its raw feedstock (Figure \ref{fig:FullHierarchy}).  Each level of hierarchy contains machine components of similar size and complexity.  This chapter introduces the four levels of hierarchy in terms of the system we plan to build.  Section \ref{sec:biologyHierarchy} and Section \ref{sec:conwayHierarchy} explore these hierarchical delineations in biological and virtual self-assembling contexts.\\ 
+
+It is worth noting that the design and fabrication of this self-assembling system is actively underway at the time of writing this thesis, but currently in the very early stages of development.  The details of the fabrication and joining strategies for these physical parts is beyond the scope of this thesis, though current ideas are briefly addressed here.  Initial thoughts about length scales are included here, but are meant only as a starting point for discussing these systems.
+
+%functions are minimal parts with diverse, codified interactions
+%functions are base feedstock
 
 \begin{sidewaysfigure}
  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{FullHierarchy.png}
-  \caption{Diagram of hierarchical breakdown of robotic modules into functional parts, functional primitives, and finally bulk material elements.  A more detailed view of the relationship between parts at the element and functional primitive levels is given in Figure \ref{fig:Hierarchy-ElementsParts}, and again, for the functional primitive and functional parts levels in Figure \ref{fig:Hierarchy-FunctionPrimitivesParts}.  \textit{Image Credit (for photos of fabricated parts): Will Langford 2016} }
+  \caption{Diagram of the hierarchical breakdown of robotic modules into functions and elements.  Examples of the geometric layout of elements to form functional primitives are indicated for a 1DOF bending flexure and a capacitor.  Images of fabricated functional parts are shown alongside their functional primitive decompositions.  More detailed views of the transition from elements to functional primitives and from functional primitives to functional parts are shown in Figures \ref{fig:Hierarchy-ElementsParts} and \ref{fig:Hierarchy-FunctionPrimitivesParts}.  \textit{Image Credit (for photos of fabricated functional parts): Will Langford 2016} }
   \label{fig:FullHierarchy}
 \end{sidewaysfigure}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{Hierarchy-ElementsParts.png}
-  \caption{Detail view of translation between bulk material elements and functional primitives.}
+  \caption{Detail view of Figure \ref{fig:FullHierarchy}, explaining the elemental materials that go into each functional primitive.}
   \label{fig:Hierarchy-ElementsParts}
 \end{figure}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{Hierarchy-FunctionPrimitivesParts.png}
-  \caption{Detail view of translation between bulk functional primitives and functional parts.}
+  \caption{Detail view of Figure \ref{fig:FullHierarchy}, explaining the decomposition of functional parts into functional primitives.  Part-part interface of functional parts is indicated in black.}
   \label{fig:Hierarchy-FunctionPrimitivesParts}
 \end{figure}
 
@@ -40,17 +48,21 @@ functions are base feedstock
 
 At the lowest level, bulk materials in the form of \textit{elements} are assembled together to form multi-material assemblies.  Our notion of "element" is not an atomic element, but rather a homogenous volume of material with characteristic material properties.  A finite set of elemental types will be chosen based on desirable physical properties, cost, ease of fabrication, and compatibility with other elemental types and assembly processes.\\
 
-For example, an aluminum element type would have the properties of being conductive, stiff, and lightweight and a rubber element type would be insulating and flexible.  Current elements types are described in Figure \ref{fig:Hierarchy-ElementsParts}.  Other element types may include magnetic and magnetically permeable types, additional actuation types, and thermally conductive and insulating types.\\
+For example, an aluminum element type would have the properties of being conductive, stiff, and lightweight and a rubber element type would be insulating and flexible.  Current elements types of interest are described in Figure \ref{fig:Hierarchy-ElementsParts}.  Other element types may include magnetic and magnetically permeable types, additional actuation types, and thermally conductive and insulating types.\\
 
 Elemental components will be fabricated to a size on the order of $\sim$1-10$\mu$m\textsuperscript{3}.  Some, as yet to be determined, form of joining interface must be incorporated into the geometry of the elemental parts or applied (in the form of an adhesive) to the parts during the assembly process.  At this point in time, we envision a permanent joining strategy between elemental parts.
 
 \section{Functions}
 
-Assemblies of elements form \textit{functions} - larger scale part types with material properties defined by their constituent elements.  As the name suggests, functions are categorized based on higher-level interactions with neighbors, rather than their bulk material properties.  Function-level components fall into one of several functional archetypes, including but not limited to n-degree-of-freedom mechanical latches, hinges, and actuators, electronic memory storage, electronic oscillators, timers, and programmable logic.  Anisotropic patterns of elemental types within a function-level component may give the function tunable anisotropic behaviors.\\
+Assemblies of elements form \textit{functions} - larger scale part types with material properties defined by their constituent elements.  As the name suggests, functions are categorized based on higher-level interactions with neighbors, rather than their bulk material properties.\\
 
-Examples include routing components, which pass one or several electronic signals to neighboring components, or a one degree-of-freedom hinge, which displays low bending stiffness around one axis and high stiffness in the remaining directions.  Function-level parts would grow to include actuators with tunable anisotropy, strain, and stress, and simple programmable silicon components.  A more complete discussion of the diversity of mechanical part types at the function-level is given in Chapter \ref{chap:functionSim}.\\
+From a software perspective it makes sense to break down the function category into two layers: \textit{functional primitives} and \textit{functional parts}.  Functional primitives are a useful abstraction that serve as the fundamental unit for simulation of functional parts, described in more detail in Chapter \ref{chap:functionSim}.  Functional parts, on the other hand, are small motifs of functional primitives, complete with interfacing joinery, that form the basis of function-level fabrication and assembly.  This distinction is analogous to the cell/supercell delineation used for GIK parts, described in Chapter \ref{chap:CAD}.\\
 
-Functional components will be on the order of $\sim$1mm\textsuperscript{3}.  Some form of common interface must allow for both mechanical loads and analog electronic signals to pass from one function component to another.  At the function-level, a reversible joining interface is preferred so that reconfigurable behavior and recycling is possible.
+Functional primitives fall into one of several functional archetypes, including n-degree-of-freedom mechanical flexures and actuators, and simple passive and active electronic components.  These archetypes are represented chromatically in Figure \ref{fig:Hierarchy-FunctionPrimitivesParts}.  The "function" of a functional primitive is determined by the 3D composition of its constituent elements, depicted in Figure \ref{fig:FullHierarchy}.  Anisotropic patterns of elemental types within a functional primitive may result in tunable anisotropic behaviors.  A more complete discussion of the diversity of mechanical and electronic part types at the function-level is given in Chapter \ref{chap:functionSim}.  In the fullness of time, the geometric composition of functional primitives from elements would be a good candidate for constrained topological optimization.\\
+
+Functional parts are small assemblies of functional primitives, plus a joining interface.  Because functional parts are not dramatically more complex than function primitives, their behaviors are more or less the same.  A selection of potential functional parts are diagramed in Figure \ref{fig:Hierarchy-FunctionPrimitivesParts}, though that list is not meant to be exhaustive.  Examples include routing components, which pass one or several electronic signals to neighboring parts, anisotropic flexural and actuated parts, and simple passive and active electronic components.\\
+
+Functional parts are currently fabricated using irreversible, bulk 2D processes on the order of $\sim$1mm\textsuperscript{3}.  Some form of common interface must allow for both mechanical loads and analog electronic signals to pass from one functional part to another.  At the function-level, a reversible joining interface is preferred so that reconfigurable behavior and recycling is possible.  Currently, press-fit or reversible soldered interfaces are being explored.  The first attempts at fabricating functional parts (by Will Langford) is depicted in Figure \ref{fig:FullHierarchy}.
 
 \section{Modules}
 
@@ -72,11 +84,11 @@ Complexes will be comprised of $\sim$10-100 individual modules, spanning length 
 
 Many complexes of various forms and functions may work together at a \textit{system}-level to accomplish large scale tasks.  Additional layers of hierarchy could be introduced to manage these systems.  For now, a systems-level discussion is beyond the scope of this work.
 
-\section{Design Hierarchy in Biology}
+\section{Design Hierarchy in Biology}\label{sec:biologyHierarchy}
 
 \begin{sidewaysfigure}
   \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ProteinHierarchy.png}
-  \caption{Hierarchical breakdown of protein complexes (complexes) into proteins (modules), amino acids (functions), and atoms (elements).}
+  \caption{Hierarchical breakdown of protein complexes (complexes) into proteins (modules), amino acids (functions), and atoms (elements).  3D renderings of protein complexes and subunits were made in \href{https://www.pymol.org/}{Pymol} using data from the RCSB Protein Data Bank \cite{UCSD/SDSC}.}
   \label{fig:ProteinHierarchy}
 \end{sidewaysfigure}
 
@@ -156,7 +168,7 @@ Conversely, the interface between function-level components must be reversible. 
 
 The interface/sidechain breakdown of amino acid structure depicted in Figure \ref{fig:AminosInterface}A should be mirrored by our own function-level components.  In other words, a function-level part is comprised of a unique inner region with a standardized interface that connects it to its neighbors.  In biology, polypeptide polymerization happens in one dimension; we must design our joining interface to accommodate something analogous to "polymerization" in three dimensions.
 
-\section{Design Hierarchy in Conway's Game of Life}
+\section{Design Hierarchy in Conway's Game of Life}\label{sec:conwayHierarchy}
 
 In the 1940's Von Neumann began studying the requirements for self-replication and evolvability in artificial, CA worlds \cite{Neumann1966}.  One such world that has gained widespread notoriety is Conway's Game of Life ("Life").  Since its inception in 1970, Life has developed a cult following of researchers, engineers, and hobbyists, pushing each other to construct increasingly elaborate "machines" from pixels on a screen.  These investigations have resulted in a lengthy taxonomy of motifs, reactions, mechanisms, and complex engineered systems within Life.  Some notable accomplishments include Gemini (an oblique spaceship encoded by a long glider tape)\cite{Wade2010}, the Linear Propagator (a self replicating machine)\cite{Greene2013}, a universally extensible Turing Machine \cite{Rendell2000}, the Minsky Register Machine (a finite universal computer)\cite{Chapman2002}, and the OTCA Metapixel (a structure that behaves like a large-scale Life pixel)\cite{Due2006}.\\
 
@@ -168,7 +180,7 @@ The analogies between machines in Life and our proposed assembly system are limi
   \label{fig:OTCAGalaxy}
 \end{figure}
 
-In the next sections, I'll analyze a particularly complex Life pattern in terms of the hierarchies I introduced earlier in the chapter.  The OTCA Metapixel was designed by Brice Due in 2006.  Though not the first \textit{metacell} (a structure that can mimick a CA cell), it is the first \textit{metapixel} (a structure that looks and behaves like a macro-scale CA pixel) built in Life, and it can be programmed to perform any CA ruleset that's based on a summation of a cell's 8 local neighbors.  Many metapixels can be patterned together on a grid to play out a macro-scale CA (Figure \ref{fig:OTCAGalaxy}).  The following analysis is based off of information on Brice Due's website\cite{Due2006} and by watching the pattern run in Golly; I wrote a more detailed discussion of the inner workings of the pattern on Instructables\cite{Ghassaei2015}.
+In the next sections, I'll analyze a particularly complex Life pattern in terms of the hierarchies I introduced earlier in the chapter.  \textit{(I chose to analyze this pattern because its square aspect ratio makes it well suited for displaying in a static text like this writeup; known self-replicating patterns do not fit onto one piece of paper at a reasonable scale.)}  The OTCA Metapixel was designed by Brice Due in 2006.  Though not the first \textit{metacell} (a structure that can mimic a CA cell), it is the first \textit{metapixel} (a structure that looks and behaves like a macro-scale CA pixel) built in Life, and it can be programmed to perform any CA ruleset that's based on a summation of a cell's 8 local neighbors.  Many metapixels can be patterned together on a grid to play out a macro-scale CA (Figure \ref{fig:OTCAGalaxy}).  The following analysis is based off of information on Brice Due's website\cite{Due2006} and by watching the pattern run in Golly; I wrote a more detailed discussion of the inner workings of the pattern on Instructables\cite{Ghassaei2015}.
 
 \subsection{Elements, Motifs, and Functions}
 
