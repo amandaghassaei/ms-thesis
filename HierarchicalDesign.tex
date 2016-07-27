@@ -44,7 +44,7 @@ It is worth noting that the design and fabrication of this self-assembling syste
   \label{fig:Hierarchy-FunctionPrimitivesParts}
 \end{figure}
 
-\section{Elements}
+\section{Elements}\label{sec:elements}
 
 At the lowest level, bulk materials in the form of \textit{elements} are assembled together to form multi-material assemblies.  Our notion of "element" is not an atomic element, but rather a homogenous volume of material with characteristic material properties.  A finite set of elemental types will be chosen based on desirable physical properties, cost, ease of fabrication, and compatibility with other elemental types and assembly processes.\\
 
@@ -93,7 +93,7 @@ Many complexes of various forms and functions may work together at a \textit{sys
 \end{sidewaysfigure}
 
 
-Currently, the only known example of a physical, non-trivial, self-replicating system is the biology that has evolved on Earth.  The primary drivers of biological self-replication are protein machinery (called "protein complexes") built primarily from a small set of amino acid building blocks.\\
+Currently, the only known physical example of a self-replicating system is the biology that has evolved on Earth.  The primary drivers of biological self-replication are protein machinery (called "protein complexes") built primarily from a small set of amino acid building blocks.\\
 
 The construction of protein complexes takes place in a hierarchical fashion.  Figure \ref{fig:ProteinHierarchy} describes the hierarchical breakdown of protein complexes in terms of the four levels of hierarchy established earlier in this chapter; protein complexes (complex-level objects) are decomposed into proteins (modules), then into amino acids (functions), and finally into atoms (elements).  The similarity of some of the biological nomenclature to our own hierarchical nomenclature is due to the fact that it was derived from the biological model.
 %This hierarchical breakdown is slightly different from the primary/secondary/tertiary/quaternary structures often used to discuss the levels of protein description.  
@@ -102,7 +102,7 @@ The construction of protein complexes takes place in a hierarchical fashion.  Fi
 
 At the most fundamental level, biological structures are composed of atoms of various elemental types.  On Earth, biological molecules are made primarily from combinations of carbon, hydrogen, nitrogen, oxygen, phosphorus, and sulfur (CHNOPS).\\
 
-Each element's unique position on the periodic table dictates its physical properties, which have implications in higher-level structures formed from the elements.  These properties include the element's mass, the number of covalent bonds it can form, the number of paired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.\\
+Each element's unique position on the periodic table dictates its physical properties, which have implications in higher-level structures formed from the element.  These properties include mass, the number of covalent bonds it can form, the number of paired electrons it contains in its outermost electron shell, the polarization of the bonds and molecules it forms with other elements, and the stability of its bonds in various environments.\\
 
 Certain motifs of covalently bonded atoms form \textit{functional groups} within molecules.  Functional groups determine the ability of a molecule to undergo various archetypal reactions (addition, substitution, elimination, etc) with itself or other molecules.  A subset of the important functional groups found in biochemistry are indicated in Figure \ref{fig:ProteinHierarchy}.  "R" indicates an arbitrary side-chain, where the functional group connects to the rest of the molecule.\\
 
@@ -117,17 +117,17 @@ Certain motifs of covalently bonded atoms form \textit{functional groups} within
 
 \textit{Amino acids} are molecules which contain several functional groups.  As indicated in Figure \ref{fig:AminosInterface}A all amino acids contain a carboxylic acid (COOH) and an amine group (NH\textsubscript{2} or NRH).  The purpose of these groups is to form the interface between amino acids in a polypeptide chain.  Amino acids are attached to each other through a covalent bond, called a "peptide bond", with a single molecule of water created as a byproduct of each bonding event\ref{fig:AminosInterface}B.\\
 
-The remaining portion of an amino acid molecule (indicated by "R" in the amino acid archetype in Figure \ref{fig:AminosInterface}A, we'll call it "\textit{the} side-chain") determines its unique properties.  Each type of amino acid has a different side-chain, which may consist of one or more distinct functional groups.  Amino acids are characterized according to their side-chains in several ways; one grouping is shown in Figure \ref{fig:ProteinHierarchy}, with amino acids described by size, polarity, nucleophilicity, the presence of aromatic rings, acidity or basicity, and the presence of amide groups.\\
+The remainder of the amino acid molecule (indicated by "R" in the amino acid archetype in Figure \ref{fig:AminosInterface}A, we'll call it "\textit{the} side-chain") determines its unique properties.  Each type of amino acid has a different side-chain, which may consist of one or more distinct functional groups.  Amino acids are characterized according to their side-chains in several ways; one grouping is shown in Figure \ref{fig:ProteinHierarchy}, with amino acids described by size, polarity, nucleophilicity, the presence of aromatic rings, acidity or basicity, and the presence of amide groups.\\
 
  \subsection{Modules and Complexes}
 
-Polypeptide chains typically consisting of hundreds of amino acids fold to form three dimensional \textit{proteins}.  The unique sequence of amino acids along the one dimensional polypeptide chain informs the module-level behavior of a protein.   Hydrogen bonding and other non-covalent interactions between amino acid side-chains, along with external effects, determine the three dimensional structure of the protein.  At the protein's active site, amino acid sidechains interact with molecules in the environment.  Sometimes, these interactions result in global deformations of the protein's three dimensional structure, called "conformational changes".\\
+Polypeptide chains typically consisting of hundreds of amino acids fold to form three dimensional \textit{proteins}.  Hydrogen bonding and other non-covalent interactions between amino acid side-chains, along with external effects, determine the three dimensional structure of the protein.  At the protein's active site, amino acid sidechains interact with molecules in the environment.  Sometimes, these interactions result in global deformations of the protein's three dimensional structure, called "conformational changes".\\
 
 Multiple proteins join together through non-covalent interactions to form a \textit{protein complex}.  A protein within a complex is usually referred to as a subunit.  Protein complexes sometimes contain contain many identical subunits.
 
 \subsection{Insights}
 
-The main take-away from the biological model is proof of principle.  Biology demonstrates how a small basis set of simple, functional feedstock can be reversibly assembled to create more complex structures and functions - ultimately, self-replicating systems.  It should be noted, however, that analogies between biological systems and our proposed assembly system are limited due primarily to differences in scale (and therefore, different types of dominant physics), rates of interactions between parts, and mechanism of interaction between parts.  However, in the next few sections I will distill some  insights from the biological model of self-assembly.
+The main take-away from the biological model is proof of principle.  Biology demonstrates how a small basis set of simple, functional feedstock can be reversibly assembled to create more complex structures and mechanisms - ultimately, self-replicating systems.  It should be noted, however, that analogies between biological systems and our proposed assembly system are limited due primarily to differences in scale (and therefore, different types of dominant physics), rates of interactions between parts, and mechanism of interaction between parts.
 
 \subsubsection{Scaling}
 
@@ -138,14 +138,6 @@ In the biological example, each level of hierarchy introduces a factor of about 
 %Beyond protein complexes, more levels of hierarchy exist within biological organisms to carry out systems-level tasks.  Protein complexes can be grouped according to the chemical pathways they interact with within a cell, by the organelles they belong to                                                                                                                                                                                                 
 %
 %Organelles are organized within cells, cells within tissues, tissues within organs, organs within even higher level systems, and ultimately these systems come together in one complete organism.
-
-\subsubsection{Combinatorics}
-
-%This feedstock should be built from an even smaller set of elemental types.\\
-%
-A widely accepted hypothesis of the origin of life is the "RNA world", a time before DNA and proteins when RNA was used both for information storage and catalytic behaviors.  Over time, proteins superseded RNA as the primary catalytic and structural component of life.  Current thought suggests that because proteins are made from 20 building blocks rather than just 4, they formed more versatile structures which were better suited for mechanistic tasks\cite{Alberts2002}.  Some artifacts from the RNA world persist today: several RNA-based enzymes, called "ribozymes" carry out tasks within the cell, and many protein complexes, included the ribosome, are made from both protein and RNA subunits.\\
-
-A major design consideration in our proposed assembly system is the number of functional part types to include in the feedstock.  The biological model suggests that the optimum number of raw feedstock types in our system may be some number greater than the absolute minimum feedstock requirements to meet all the criteria for self-replication.  
 
 %Other evidence points to an expansion of proteinogenic amino acids over time.\\
 %
@@ -158,20 +150,21 @@ A major design consideration in our proposed assembly system is the number of fu
 
 \subsubsection{Design and Fabrication}
 
-We're mirroring the basic design of amino acids in the function-level parts of our proposed assembly system.  As described in Figure \ref{fig:AminosInterface}A, we can think of an amino acid as being composed of a standard, reversible interface and a unique, functional side-chain.  Similarly, a functional part is comprised of a unique inner region with a standardized interface that joins it reversibly with its neighbors.
+%In biology, protein polymerization happens in one dimension with subsequent folding into three dimensions; we must design our joining interface to accommodate something analogous to "polymerization" in three dimensions.\\
 
-In biology, protein polymerization happens in one dimension with subsequent folding into three dimensions; we must design our joining interface to accommodate something analogous to "polymerization" in three dimensions.\\
+%Peptide bonding is a reversible process that occurs in both directions in a cell.  A condensation reaction removes a molecule of water and covalently bonds amino acids (Figure \ref{fig:AminosInterface}B).   A hydrolysis reaction reverses this process, using a molecule of water to break the peptide bond.  In some sense we can think of the water molecule as a type of locking mechanism in a reversible, pinned interface.  The enzymes that catalyze the forward and backward reactions are like the machinery needed to lock and unlock the pin, or to solder and de-solder a reversibly soldered joint.\\
 
+We're mirroring the basic design of amino acids in the function-level parts of our proposed assembly system.  As described in Figure \ref{fig:AminosInterface}A, we can think of an amino acid as being composed of a unique, functional side-chain and a standard, reversible interface.  The functional parts depicted in Figure \ref{fig:Hierarchy-FunctionPrimitivesParts} share this same basic structure.  I hesitate to draw the same analogy with the element-level, bulk material parts described in Section \ref{sec:elements}.  Differences in interaction properties (elasticity, fracture susceptibility) and available manufacturing processes for each of the elemental types listed in Figure \ref{fig:Hierarchy-ElementsParts} pose significant challenges to a universal, reversible joining interface between single-material parts.\\
 
-Peptide bonding is a reversible process that occurs in both directions in a cell.  A condensation reaction removes a molecule of water and covalently bonds amino acids (Figure \ref{fig:AminosInterface}B).   A hydrolysis reaction reverses this process, using a molecule of water to break the peptide bond.  In some sense we can think of the water molecule as a type of locking mechanism in a reversible, pinned interface.  The enzymes that catalyze the forward and backward reactions are like the machinery needed to lock and unlock the pin, or to solder and de-solder a reversibly soldered joint.\\
+Despite the striking complexity gap between biological systems and the nutrients required to sustain them, we should not think of biological systems as making everything they need "from scratch".  The raw material feedstock of biology contains some inherent structure and function.  Humans only synthesize 11 of the 20 standard amino acids; we must absorb the remaining "essential" amino acids from food.  Even considering organisms that do make all their amino acids, biological synthesis pathways begin with reactive precursors rather than exclusively elemental forms of atomic feedstock\cite{Stryer1988}.  Disassembly takes place with similar granularity.  Cells break down proteins into amino acids in a process called "proteolysis"; the freed amino acids are then used to construct new proteins.  Typically, amino acids are not metabolized into smaller components unless the cell has an excess of amino acids or lacks the glucose needed meet its energy needs\cite{Stryer1988}.\\
 
-Despite the striking complexity gap between biological systems and the nutrients required to sustain them, we should not think of biological systems as making everything they need "from scratch".  Biology requires a feedstock that contains some inherent structure and function.  Humans only synthesize 11 of the 20 standard amino acids; we must absorb the remaining "essential" amino acids from food.  Even considering organisms that do make all their amino acids, biological synthesis pathways begin with reactive precursors rather than exclusively elemental forms of atomic feedstock\cite{Stryer1988}.  Disassembly takes place with similar granularity.  Cells break down proteins into amino acids in a process called "proteolysis"; the freed amino acids are then used to construct new proteins.  Typically, amino acids are not metabolized into smaller components unless the cell has an excess of amino acids or lacks the glucose needed meet its energy needs\cite{Stryer1988}.\\
+Following this model, our lowest-level, reversibly assembled parts should also have some built-in structure and function.  If we draw this line at function-level parts, interfaces between elements could include permanent adhesives or other chemical bonding techniques and functional parts could be produced in large-scale, batch processes without a disassembly strategy in mind.
 
-This argues that our lowest-level reversibly assembled parts should also have some in-built structure and function.  I argue that 
+\subsubsection{Combinatorics}
 
- Functional parts could be produced in large-scale, batch processes without a disassembly strategy in mind.  Interfaces between elements could include permanent adhesives or other chemical bonding techniques.\\
-
-to not necessarily have to be broken down into their most low level, elemental form, but rather, should stay in a form that maintains some useful structure and function.
+%This feedstock should be built from an even smaller set of elemental types.\\
+%
+A major design consideration in our proposed assembly system is the number of part types needed at the element and function-levels to build sufficiently complex, higher-level modules and complexes.  In biology, this parameter has fluctuated over time, suggesting that the optimum number may be greater than the absolute minimum requirements for self-replication.  A widely accepted hypothesis of the origin of life is the "RNA world", a time before DNA and proteins when RNA was used both for information storage and catalytic behaviors.  Over time, proteins superseded RNA as the primary catalytic and structural component of life.  Current thought suggests that because proteins are made from 20 building blocks rather than just 4, they formed more versatile structures which were better suited for mechanistic tasks\cite{Alberts2002}.  Some artifacts from the RNA world persist today: several RNA-based enzymes, called "ribozymes" carry out tasks within the cell, and many protein complexes, included the ribosome, are made from both protein and RNA subunits.
 
 %Functions do not need to be disassembled into element-level components in our engineered system.    
 \section{Design Hierarchy in Conway's Game of Life}\label{sec:conwayHierarchy}
