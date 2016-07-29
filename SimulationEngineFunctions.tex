@@ -140,14 +140,22 @@ $k_{shear}$ and $d_{shear}$ are broken out into six parameters of the form $shea
   \includegraphics[width=\linewidth]{ShearDOFs.png}
   \caption{Illustration of shear subscript notation.  First subscript describes the direction of neighboring cell connection, second describes the direction of shear displacement.}
   \label{fig:ShearDOFs}
-\end{figure}
+\end{figure}`	1
 
 The stiffness and damping constants of each cell type may be calculated from bulk properties of the constituent materials that make up the cell, or they may be measured empirically.  For example, an isotropic cell made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses defined by:
 
-\[ k_{axial} = \dfrac{aE}{l}\]
-\[ k_{shear} = \dfrac{3EI}{al}\]
-\[ k_{torsion} = \dfrac{GJ}{l}\]
-\[ k_{bending} = \dfrac{EI}{l}\]
+\begin{subequations}
+\begin{align} 
+\label{eq:kaxial}
+k_{axial} &= \dfrac{aE}{l}\\[10pt]
+\label{eq:kshear}
+k_{shear} &= \dfrac{3EI}{al}\\[10pt]
+\label{eq:ktorsion}
+k_{torsion} &= \dfrac{GJ}{l}\\[10pt]
+\label{eq:kbending}
+k_{bending} &= \dfrac{EI}{l}
+\end{align}
+\end{subequations}
 \\
 where $a$ is the cross sectional area and $l$ is the length of the cell.\\
 
@@ -200,7 +208,6 @@ If we wish to consider the orientations of the cells, denoted by the unit quater
   
   We can rotate a vector $\vec{v}$ in 3-space by a quaternion $q$ in 4-space:
     \[ \vec{v}_{rotated} = q*\vec{v}*q^* \]
-  
   by treating $\vec{v}$ as a 4-space vector $[x, y, z, w]$ with $w=0$.  The operator $*$ denotes the Hamilton product:
   \[ a*b =  \left[ \begin{array}{ccc}
 a_wb_x + a_xb_w + a_yb_z - a_zb_y\\
@@ -221,7 +228,6 @@ By performing a spherical linear interpolation (slerp) halfway between $q1$ and 
   \[ q_{avg} = slerp(q_{1}, q_{2}; 0.5) \]
   
 Using $q_{avg}$, we can rotate the stiffness and damping vectors from Equation \ref{eq:translationalForce} into this average reference frame, and substitute the rotated vectors back into equation \ref{eq:translationalForce}:
-
  \[ \vec{k}_{rot} = (q_{avg}*\vec{k}*q_{avg}^*)\]
   \[ \vec{d}_{rot} = (q_{avg}*\vec{d}*q_{avg}^*)\]
   \begin{equation} \label{eq:translationalForceRotStep}
@@ -241,7 +247,9 @@ introducing this correction to Equation \ref{eq:translationalForceRotStep} gives
   \end{equation}
 
 The force $\vec{F}_{2\rightarrow1}$ exerted on cell 2 by cell 1 is equal in magnitude to $\vec{F}_{1\rightarrow2}$ and opposite in direction:
-\[  \vec{F}_{2\rightarrow1} = -\vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2) \]
+ \begin{equation} \label{eq:translationalEqOpp}
+  \vec{F}_{2\rightarrow1} = -\vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)
+  \end{equation}
 
 Only $\vec{F_{1\rightarrow2}}$ is indicated with a solid pink arrow in Figure \ref{fig:translationalSim}.\\
 
@@ -276,7 +284,15 @@ Next we'll add in bending and torsional stiffness, which create reaction forces 
 
 \section{Comparison with Traditional FEA Techniques}
 
-\textit{Shape functions} are polynomials in 1, 2, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes.  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
+\begin{figure}
+  \includegraphics[width=\linewidth]{TetraElement.png}
+  \caption{A tetrahedral element in 3D FEA.  The vertices of each element are called nodes.  In linear elastic solids, the relationships between forces (stress) and displacement (strain) of the nodes is described by variations on Hooke's law.  The springs indicated in the figure on the right are meant to illustrate the linear elastic (Hookian) relationship between nodes.  Typically, interactions between nodes are modeled with 6DOF linear elastic relationships as opposed to a 1DOF spring.}
+  \label{fig:TetraElement}
+\end{figure}
+
+Following from Figure \ref{fig:FEAexample}, the basic idea behind FEA of linear elastic solids is to break up geometry into many small elements whose behavior can be closely approximated by Hooke's law.  In 3D, these elements might have any number of shapes, a common element shape is the tetrahedral illustrated in Figure \ref{fig:TetraElement}.
+
+\textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes.  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
 
 \[ N_{x1} = 1/4(1-\xi)^2(2+\xi) \]
 \[ N_{x2} = 1/4(1+\xi)^2(2-\xi) \]
@@ -344,21 +360,45 @@ where $F_1$, $F_2$ are translational forces on nodes 1 and 2, $T$ are torques, $
 
 Multiplying through Equation \ref{eq:forcestiffnessdisp} gives us 12 equations:
 
-\begin{align*} 
+\begin{subequations}
+\begin{align} 
+\label{eq:fx1}
 F_{x1} &=  \dfrac{EA}{l}p_{x1} - \dfrac{EA}{l}p_{x2} \\[10pt]
+\label{eq:fy1}
 F_{y1} &=  \dfrac{12EI_z}{l^3(1+\phi_y)}p_{y1} + \dfrac{6EI_z}{l^2(1+\phi_y)}\theta_{z1} - \dfrac{12EI_z}{l^3(1+\phi_y)}p_{y2} + \dfrac{6EI_z}{l^2(1+\phi_y)}\theta_{z2}\\[10pt]
+\label{eq:fz1}
 F_{z1} &=  \dfrac{12EI_y}{l^3(1+\phi_z)}p_{z1} - \dfrac{6EI_y}{l^2(1+\phi_z)}\theta_{y1} - \dfrac{12EI_y}{l^3(1+\phi_z)}p_{z2} - \dfrac{6EI_y}{l^2(1+\phi_z)}\theta_{y2}\\[10pt]
+\label{eq:tx1}
 T_{x1} &=  \dfrac{GJ}{l}\theta_{x1} - \dfrac{GJ}{l}\theta_{x2} \\[10pt]
+\label{eq:ty1}
 T_{y1} &= - \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z1} + \dfrac{(4+\phi_z)EI_y}{l(1+\phi_z)}\theta_{y1}  + \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z2} + \dfrac{(2-\phi_z)EI_y}{l(1+\phi_z)}\theta_{y2} \\[10pt]
+\label{eq:tz1}
 T_{z1} &=  \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y1} + \dfrac{(4+\phi_y)EI_z}{l(1+\phi_y)}\theta_{z1}  - \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y2} + \dfrac{(2-\phi_y)EI_z}{l(1+\phi_y)}\theta_{z2} \\[10pt]
+\label{eq:fx2}
 F_{x2} &=  -F_{x1}\\[10pt]
+\label{eq:fy2}
 F_{y2} &=  -F_{y1}\\[10pt]
+\label{eq:fz2}
 F_{z2} &=  -F_{z1}\\[10pt]
+\label{eq:tx2}
 T_{x2} &=  -T_{x1}\\[10pt]
+\label{eq:ty2}
 T_{y2} &=  - \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z1} + \dfrac{(2+\phi_z)EI_y}{l(1+\phi_z)}\theta_{y1}  + \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z2} + \dfrac{(4-\phi_z)EI_y}{l(1+\phi_z)}\theta_{y2} \\[10pt]
-T_{z2} &= \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y1} + \dfrac{(2+\phi_y)EI_z}{l(1+\phi_y)}\theta_{z1}  - \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y2} + \dfrac{(4-\phi_y)EI_z}{l(1+\phi_y)}\theta_{z2} \\[10pt]
-\end{align*}
+\label{eq:tz2}
+T_{z2} &= \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y1} + \dfrac{(2+\phi_y)EI_z}{l(1+\phi_y)}\theta_{z1}  - \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y2} + \dfrac{(4-\phi_y)EI_z}{l(1+\phi_y)}\theta_{z2}
+\end{align}
+\end{subequations}\\
 
+Combining Equations \ref{eq:fx1} and \ref{eq:kaxial} gives us the x-axis spring component of Equation \ref{eq:translationalForceRot}, assuming no relative rotation between the nodes:
+\[F_{x1} =  k_{axial_x}(p_{x1} - p_{x2}) \]\\
+
+Equations \ref{eq:fy1} and \ref{eq:fz1} have essentially the same form.  Rearranging Equation \ref{eq:fy1} gives:
+\[ F_{y1} =  \dfrac{12EI_z}{l^3(1+\phi_y)} (p_{y1} -p_{y2}) + \dfrac{6EI_z}{l^2(1+\phi_y)}(\theta_{z1} + \theta_{z2}) \]\\
+
+Combining Equations \ref{eq:tz1} and \ref{eq:ktorsion} gives us the x-axis rotational component of Equation ---
+\[T_{x1} =  k_{torsion_x}(\theta_{x1} - \theta_{x2}) \]\\
+
+As discussed in Equation \ref{eq:translationalEqOpp}, the translational forces acting on node 1 are equal and opposite those acting on node 2.  This is summed up by Equations \ref{eq:fx2}, \ref{eq:fy2}, and \ref{eq:fz2}.  This \\
 
 Removing the shear terms from elements of the 12DOF Timoshenko stiffness matrix gives the Euler-Bernoulli beam theory (only valid for small angle approx)\\
 
