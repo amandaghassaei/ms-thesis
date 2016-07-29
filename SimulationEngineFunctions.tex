@@ -178,12 +178,12 @@ d_{composite} = \dfrac{2d_1d_2}{d_1+d_2}
   \label{fig:translationalSim}
 \end{figure}
 
-In the simplest case without rotation, the force $\vec{f}_{1 \rightarrow 2}$ applied to cell 2 by cell 1 is given by:
+In the simplest case without rotation, the force $\vec{F}_{1 \rightarrow 2}$ applied to cell 2 by cell 1 is given by:
 \begin{equation} \label{eq:translationalForce}
-\vec{f}_{1\rightarrow2} = \vec{k} \circ (\vec{p}_1 - \vec{p}_2) + \vec{d} \circ (\vec{v}_1 - \vec{v}_2)
+\vec{F}_{1\rightarrow2} = \vec{k} \circ (\vec{p}_1 - \vec{p}_2) + \vec{d} \circ (\vec{v}_1 - \vec{v}_2)
 \end{equation}
 
-where $\vec{p}_1$ and $\vec{p}_2$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v}_1$ and $\vec{v}_2$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $\vec{k}$ and $\vec{d}$ are 3D vectors containing the appropriate composite stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a axial constant should be used for displacements along x and shear constants should be used for displacements along y and z:
+where $\vec{p}_1$ and $\vec{p}_2$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v}_1$ and $\vec{v}_2$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $\vec{k}$ and $\vec{d}$ are 3D vectors containing the appropriate composite stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, an axial constant should be used for displacements along x and shear constants should be used for displacements along y and z:
 \[ \vec{k} =  \left[ \begin{array}{ccc}
 k_{axial_x}\\
 k_{shear_{xy}}\\
@@ -225,7 +225,7 @@ Using $q_{avg}$, we can rotate the stiffness and damping vectors from Equation \
  \[ \vec{k}_{rot} = (q_{avg}*\vec{k}*q_{avg}^*)\]
   \[ \vec{d}_{rot} = (q_{avg}*\vec{d}*q_{avg}^*)\]
   \begin{equation} \label{eq:translationalForceRotStep}
- \vec{f}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)
+ \vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)
  \end{equation}
  
 Finally, we need to make an adjustment to the nominal differential position between the cells, indicated in Figure \ref{fig:translationalSim}.  The form above assumes the nominal distance between the centers of the cells is the unrotated distance from cells 2 to cell 1 in their initial lattice configuration, $\vec{l}_{nom21}$:
@@ -237,19 +237,19 @@ Finally, we need to make an adjustment to the nominal differential position betw
  
 introducing this correction to Equation \ref{eq:translationalForceRotStep} gives the final form:
  \begin{equation} \label{eq:translationalForceRot}
-  \vec{f}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom21}-\vec{l}_{rot21}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)
+  \vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom21}-\vec{l}_{rot21}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)
   \end{equation}
 
-The force $\vec{f}_{2\rightarrow1}$ exerted on cell 2 by cell 1 is equal in magnitude to $\vec{f}_{1\rightarrow2}$ and opposite in direction:
-\[  \vec{f}_{2\rightarrow1} = -\vec{f}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2) \]
+The force $\vec{F}_{2\rightarrow1}$ exerted on cell 2 by cell 1 is equal in magnitude to $\vec{F}_{1\rightarrow2}$ and opposite in direction:
+\[  \vec{F}_{2\rightarrow1} = -\vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2) \]
 
-Only $\vec{f_{1\rightarrow2}}$ is indicated with a solid pink arrow in Figure \ref{fig:translationalSim}.\\
+Only $\vec{F_{1\rightarrow2}}$ is indicated with a solid pink arrow in Figure \ref{fig:translationalSim}.\\
 
 Dividing by the mass, we can calculate the acceleration of cells 1 and 2 due to interactions between them:
 
- \[ \vec{a}_{1\rightarrow2} = \dfrac{\vec{f}_{1\rightarrow2}}{m_2} 
+ \[ \vec{a}_{1\rightarrow2} = \dfrac{\vec{F}_{1\rightarrow2}}{m_2} 
   \qquad\qquad
-   \vec{a}_{2\rightarrow1} = \dfrac{\vec{f}_{2\rightarrow1}}{m_1} 
+   \vec{a}_{2\rightarrow1} = \dfrac{\vec{F}_{2\rightarrow1}}{m_1} 
   \]
 
 \section{Rotational Forces}
@@ -266,18 +266,28 @@ A sketch of the translational and rotational model for cell interaction is shown
 
 \[ \vec{r}_{moment} = \dfrac{\vec{l}_{rot21}}{2}\]
 
-Then the torque $\vec{t}_{1\rightarrow2}$ can be calculated by the cross product:
+Then the torque $\vec{T}_{1\rightarrow2}$ can be calculated by the cross product:
 
-\[ \vec{t}_{1\rightarrow2} =  \vec{r}_{moment} \times \vec{f}_{1\rightarrow2}\]
+\[ \vec{T}_{1\rightarrow2} =  \vec{r}_{moment} \times \vec{F}_{1\rightarrow2}\]
 
 If we stop now, we have set up a simulation of an arbitrary linkage of cells tied together with frictionless, spherical joints at their centers of mass.  Figure -- shows a few times steps of this system under the force of gravity.\\
 
-Next we'll add in bending and torsional stiffness, which create reaction forces that counteract relative rotations between cells ($t_{rxn}$ in Figure \ref{fig:rotationalSim}).  \\
+Next we'll add in bending and torsional stiffness, which create reaction forces that counteract relative rotations between cells ($T_{rxn}$ in Figure \ref{fig:rotationalSim}).  \\
 
 \section{Comparison with Traditional FEA Techniques}
 
-\scriptsize {
-\[ k =  \left[ \begin{smallmatrix}
+\textit{Shape functions} are polynomials in 1, 2, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes.  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
+
+\[ N_{x1} = 1/4(1-\xi)^2(2+\xi) \]
+\[ N_{x2} = 1/4(1+\xi)^2(2-\xi) \]
+\[ N_{\theta1} = 1/8l(1-\xi)^2(1+\xi) \]
+\[ N_{\theta2} = 1/8l(1+\xi)^2(1-\xi) \]
+
+where $-1 \leq \xi \leq 1$ and $\xi = -1$ at node 1 and $\xi = 1$ at node 2\\
+
+Using these shape functions we can calculate the \textit{stiffness matrix} ($K$) of a beam element.  The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.  A 12DOF Timoshenko beam oriented along the x-axis has the stiffness matrix:\\
+
+\[ K =  \scriptsize {\left[ \begin{smallmatrix}
 \tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
  & \tfrac{12EI_z}{l^3(1+\phi_y)} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2(1+\phi_y)} & 0 & \tfrac{-12EI_z}{l^3(1+\phi_y)} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2(1+\phi_y)}\\
  &  & \tfrac{12EI_y}{l^3(1+\phi_z)} & 0 & \tfrac{-6EI_y}{l^2(1+\phi_z)} & 0 & 0 & 0 & \tfrac{-12EI_y}{l^3(1+\phi_z)} & 0 & \tfrac{-6EI_y}{l^2(1+\phi_z)} & 0\\
@@ -287,20 +297,73 @@ Next we'll add in bending and torsional stiffness, which create reaction forces 
  &  &  &  &  &  & \tfrac{EA}{l}  & 0 & 0 & 0 & 0 & 0\\
  &  &  &  &  &  &  & \tfrac{12EI_z}{l^3(1+\phi_y)} & 0 & 0 & 0 & \tfrac{-6EI_z}{l^2(1+\phi_y)}\\
  &  &  &  &  &  &  &  & \tfrac{12EI_y}{l^3(1+\phi_z)} & 0 & \tfrac{6EI_y}{l^2(1+\phi_z)}\ & 0\\
- &  & (symmetric) &  &  &  &  &  &  & \tfrac{GJ}{l} & 0 & 0\\
+ &  & symmetric &  &  &  &  &  &  & \tfrac{GJ}{l} & 0 & 0\\
  &  &  &  &  &  &  &  &  &  & \tfrac{(4+\phi_z)EI_y}{l(1+\phi_z)} & 0\\
   &  &  &  &  &  &  &  &  &  &  & \tfrac{(4+\phi_y)EI_z}{l(1+\phi_y)}\\
- \end{smallmatrix} \right]\]
- }
+ \end{smallmatrix} \right] }\]
  
  where
+\[ \phi_y = \dfrac{12EI_z}{GA_{sy}l^2} \qquad  \textrm{and} \qquad \phi_z = \dfrac{12EI_y}{GA_{sz}l^2} \]
+
+
+The stiffness matrix gives us a way to convert between translational/rotational nodal displacements and forces, according to the following equation:
+
+ \begin{equation} \label{eq:forcestiffnessdisp} \vec{F} = K\vec{u} \end{equation}
+where:
+\[ \vec{F} =  \left[ \begin{array}{ccc}
+F_{x1}\\
+F_{y1}\\
+F_{z1}\\
+T_{x1}\\
+T_{y1}\\
+T_{z1}\\
+F_{x2}\\
+F_{y2}\\
+F_{z2}\\
+T_{x2}\\
+T_{y2}\\
+T_{z2}
+ \end{array} \right]  \qquad \qquad  
+ \vec{u} =  \left[ \begin{array}{ccc}
+p_{x1}\\
+p_{y1}\\
+p_{z1}\\
+\theta_{x1}\\
+\theta_{y1}\\
+\theta_{z1}\\
+p_{x2}\\
+p_{y2}\\
+p_{z2}\\
+\theta_{x2}\\
+\theta_{y2}\\
+\theta_{z2}
+ \end{array} \right]
+ \]
  
-\[ \phi_y = \dfrac{12EI_z}{GA_{sy}l^2} \qquad  and \qquad \phi_z = \dfrac{12EI_y}{GA_{sz}l^2} \]
+where $F_1$, $F_2$ are translational forces on nodes 1 and 2, $T$ are torques, $p$ are translational positions, and $\theta$ are rotations.\\
 
-Removing the shear and torsional terms from elements of Equation \ref{} gives the Euler-Bernoulli beam theory (only valid for small angle approx)\\
+Multiplying through Equation \ref{eq:forcestiffnessdisp} gives us 12 equations:
 
-\small {
-\[ k =  \left[ \begin{smallmatrix}
+\begin{align*} 
+F_{x1} &=  \dfrac{EA}{l}p_{x1} - \dfrac{EA}{l}p_{x2} \\[10pt]
+F_{y1} &=  \dfrac{12EI_z}{l^3(1+\phi_y)}p_{y1} + \dfrac{6EI_z}{l^2(1+\phi_y)}\theta_{z1} - \dfrac{12EI_z}{l^3(1+\phi_y)}p_{y2} + \dfrac{6EI_z}{l^2(1+\phi_y)}\theta_{z2}\\[10pt]
+F_{z1} &=  \dfrac{12EI_y}{l^3(1+\phi_z)}p_{z1} - \dfrac{6EI_y}{l^2(1+\phi_z)}\theta_{y1} - \dfrac{12EI_y}{l^3(1+\phi_z)}p_{z2} - \dfrac{6EI_y}{l^2(1+\phi_z)}\theta_{y2}\\[10pt]
+T_{x1} &=  \dfrac{GJ}{l}\theta_{x1} - \dfrac{GJ}{l}\theta_{x2} \\[10pt]
+T_{y1} &= - \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z1} + \dfrac{(4+\phi_z)EI_y}{l(1+\phi_z)}\theta_{y1}  + \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z2} + \dfrac{(2-\phi_z)EI_y}{l(1+\phi_z)}\theta_{y2} \\[10pt]
+T_{z1} &=  \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y1} + \dfrac{(4+\phi_y)EI_z}{l(1+\phi_y)}\theta_{z1}  - \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y2} + \dfrac{(2-\phi_y)EI_z}{l(1+\phi_y)}\theta_{z2} \\[10pt]
+F_{x2} &=  -F_{x1}\\[10pt]
+F_{y2} &=  -F_{y1}\\[10pt]
+F_{z2} &=  -F_{z1}\\[10pt]
+T_{x2} &=  -T_{x1}\\[10pt]
+T_{y2} &=  - \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z1} + \dfrac{(2+\phi_z)EI_y}{l(1+\phi_z)}\theta_{y1}  + \dfrac{6EI_y}{l^2(1+\phi_z)}p_{z2} + \dfrac{(4-\phi_z)EI_y}{l(1+\phi_z)}\theta_{y2} \\[10pt]
+T_{z2} &= \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y1} + \dfrac{(2+\phi_y)EI_z}{l(1+\phi_y)}\theta_{z1}  - \dfrac{6EI_z}{l^2(1+\phi_y)}p_{y2} + \dfrac{(4-\phi_y)EI_z}{l(1+\phi_y)}\theta_{z2} \\[10pt]
+\end{align*}
+
+
+Removing the shear terms from elements of the 12DOF Timoshenko stiffness matrix gives the Euler-Bernoulli beam theory (only valid for small angle approx)\\
+
+
+\[ K =  \small {\left[ \begin{smallmatrix}
 \tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
  & \tfrac{12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2} & 0 & \tfrac{-12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2}\\
  &  & \tfrac{12EI_y}{l^3} & 0 & \tfrac{-6EI_y}{l^2} & 0 & 0 & 0 & \tfrac{-12EI_y}{l^3} & 0 & \tfrac{-6EI_y}{l^2} & 0\\
@@ -310,11 +373,10 @@ Removing the shear and torsional terms from elements of Equation \ref{} gives th
  &  &  &  &  &  & \tfrac{EA}{l}  & 0 & 0 & 0 & 0 & 0\\
  &  &  &  &  &  &  & \tfrac{12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{-6EI_z}{l^2}\\
  &  &  &  &  &  &  &  & \tfrac{12EI_y}{l^3} & 0 & \tfrac{6EI_y}{l^2}\ & 0\\
- &  & (symmetric) &  &  &  &  &  &  & \tfrac{GJ}{l} & 0 & 0\\
+ &  & symmetric &  &  &  &  &  &  & \tfrac{GJ}{l} & 0 & 0\\
  &  &  &  &  &  &  &  &  &  & \tfrac{4EI_y}{l} & 0\\
   &  &  &  &  &  &  &  &  &  &  & \tfrac{4EI_z}{l}\\
- \end{smallmatrix} \right]\]
- }
+ \end{smallmatrix} \right] } \]
 
 \section{Sources of Error}
 
