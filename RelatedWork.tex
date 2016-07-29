@@ -140,29 +140,6 @@ To date, self replicating machines and other complex engineered systems have bee
 Inside Life, there is a notion of periodicity that is important in determining whether a 
 The speed of light, \textit{c}, is the rate of travel 
 
-\section{Dynamic Simulation Techniques}
-
-\subsection{Dynamic Simulation of Elastic Solids}
-
-A large portion of the work involved in this thesis involves the development of a dynamic simulation engine for elastically deformable solids.  \href{https://en.wikipedia.org/wiki/Solid_mechanics}{Solid mechanics} is the study of the motion and deformation of solid bodies under external forces, changes in temperature, and other stresses.  Solid mechanics differentiates itself from other branches of continuum mechanics because solids are assumed to have a preferred rest shape.  This thesis is concerned with a subset of solid mechanics called elasticity, where materials return to their initial rest shape after all external forces are removed.  A more complete discussion of solid mechanics is given in Bower\cite{Bower2009}.\\  
-
-This thesis explores both isotropic and anisotropic materials.  A material is isotropic if it responds the same to an external force no matter its orientation; materials comprised of oriented fibers or other directional structures typical display anisotropic behaviors.  
-
-\subsubsection{Simulation Techniques for Solids}
-
-This thesis is concerned with the numerical solution of the position, orientation, and deformation of an elastic solid made from many elements of identical geometry and various material types.  Based on the distribution of elements and material types throughout the solid, it is possible to describe its dynamic behavior with a \href{https://en.wikipedia.org/wiki/Partial_differential_equation}{partial differential equation} (PDE).  Evaluating this PDE subject to the initial state and boundary conditions (applied forces, fixed regions, etc) gives the state of the solid over time.  There are a few different techniques for doing this; depending on the specific requirements of a simulation, it may be more advantageous to use one over another.\\
-
-The first technique is called the \href{https://en.wikipedia.org/wiki/Finite_difference_method}{Finite Difference Method} (FDM).  \\
-
-
-A more complete discussion of FDM, FEM, and FVM is given in Peiro et al.\cite{Peiro2005}.\\
-
-FEA vs Mass-Spring vs CA\\
-few works well for linear - non linear for large deformations may require remeshing\\
-mass spring methods - widely used in computer graphics, better for large deformations and non linear, less accurate\\
-differential elements\\
-
-
 \section{CAD and Simulation Tools for Digital Assembly}
 
 At the moment of writing this, there exist several computational tools for designing and simulating kinematic, discretely-assembled structures.

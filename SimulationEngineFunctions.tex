@@ -9,26 +9,64 @@
 
 \chapter{Simulation of Functional Digital Materials}\label{chap:functionSim}
 
-Simulation of function-level parts is carried out through a mass/spring/damper model.  In this model, neighboring face-connected cells apply forces and torques on one another through local interactions.  Translational and rotational positions and velocities are calculated from these forces using discrete-time integration techniques.  Internal degrees of freedom of \textit{functions} are parameterized by 15 stiffness and damping coefficients, $k$ and $d$.  Actuation is achieved by modulating the nominal distance of adjacent cells along a particular degree of freedom.  %In a sense, this type of simulation could be thought of as a dynamic constraint-solving system between solid elements with various degrees of freedom.
+Simulation of function-level parts is carried out through a dynamic mass / spring / damper model.  In this model, neighboring face-connected cells apply forces and torques on one another through local interactions.  Translational and rotational positions and velocities are calculated from these forces using discrete-time integration techniques.  Anisotropic behaviors of \textit{functional primitives} are parameterized by 15 stiffness and damping coefficients, $k$ and $d$.  Actuation is achieved by modulating the nominal distance of adjacent cells along a particular degree of freedom.\\
 
 \section{Existing Models of Solids}
 
-Mass/spring/damper
-FEA
+\href{https://en.wikipedia.org/wiki/Solid_mechanics}{Solid mechanics} is the study of the motion and deformation of solid bodies under external forces, changes in temperature, and other stresses.  Solid mechanics differentiates itself from other branches of continuum mechanics because solids are assumed to have a preferred rest shape.  This thesis is concerned with a regime of solid mechanics called elasticity, where materials return to their initial rest shape after all external forces are removed. \\
 
-%Unlike traditional mass/spring/damper models of solids from computer graphics literature (cite stuff here), the model developed in this thesis draws on an abstraction of the functionality embedded in the different "function types".
+\begin{figure}
+  \includegraphics[width=\linewidth]{FEAexample.png}
+  \caption{Two potential ways to model linear elastic deformations of a solid.  The strategy on the left treats the entire geometry as a Hookian spring, resulting in erroneous modeling of the solid's behavior.  The strategy on the left breaks up the solid into small regions which can individually be modeled with Hooke's law to a reasonable degree of accuracy.  The individual behaviors of the small regions are combined to form the global behaviors of the entire geometry.  The method on the right summarizes the methods behind traditional FEA.}
+  \label{fig:FEAexample}
+\end{figure}
+
+More specifically, I'll be modeling linear elastic deformation of solids, in other words, things that obey Hooke's law:
+
+\[F = kx\]
+
+where F is a force, x is a displacement, and k is a material stiffness.  We could try to model the deformations of a linear, elastic solid as a Hookian spring, but this model would produce huge errors for large, complex geometries.  Instead, modern simulation techniques break up complex geometries into many simple, discrete regions whose behavior can be modeled with Hooke's law to a reasonable degree of accuracy.  Summing up each of these discrete solutions approximates the net behavior of the more complex geometry.  Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
+
+
+
+
+The behavior of elastic solids is usually described by stress and strain.  Stress describes the internal forces acting on neighboring regions of a material, measured as force per area in pascals (PA) or N/m\textsuperscript{2}.  Strain describes the deformations of these regions in response to stress, measured as a unit-less ratio of a length of deformation per unit of unstressed length.\\
+
+This thesis explores both isotropic and anisotropic materials.  A material is isotropic if it responds the same to an external force no matter its orientation; materials comprised of oriented fibers or other directional structures typical display anisotropic behaviors.  The response of solids to strains are typically expressed in terms of their elastic modulus $E$ and shear modulus $G$, however, for anisotropic materials, such as those used in our assembly system, this parameterization does not give enough information.\\
+
+In the form above, $k$ depends on the geometry of the material, it is a measure of \textit{geometric stiffness}.\\
+
+
+
+
+
+
+This thesis is concerned with the numerical solution of the position, orientation, and deformation of an elastic solid made from many elements of identical geometry and various material types.  Based on the distribution of elements and material types throughout the solid, it is possible to describe its dynamic behavior with a \href{https://en.wikipedia.org/wiki/Partial_differential_equation}{partial differential equation} (PDE).  Evaluating this PDE subject to the initial state and boundary conditions (applied forces, fixed regions, etc) gives the state of the solid over time.  There are a few different techniques for doing this; depending on the specific requirements of a simulation, it may be more advantageous to use one over another.\\
+
+
+few works well for linear - non linear for large deformations may require remeshing\\
+mass spring methods - widely used in computer graphics, better for large deformations and non linear, less accurate\\
+
+Unlike traditional mass/spring/damper models of solids from computer graphics literature (cite stuff here), the model developed in this thesis draws on an abstraction of the functionality embedded in the different "function types".\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
-  \caption{Deformations of a solid element under four types of applied forces.  In modeling assemblies of \textit{functions}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, longitudinal (compression and tension) and shear forces cause translational displacement and bending and torsional forces cause rotational displacement.}
+  \caption{Deformations of a solid element under four types of applied forces.  In modeling assemblies of \textit{functions}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, axial (compression and tension) and shear forces cause translational displacement and bending and torsional forces cause rotational displacement.}
   \label{fig:SolidMechanicsDOF}
 \end{figure}
 
-In solid mechanics, we can consider the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  Forces acting on these finite elements fall into four categories: longitudinal (tension and compression), bending, shear, and torsion.  Each type of applied force causes a characteristic deformation of the finite element, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.\\
+In solid mechanics, we can consider the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  Forces acting on these finite elements fall into four categories: axial (tension and compression), bending, shear, and torsion.  Each type of applied force causes a characteristic deformation of the finite element, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.\\
 
 In this model, simulation of an assembly happens at the granularity of identically-sized \textit{function}-level parts, which we'll call "cells".  When describing mechanical behavior of a particular cell type, we refer to its deformations as "internal degrees of freedom" (DOF).  For example, a 1-DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.\\
 
 \section{Function Types}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{FunctionalPrimitives.png}
+  \caption{}
+  \label{fig:FunctionalPrimitives}
+\end{figure}
+
 
 Cells at the function-level are defined not only by their mechanical properties, but also by their ability to transmit electronic signals from one face to another, and their active properties in response to a signal. The combinatorial space of mechanical, electronic, and actuated cell types is described in Figure \ref{fig:CombinatoricsOfFunctions}.  Section \ref{sec:electronicSim} describes the process of electronic simulation in more detail, the remainder of this chapter will focus on the passive and active mechanical simulation of function-level cells.
 \\
@@ -51,49 +89,49 @@ A linear scale showing the range of physically achievable 1-DOF bending cell typ
 
 The geometric stiffness of a structure relates the bulk properties of a material to its 3d geometry.  For example, an I-beam has a higher geometric bending stiffness than an equal length rectangular bar made from the same amount of the same material.  Unless otherwise noted, "stiffness" in this analysis refers to geometric stiffness.\\
 
-Stiffness and damping are used to characterize the response of cell's internal degrees of freedom to applied external forces.  In three dimensions, each cell's passive mechanical properties are parameterized by 15 stiffness and damping constants:
+Stiffness and damping are used to characterize the response of cell's internal degrees of freedom to applied external forces.  Stiffness has the units N/m and damping N$\cdot$s/m.  In three dimensions, each cell's passive mechanical properties are parameterized by 15 stiffness and damping constants:
 
-\[ k  \left\{ \begin{array}{ccc}
-k_{longitudinal_x}\\
-k_{longitudinal_y}\\
-k_{longitudinal_z}\\
+\[ k  = \begin{cases}
+\enspace k_{axial_x}\\
+\enspace k_{axial_y}\\
+\enspace k_{axial_z}\\
 \\
-k_{shear_{xy}}\\
-k_{shear_{xz}}\\
-k_{shear_{yx}}\\
-k_{shear_{yz}}\\
-k_{shear_{zx}}\\
-k_{shear_{zy}}\\
+\enspace k_{shear_{xy}}\\
+\enspace k_{shear_{xz}}\\
+\enspace k_{shear_{yx}}\\
+\enspace k_{shear_{yz}}\\
+\enspace k_{shear_{zx}}\\
+\enspace k_{shear_{zy}}\\
 \\
-k_{bending_x}\\
-k_{bending_y}\\
-k_{bending_z}\\
+\enspace k_{bending_x}\\
+\enspace k_{bending_y}\\
+\enspace k_{bending_z}\\
 \\
-k_{torsional_x}\\
-k_{torsional_y}\\
-k_{torsional_z}
- \end{array} \right\} 
+\enspace k_{torsional_x}\\
+\enspace k_{torsional_y}\\
+\enspace k_{torsional_z}
+ \end{cases}
  \qquad\qquad
- d  \left\{ \begin{array}{ccc}
-d_{longitudal_x}\\
-d_{longitudal_y}\\
-d_{longitudal_z}\\
+ d  = \begin{cases}
+\enspace d_{axial_x}\\
+\enspace d_{axial_y}\\
+\enspace d_{axial_z}\\
 \\
-d_{shear_{xy}}\\
-d_{shear_{xz}}\\
-d_{shear_{yx}}\\
-d_{shear_{yz}}\\
-d_{shear_{zx}}\\
-d_{shear_{zy}}\\
+\enspace d_{shear_{xy}}\\
+\enspace d_{shear_{xz}}\\
+\enspace d_{shear_{yx}}\\
+\enspace d_{shear_{yz}}\\
+\enspace d_{shear_{zx}}\\
+\enspace d_{shear_{zy}}\\
 \\
-d_{bending_x}\\
-d_{bending_y}\\
-d_{bending_z}\\
+\enspace d_{bending_x}\\
+\enspace d_{bending_y}\\
+\enspace d_{bending_z}\\
 \\
-d_{torsional_x}\\
-d_{torsional_y}\\
-d_{torsional_z}
- \end{array} \right\}  \]
+\enspace d_{torsional_x}\\
+\enspace d_{torsional_y}\\
+\enspace d_{torsional_z}
+ \end{cases}  \]
 \\
 
 $k_{shear}$ and $d_{shear}$ are broken out into six parameters of the form $shear_{nm}$ because the shear response depends both on the direction of shear displacement between two cells ($m$) and on the axis along which the cells are connected ($n$).  The $shear_{nm}$ notion used above is described graphically in in Figure \ref{fig:ShearDOFs}.\\
@@ -106,10 +144,10 @@ $k_{shear}$ and $d_{shear}$ are broken out into six parameters of the form $shea
 
 The stiffness and damping constants of each cell type may be calculated from bulk properties of the constituent materials that make up the cell, or they may be measured empirically.  For example, an isotropic cell made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses defined by:
 
-\[ k_{longitudinal} = \dfrac{aE}{l}\]
-\[ k_{shear} = \dfrac{Ga}{l} ??\]
+\[ k_{axial} = \dfrac{aE}{l}\]
+\[ k_{shear} = \dfrac{3EI}{al}\]
 \[ k_{torsion} = \dfrac{GJ}{l}\]
-\[ k_{bending} = \dfrac{aE}{l} ??\]
+\[ k_{bending} = \dfrac{EI}{l}\]
 \\
 where $a$ is the cross sectional area and $l$ is the length of the cell.\\
 
@@ -145,15 +183,15 @@ In the simplest case without rotation, the force $\vec{f}_{1 \rightarrow 2}$ app
 \vec{f}_{1\rightarrow2} = \vec{k} \circ (\vec{p}_1 - \vec{p}_2) + \vec{d} \circ (\vec{v}_1 - \vec{v}_2)
 \end{equation}
 
-where $\vec{p}_1$ and $\vec{p}_2$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v}_1$ and $\vec{v}_2$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $\vec{k}$ and $\vec{d}$ are 3D vectors containing the appropriate composite stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a longitudinal constant should be used for displacements along x and shear constants should be used for displacements along y and z:
+where $\vec{p}_1$ and $\vec{p}_2$ are the displacements of cell 1 and cell 2 from their nominal position in the lattice, $\vec{v}_1$ and $\vec{v}_2$ are the cells' translational velocities, $\circ$ is multiplication of two vectors by element, and $\vec{k}$ and $\vec{d}$ are 3D vectors containing the appropriate composite stiffness and damping constants for the interaction between the cells.  For example, given the scenario illustrated in Figure \ref{fig:translationalSim}, where two cells are connected along the x axis, a axial constant should be used for displacements along x and shear constants should be used for displacements along y and z:
 \[ \vec{k} =  \left[ \begin{array}{ccc}
-k_{longitudinal_x}\\
+k_{axial_x}\\
 k_{shear_{xy}}\\
 k_{shear_{xz}}
  \end{array} \right]  
   \qquad\qquad
   \vec{d} =  \left[ \begin{array}{ccc}
-d_{longitudinal_x}\\
+d_{axial_x}\\
 d_{shear_{xy}}\\
 d_{shear_{xz}}
  \end{array} \right] \] 
@@ -216,7 +254,7 @@ Dividing by the mass, we can calculate the acceleration of cells 1 and 2 due to 
 
 \section{Rotational Forces}
 
-So far, this model uses shear and longitudinal stiffness and damping constants to compute the translational interactions between neighboring cells in 3D.  In order to incorporate bending and torsional forces, we must develop a method of for cells to apply torques to one another.  These torques result in rotational motion of a cell about its center of mass.\\
+So far, this model uses shear and axial stiffness and damping constants to compute the translational interactions between neighboring cells in 3D.  In order to incorporate bending and torsional forces, we must develop a method of for cells to apply torques to one another.  These torques result in rotational motion of a cell about its center of mass.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{rotationalSim.png}
@@ -224,7 +262,7 @@ So far, this model uses shear and longitudinal stiffness and damping constants t
   \label{fig:rotationalSim}
 \end{figure}
 
-A sketch of the translational and rotational model for cell interaction is shown in Figure \ref{fig:rotationalSim}.  In this model, we consider the fact that shear and longitudinal forces between cells are not applied directly to the center of mass of a cell, but rather at some moment arm from the center of mass.  We define the moment arm $\vec{r}_{moment2}$ of cell 2 to be half the nominal distance from cell 2 to cell 1, rotated to the average reference frame of the two cells:
+A sketch of the translational and rotational model for cell interaction is shown in Figure \ref{fig:rotationalSim}.  In this model, we consider the fact that shear and axial forces between cells are not applied directly to the center of mass of a cell, but rather at some moment arm from the center of mass.  We define the moment arm $\vec{r}_{moment2}$ of cell 2 to be half the nominal distance from cell 2 to cell 1, rotated to the average reference frame of the two cells:
 
 \[ \vec{r}_{moment} = \dfrac{\vec{l}_{rot21}}{2}\]
 
@@ -234,6 +272,49 @@ Then the torque $\vec{t}_{1\rightarrow2}$ can be calculated by the cross product
 
 If we stop now, we have set up a simulation of an arbitrary linkage of cells tied together with frictionless, spherical joints at their centers of mass.  Figure -- shows a few times steps of this system under the force of gravity.\\
 
+Next we'll add in bending and torsional stiffness, which create reaction forces that counteract relative rotations between cells ($t_{rxn}$ in Figure \ref{fig:rotationalSim}).  \\
+
+\section{Comparison with Traditional FEA Techniques}
+
+\scriptsize {
+\[ k =  \left[ \begin{smallmatrix}
+\tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
+ & \tfrac{12EI_z}{l^3(1+\phi_y)} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2(1+\phi_y)} & 0 & \tfrac{-12EI_z}{l^3(1+\phi_y)} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2(1+\phi_y)}\\
+ &  & \tfrac{12EI_y}{l^3(1+\phi_z)} & 0 & \tfrac{-6EI_y}{l^2(1+\phi_z)} & 0 & 0 & 0 & \tfrac{-12EI_y}{l^3(1+\phi_z)} & 0 & \tfrac{-6EI_y}{l^2(1+\phi_z)} & 0\\
+ &  &  &  \tfrac{GJ}{l} &  0 &  0 &  0 &  0 &  0 & \tfrac{-GJ}{l} & 0 & 0\\
+ &  &  &  & \tfrac{(4+\phi_z)EI_y}{l(1+\phi_z)} & 0 & 0 & 0 & \tfrac{6EI_y}{l^2(1+\phi_z)} & 0 & \tfrac{(2-\phi_z)EI_y}{l(1+\phi_z)} & 0\\
+ &  &  &  &  & \tfrac{(4+\phi_y)EI_z}{l(1+\phi_y)} & 0 & \tfrac{-6EI_z}{l^2(1+\phi_y)} & 0 & 0 & 0 & \tfrac{(2-\phi_y)EI_z}{l(1+\phi_y)}\\
+ &  &  &  &  &  & \tfrac{EA}{l}  & 0 & 0 & 0 & 0 & 0\\
+ &  &  &  &  &  &  & \tfrac{12EI_z}{l^3(1+\phi_y)} & 0 & 0 & 0 & \tfrac{-6EI_z}{l^2(1+\phi_y)}\\
+ &  &  &  &  &  &  &  & \tfrac{12EI_y}{l^3(1+\phi_z)} & 0 & \tfrac{6EI_y}{l^2(1+\phi_z)}\ & 0\\
+ &  & (symmetric) &  &  &  &  &  &  & \tfrac{GJ}{l} & 0 & 0\\
+ &  &  &  &  &  &  &  &  &  & \tfrac{(4+\phi_z)EI_y}{l(1+\phi_z)} & 0\\
+  &  &  &  &  &  &  &  &  &  &  & \tfrac{(4+\phi_y)EI_z}{l(1+\phi_y)}\\
+ \end{smallmatrix} \right]\]
+ }
+ 
+ where
+ 
+\[ \phi_y = \dfrac{12EI_z}{GA_{sy}l^2} \qquad  and \qquad \phi_z = \dfrac{12EI_y}{GA_{sz}l^2} \]
+
+Removing the shear and torsional terms from elements of Equation \ref{} gives the Euler-Bernoulli beam theory (only valid for small angle approx)\\
+
+\small {
+\[ k =  \left[ \begin{smallmatrix}
+\tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
+ & \tfrac{12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2} & 0 & \tfrac{-12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2}\\
+ &  & \tfrac{12EI_y}{l^3} & 0 & \tfrac{-6EI_y}{l^2} & 0 & 0 & 0 & \tfrac{-12EI_y}{l^3} & 0 & \tfrac{-6EI_y}{l^2} & 0\\
+ &  &  &  \tfrac{GJ}{l} &  0 &  0 &  0 &  0 &  0 & \tfrac{-GJ}{l} & 0 & 0\\
+ &  &  &  & \tfrac{4EI_y}{l} & 0 & 0 & 0 & \tfrac{6EI_y}{l^2} & 0 & \tfrac{EI_y}{l} & 0\\
+ &  &  &  &  & \tfrac{4EI_z}{l} & 0 & \tfrac{-6EI_z}{l^2} & 0 & 0 & 0 & \tfrac{EI_z}{l}\\
+ &  &  &  &  &  & \tfrac{EA}{l}  & 0 & 0 & 0 & 0 & 0\\
+ &  &  &  &  &  &  & \tfrac{12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{-6EI_z}{l^2}\\
+ &  &  &  &  &  &  &  & \tfrac{12EI_y}{l^3} & 0 & \tfrac{6EI_y}{l^2}\ & 0\\
+ &  & (symmetric) &  &  &  &  &  &  & \tfrac{GJ}{l} & 0 & 0\\
+ &  &  &  &  &  &  &  &  &  & \tfrac{4EI_y}{l} & 0\\
+  &  &  &  &  &  &  &  &  &  &  & \tfrac{4EI_z}{l}\\
+ \end{smallmatrix} \right]\]
+ }
 
 \section{Sources of Error}
 
@@ -249,7 +330,7 @@ For linear systems, explicit forward time integration can be achieved using a va
 \[ \vec{v}_{t+1} = \vec{v}_{t} +  \vec{a}_{t}\Delta t\]
 \[ \vec{p}_{t+1} = \vec{p}_{t} +  \vec{v}_{t}\Delta t\]
 
-Verlet integration requires storing the previous two position calculations (at time t and t-1) in order to calculate the next position:
+Verlet integration requires storing the previous two position calculations (at time $t$ and $t-1$) in order to calculate the next position:
 \[ \vec{p}_{t+1} = 2\vec{p}_{t} - \vec{p}_{t-1} +  \vec{a}_{t}\Delta t^2\]
 \[ \vec{v}_{t+1} = \dfrac{\vec{p}_{t+1} - \vec{p}_{t}}{\Delta t}\]
 
