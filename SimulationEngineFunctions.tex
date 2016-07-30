@@ -11,49 +11,50 @@
 
 Simulation of function-level parts is carried out through a dynamic mass / spring / damper model.  In this model, neighboring face-connected cells apply forces and torques on one another through local interactions.  Translational and rotational positions and velocities are calculated from these forces using discrete-time integration techniques.  Anisotropic behaviors of \textit{functional primitives} are parameterized by 15 stiffness and damping coefficients, $k$ and $d$.  Actuation is achieved by modulating the nominal distance of adjacent cells along a particular degree of freedom.\\
 
-\section{Existing Models of Solids}
+\section{Solid Mechanics}
 
-\href{https://en.wikipedia.org/wiki/Solid_mechanics}{Solid mechanics} is the study of the motion and deformation of solid bodies under external forces, changes in temperature, and other stresses.  Solid mechanics differentiates itself from other branches of continuum mechanics because solids are assumed to have a preferred rest shape.  This thesis is concerned with a regime of solid mechanics called elasticity, where materials return to their initial rest shape after all external forces are removed.  Solids deform in an elastic regime until forces acting on or within them become so large they result in irreversible, plastic deformations or fracture.\\
+\href{https://en.wikipedia.org/wiki/Solid_mechanics}{Solid mechanics} is the study of the motion and deformation of solid bodies under external forces, changes in temperature, and other stresses.  Solid mechanics differentiates itself from other branches of continuum mechanics because solids are assumed to have a preferred rest shape.  This thesis is concerned with a regime of solid mechanics called elasticity, where materials return to their initial rest shape after all external forces are removed.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{SolidRegimes.png}
-  \caption{}
+  \caption{Stress/strain curves of materials reveal the linear elastic regime (pink), characterized by linear relationship between stress and strain and slope $E$ (elastic modulus).  Under larger stresses, materials enter non-linear elastic and plastic deformations, and eventually fracture.}
   \label{fig:SolidRegimes}
 \end{figure}
 
-The behavior of elastic solids is usually described by stress and strain.  Stress describes the internal forces acting on neighboring regions of a material, measured as force per area in pascals (PA) or N/m\textsuperscript{2}.  Strain describes the deformations of these regions in response to stress, measured as a unit-less ratio of a length of deformation per unit of unstressed length.\\
+The behavior of solids is typically characterized in terms of \textit{stress} and \textit{strain}.  Stress describes the internal forces acting on neighboring regions of a material, measured as force per area in pascals (Pa) or N/m\textsuperscript{2}.  Strain describes the deformations of these regions in response to stress, measured as a unit-less ratio of a length of deformation per unit of unstressed length.  Figure \ref{fig:SolidRegimes} shows an example of a typical stress/strain curve for a solid material.\\
+
+Solids deform in an elastic regime until forces acting on or within them become so large they result in irreversible, plastic deformations or fracture (Figure \ref{fig:SolidRegimes}).  The modeling in this chapter will deal exclusively with \textit{linear} elastic deformations of solids.  This is the region of the stress/strain curve with constant slope, indicated by the pink dotted line in Figure \ref{fig:SolidRegimes}.  In this region, stress and strain have an approximately linear relationship to each other, in other words, materials obey Hooke's law:
+\begin{equation}\label{eq:hookes}
+F = kx
+\end{equation}
+
+where F is a force, x is a displacement, and k is a measure of geometeric stiffness.  We can rewrite Hooke's law in terms of stress ($\sigma$) and strain ($\epsilon$) as follows:
+\begin{equation}\label{eq:stressstrain}
+\sigma = E\epsilon 
+\end{equation}
+
+where $E$ is the elastic modulus (also called "Young's modulus") of a given material.  As long as the forces acting on and within a solid are sufficiently low, we can assume that a linear elastic deformation model applies.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{FEAexample.png}
-  \caption{Two potential ways to model linear elastic deformations of a solid.  The strategy on the left treats the entire geometry as a Hookian spring, resulting in erroneous modeling of the solid's behavior.  The strategy on the left breaks up the solid into small regions which can individually be modeled with Hooke's law to a reasonable degree of accuracy.  The individual behaviors of the small regions are combined to form the global behaviors of the entire geometry.  The method on the right summarizes the methods behind traditional FEA.}
+  \caption{Two potential ways to model linear elastic deformations of a solid.  The strategy on the left treats the entire geometry as a Hookian spring, resulting in erroneous modeling of the solid's behavior.  The strategy on the left breaks up the solid into small regions which can individually be modeled with Hooke's law to a reasonable degree of accuracy.  The individual behaviors of the small regions are combined to synthesize a model of the global behavior of the entire geometry.  The method on the right summarizes the main idea behind traditional FEA.}
   \label{fig:FEAexample}
 \end{figure}
 
-More specifically, this chapter introduces techniques for modeling \textit{linear} elastic deformation of solids, in other words, things that obey Hooke's law:
+So far we have discussed the ways that the material properties of a solid affect its behavior, next we must consider its geometry.  Starting with Equation \ref{eq:stressstrain}, we could try modeling the deformations of a linear, elastic solid as a single Hookian spring.  Though this strategy could yield reasonable results for simple geometries and loading patterns, like a rubberband in pure tension, it is not accurate for more complex situations.  Instead, modern simulation techniques break up complex geometries into many simple, discrete regions whose individual behavior can be accurately modeled with Hooke's law (Figure \ref{fig:FEAexample}).  Combining the solutions to these discrete regions approximates the net behavior of the more complex geometry.\\
 
-\[F = kx\]
-
-where F is a force, x is a displacement, and k is a material stiffness.  As long as the forces acting on a solid are sufficiently low, we can assume that a linear elastic deformation model applies.\\
-
-describe in terms of stress/strain\\
-
-We could try to model the deformations of a linear, elastic solid as a Hookian spring, but this model would produce huge errors for large, complex geometries.  Instead, modern simulation techniques break up complex geometries into many simple, discrete regions whose behavior can be modeled with Hooke's law to a reasonable degree of accuracy.  Summing up each of these discrete solutions approximates the net behavior of the more complex geometry.  Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
-
-
-
-
+Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
 
 
 This thesis explores both isotropic and anisotropic materials.  A material is isotropic if it responds the same to an external force no matter its orientation; materials comprised of oriented fibers or other directional structures typical display anisotropic behaviors.  The response of solids to strains are typically expressed in terms of their elastic modulus $E$ and shear modulus $G$, however, for anisotropic materials, such as those used in our assembly system, this parameterization does not give enough information.\\
 
-In the form above, $k$ depends on the geometry of the material, it is a measure of \textit{geometric stiffness}.\\
 
 
 
 
 
 
-This thesis is concerned with the numerical solution of the position, orientation, and deformation of an elastic solid made from many elements of identical geometry and various material types.  Based on the distribution of elements and material types throughout the solid, it is possible to describe its dynamic behavior with a \href{https://en.wikipedia.org/wiki/Partial_differential_equation}{partial differential equation} (PDE).  Evaluating this PDE subject to the initial state and boundary conditions (applied forces, fixed regions, etc) gives the state of the solid over time.  There are a few different techniques for doing this; depending on the specific requirements of a simulation, it may be more advantageous to use one over another.\\
+%This thesis is concerned with the numerical solution of the position, orientation, and deformation of an elastic solid made from many elements of identical geometry and various material types.  Evaluating this PDE subject to the initial state and boundary conditions (applied forces, fixed regions, etc) gives the state of the solid over time.
 
 
 few works well for linear - non linear for large deformations may require remeshing\\
@@ -69,7 +70,7 @@ Unlike traditional mass/spring/damper models of solids from computer graphics li
 
 In solid mechanics, we can consider the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  Forces acting on these finite elements fall into four categories: axial (tension and compression), bending, shear, and torsion.  Each type of applied force causes a characteristic deformation of the finite element, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.\\
 
-In this model, simulation of an assembly happens at the granularity of identically-sized \textit{function}-level parts, which we'll call "cells".  When describing mechanical behavior of a particular cell type, we refer to its deformations as "internal degrees of freedom" (DOF).  For example, a 1-DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.\\
+In this model, simulation of an assembly happens at the granularity of identically-sized \textit{functional primitives}, which I'll call "cells" for the remainder of this chapter.  When describing mechanical behavior of a particular cell type, I'll refer to its deformations as "internal degrees of freedom" (DOF).  For example, a 1-DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.\\
 
 \section{Function Types}
 
@@ -307,11 +308,12 @@ Following from Figure \ref{fig:FEAexample}, the basic idea behind FEA of linear 
 The vertices of each finite element are called nodes.  Nodes connect to other nodes through the edges of the elements to form a mesh.  No assumptions are made about the length of the edges of a finite element; in fact one of the main advantages of FEA is the ability to locally alter the resolution of the mesh in a particular region of interest.\\
 
 \textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes (eg the inner volume of the tetrahedron in Figure \ref{fig:TetraElement}).  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
-
-\[ N_{x1} = 1/4(1-\xi)^2(2+\xi) \]
-\[ N_{x2} = 1/4(1+\xi)^2(2-\xi) \]
-\[ N_{\theta1} = 1/8l(1-\xi)^2(1+\xi) \]
-\[ N_{\theta2} = 1/8l(1+\xi)^2(1-\xi) \]
+\begin{align*} 
+N_{x1} &= \textstyle\frac{1}{4}(1-\xi)^2(2+\xi)\\
+N_{x2} &= \textstyle\frac{1}{4}(1+\xi)^2(2-\xi)\\
+N_{\theta1} &= \textstyle\frac{1}{8}l(1-\xi)^2(1+\xi)\\
+N_{\theta2} &= \textstyle\frac{1}{8}l(1+\xi)^2(1-\xi)
+\end{align*}
 
 where $-1 \leq \xi \leq 1$ and $\xi = -1$ at node 1 and $\xi = 1$ at node 2\\
 
@@ -377,7 +379,7 @@ p_{z2}\\
 \theta_{y2}\\
 \theta_{z2}
  \end{array} \right]
- \]
+ \]\\
  
 where $F_1$, $F_2$ are translational forces on nodes 1 and 2, $T$ are torques, $p$ are translational positions, and $\theta$ are rotations.\\
 
