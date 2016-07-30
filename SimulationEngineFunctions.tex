@@ -290,9 +290,11 @@ Next we'll add in bending and torsional stiffness, which create reaction forces 
   \label{fig:TetraElement}
 \end{figure}
 
-Following from Figure \ref{fig:FEAexample}, the basic idea behind FEA of linear elastic solids is to break up geometry into many small elements whose behavior can be closely approximated by Hooke's law.  In 3D, these elements might have any number of shapes, a common element shape is the tetrahedral illustrated in Figure \ref{fig:TetraElement}.
+Following from Figure \ref{fig:FEAexample}, the basic idea behind FEA of linear elastic solids is to break up geometry into many small \textit{finite elements} whose behavior can be closely approximated by Hooke's law.  In 3D, these elements might have any number of shapes, a common element shape is the tetrahedral illustrated in Figure \ref{fig:TetraElement}.\\
 
-\textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes.  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
+The vertices of each finite element are called nodes.  Nodes connect to other nodes through the edges of the elements to form a mesh.  No assumptions are made about the length of the edges of a finite element; in fact one of the main advantages of FEA is the ability to locally alter the resolution of the mesh in a particular region of interest.\\
+
+\textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes (eg the inner volume of the tetrahedron in Figure \ref{fig:TetraElement}).  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
 
 \[ N_{x1} = 1/4(1-\xi)^2(2+\xi) \]
 \[ N_{x2} = 1/4(1+\xi)^2(2-\xi) \]
@@ -301,7 +303,16 @@ Following from Figure \ref{fig:FEAexample}, the basic idea behind FEA of linear 
 
 where $-1 \leq \xi \leq 1$ and $\xi = -1$ at node 1 and $\xi = 1$ at node 2\\
 
-Using these shape functions we can calculate the \textit{stiffness matrix} ($K$) of a beam element.  The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.  A 12DOF Timoshenko beam oriented along the x-axis has the stiffness matrix:\\
+Using these shape functions we can calculate the \textit{stiffness matrix} ($K$) of a beam element.  
+
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{BeamSetup.png}
+  \caption{Setup of 12DOF beam model connecting two nodes (nodes 1 and 2).  Translational displacement indicated by $p_x$, $p_y$, $p_z$ and angular displacement indicated by $\theta_x$, $\theta_y$, $\theta_z$.}
+  \label{fig:BeamSetup}
+\end{figure}
+
+The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.  A 12DOF Timoshenko beam oriented along the x-axis has the stiffness matrix:\\
 
 \[ K =  \scriptsize {\left[ \begin{smallmatrix}
 \tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
