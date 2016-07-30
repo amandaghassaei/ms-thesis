@@ -24,9 +24,7 @@ Simulation of function-level parts is carried out through a dynamic mass / sprin
 The behavior of solids is typically characterized in terms of \textit{stress} and \textit{strain}.  Stress describes the internal forces acting on neighboring regions of a material, measured as force per area in pascals (Pa) or N/m\textsuperscript{2}.  Strain describes the deformations of these regions in response to stress, measured as a unit-less ratio of a length of deformation per unit of unstressed length.  Figure \ref{fig:SolidRegimes} shows an example of a typical stress/strain curve for a solid material.\\
 
 Solids deform in an elastic regime until forces acting on or within them become so large they result in irreversible, plastic deformations or fracture (Figure \ref{fig:SolidRegimes}).  The modeling in this chapter will deal exclusively with \textit{linear} elastic deformations of solids.  This is the region of the stress/strain curve with constant slope, indicated by the pink dotted line in Figure \ref{fig:SolidRegimes}.  In this region, stress and strain have an approximately linear relationship to each other, in other words, materials obey Hooke's law:
-\begin{equation}\label{eq:hookes}
-F = kx
-\end{equation}
+\[F = kx\]
 
 where F is a force, x is a displacement, and k is a measure of geometeric stiffness.  We can rewrite Hooke's law in terms of stress ($\sigma$) and strain ($\epsilon$) as follows:
 \begin{equation}\label{eq:stressstrain}
