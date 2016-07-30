@@ -13,7 +13,15 @@ Simulation of function-level parts is carried out through a dynamic mass / sprin
 
 \section{Existing Models of Solids}
 
-\href{https://en.wikipedia.org/wiki/Solid_mechanics}{Solid mechanics} is the study of the motion and deformation of solid bodies under external forces, changes in temperature, and other stresses.  Solid mechanics differentiates itself from other branches of continuum mechanics because solids are assumed to have a preferred rest shape.  This thesis is concerned with a regime of solid mechanics called elasticity, where materials return to their initial rest shape after all external forces are removed. \\
+\href{https://en.wikipedia.org/wiki/Solid_mechanics}{Solid mechanics} is the study of the motion and deformation of solid bodies under external forces, changes in temperature, and other stresses.  Solid mechanics differentiates itself from other branches of continuum mechanics because solids are assumed to have a preferred rest shape.  This thesis is concerned with a regime of solid mechanics called elasticity, where materials return to their initial rest shape after all external forces are removed.  Solids deform in an elastic regime until forces acting on or within them become so large they result in irreversible, plastic deformations or fracture.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{SolidRegimes.png}
+  \caption{}
+  \label{fig:SolidRegimes}
+\end{figure}
+
+The behavior of elastic solids is usually described by stress and strain.  Stress describes the internal forces acting on neighboring regions of a material, measured as force per area in pascals (PA) or N/m\textsuperscript{2}.  Strain describes the deformations of these regions in response to stress, measured as a unit-less ratio of a length of deformation per unit of unstressed length.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{FEAexample.png}
@@ -21,16 +29,20 @@ Simulation of function-level parts is carried out through a dynamic mass / sprin
   \label{fig:FEAexample}
 \end{figure}
 
-More specifically, I'll be modeling linear elastic deformation of solids, in other words, things that obey Hooke's law:
+More specifically, this chapter introduces techniques for modeling \textit{linear} elastic deformation of solids, in other words, things that obey Hooke's law:
 
 \[F = kx\]
 
-where F is a force, x is a displacement, and k is a material stiffness.  We could try to model the deformations of a linear, elastic solid as a Hookian spring, but this model would produce huge errors for large, complex geometries.  Instead, modern simulation techniques break up complex geometries into many simple, discrete regions whose behavior can be modeled with Hooke's law to a reasonable degree of accuracy.  Summing up each of these discrete solutions approximates the net behavior of the more complex geometry.  Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
+where F is a force, x is a displacement, and k is a material stiffness.  As long as the forces acting on a solid are sufficiently low, we can assume that a linear elastic deformation model applies.\\
+
+describe in terms of stress/strain\\
+
+We could try to model the deformations of a linear, elastic solid as a Hookian spring, but this model would produce huge errors for large, complex geometries.  Instead, modern simulation techniques break up complex geometries into many simple, discrete regions whose behavior can be modeled with Hooke's law to a reasonable degree of accuracy.  Summing up each of these discrete solutions approximates the net behavior of the more complex geometry.  Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
 
 
 
 
-The behavior of elastic solids is usually described by stress and strain.  Stress describes the internal forces acting on neighboring regions of a material, measured as force per area in pascals (PA) or N/m\textsuperscript{2}.  Strain describes the deformations of these regions in response to stress, measured as a unit-less ratio of a length of deformation per unit of unstressed length.\\
+
 
 This thesis explores both isotropic and anisotropic materials.  A material is isotropic if it responds the same to an external force no matter its orientation; materials comprised of oriented fibers or other directional structures typical display anisotropic behaviors.  The response of solids to strains are typically expressed in terms of their elastic modulus $E$ and shear modulus $G$, however, for anisotropic materials, such as those used in our assembly system, this parameterization does not give enough information.\\
 
