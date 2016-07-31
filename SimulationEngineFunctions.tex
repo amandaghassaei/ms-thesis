@@ -17,7 +17,7 @@ Simulation of function-level parts is carried out through a dynamic mass / sprin
 
 \begin{figure}
   \includegraphics[width=\linewidth]{SolidRegimes.png}
-  \caption{Stress/strain curves of materials reveal the linear elastic regime (pink), characterized by linear relationship between stress and strain and slope $E$ (elastic modulus).  Under larger stresses, materials enter non-linear elastic and plastic deformations, and eventually fracture.}
+  \caption{Stress/strain curves of materials reveal the linear elastic regime (pink), characterized by linear relationship between stress and strain.  Under larger stresses, materials enter non-linear elastic and plastic deformations, and eventually fracture.}
   \label{fig:SolidRegimes}
 \end{figure}
 
@@ -27,11 +27,14 @@ Solids deform in an elastic regime until forces acting on or within them become 
 \[F = kx\]
 
 where F is a force, x is a displacement, and k is a measure of geometeric stiffness.  We can rewrite Hooke's law in terms of stress ($\sigma$) and strain ($\epsilon$) as follows:
-\begin{equation}\label{eq:stressstrain}
-\sigma = E\epsilon 
+\begin{equation}\label{eq:stressstrainaxial}
+\sigma_{axial} = E\epsilon_{axial} 
+\end{equation}
+\begin{equation}\label{eq:stressstrainshear}
+\sigma_{shear} = G\epsilon_{shear} 
 \end{equation}
 
-where $E$ is the elastic modulus (also called "Young's modulus") of a given material.  As long as the forces acting on and within a solid are sufficiently low, we can assume that a linear elastic deformation model applies.\\
+where $E$ is the elastic modulus (also called "Young's modulus") and G is the shear modulus of a given material.  As long as the forces acting on and within a solid are sufficiently low, we can assume that these linear elastic deformation models apply.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{FEAexample.png}
@@ -39,38 +42,30 @@ where $E$ is the elastic modulus (also called "Young's modulus") of a given mate
   \label{fig:FEAexample}
 \end{figure}
 
-So far we have discussed the ways that the material properties of a solid affect its behavior, next we must consider its geometry.  Starting with Equation \ref{eq:stressstrain}, we could try modeling the deformations of a linear, elastic solid as a single Hookian spring.  Though this strategy could yield reasonable results for simple geometries and loading patterns, like a rubberband in pure tension, it is not accurate for more complex situations.  Instead, modern simulation techniques break up complex geometries into many simple, discrete regions whose individual behavior can be accurately modeled with Hooke's law (Figure \ref{fig:FEAexample}).  Combining the solutions to these discrete regions approximates the net behavior of the more complex geometry.\\
+So far we have discussed the ways that a solid's material properties, $E$ and $G$, affect its behavior, next we must consider its geometry.  Starting with Equations \ref{eq:stressstrainaxial} and  \ref{eq:stressstrainshear}, we could try modeling the deformations of a linear, elastic solid as a multi-dimentional Hookian spring with axial and shear stiffnesses $E$ and $G$.  Though this strategy could yield reasonable results for simple geometries and loading patterns, like a rubberband in pure tension, it is not accurate for more complex situations.  Instead, modern simulation techniques break up complex geometries into many simple, discrete regions whose individual behavior can be accurately modeled with Hooke's law (Figure \ref{fig:FEAexample}).  Combining the solutions to these discrete regions approximates the net behavior of the more complex geometry.  The process I've just described is typically referred to as \textit{Finite Element Analysis} (FEA).
+%Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
 
-Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
+\section{Modeling Setup}
 
-
-This thesis explores both isotropic and anisotropic materials.  A material is isotropic if it responds the same to an external force no matter its orientation; materials comprised of oriented fibers or other directional structures typical display anisotropic behaviors.  The response of solids to strains are typically expressed in terms of their elastic modulus $E$ and shear modulus $G$, however, for anisotropic materials, such as those used in our assembly system, this parameterization does not give enough information.\\
-
-
-
-
-
-
-
-%This thesis is concerned with the numerical solution of the position, orientation, and deformation of an elastic solid made from many elements of identical geometry and various material types.  Evaluating this PDE subject to the initial state and boundary conditions (applied forces, fixed regions, etc) gives the state of the solid over time.
-
-
-few works well for linear - non linear for large deformations may require remeshing\\
-mass spring methods - widely used in computer graphics, better for large deformations and non linear, less accurate\\
-
-Unlike traditional mass/spring/damper models of solids from computer graphics literature (cite stuff here), the model developed in this thesis draws on an abstraction of the functionality embedded in the different "function types".\\
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
-  \caption{Deformations of a solid element under four types of applied forces.  In modeling assemblies of \textit{functions}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, axial (compression and tension) and shear forces cause translational displacement and bending and torsional forces cause rotational displacement.}
-  \label{fig:SolidMechanicsDOF}
-\end{figure}
-
-In solid mechanics, we can consider the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  Forces acting on these finite elements fall into four categories: axial (tension and compression), bending, shear, and torsion.  Each type of applied force causes a characteristic deformation of the finite element, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.\\
+As described in the last section, we can consider the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  Forces acting on these finite elements fall into four categories: axial (tension and compression), bending, shear, and torsion.  Each type of applied force causes a characteristic deformation of the finite element, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.\\
 
 In this model, simulation of an assembly happens at the granularity of identically-sized \textit{functional primitives}, which I'll call "cells" for the remainder of this chapter.  When describing mechanical behavior of a particular cell type, I'll refer to its deformations as "internal degrees of freedom" (DOF).  For example, a 1-DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.\\
 
-\section{Function Types}
+\begin{figure}
+  \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
+  \caption{Deformations of a finite element under four types of applied forces.  In modeling assemblies of \textit{functional primitives}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, axial (compression and tension) and shear forces cause translational displacement and bending and torsional forces cause rotational displacement.}
+  \label{fig:SolidMechanicsDOF}
+\end{figure}
+
+A material is isotropic if it responds the same to an external force no matter its orientation; materials comprised of oriented fibers or other internal structure typical display anisotropic behaviors.  Typically, FEA uses Equations \ref{eq:stressstrainaxial} and  \ref{eq:stressstrainshear}, which describe bulk material properties of isotropic materials.  $E$ and $G$ do not give enough information to describe the parts we intend to model.\\
+
+In this analysis, we're interested in modeling the behavior of mutimaterial assemblies of isotropic and anisotropic building blocks, the \textit{functional primitives} from Chapter \ref{chapter:HierarchicalDesign}. \\
+Unlike traditional FEA, the simulation model developed in this thesis draws on an abstraction of the functionality embedded in the different "function types".\\
+
+This thesis is concerned with the numerical solution of the position, orientation, and deformation of an elastic solid made from many elements of identical geometry and various material types.  Evaluating this system subject to its initial state and boundary conditions (applied forces, fixed regions, etc) gives the state of the assembly over time.\\
+
+few works well for linear - non linear for large deformations may require remeshing\\
+mass spring methods - widely used in computer graphics, better for large deformations and non linear, less accurate\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{FunctionalPrimitives.png}
@@ -78,9 +73,7 @@ In this model, simulation of an assembly happens at the granularity of identical
   \label{fig:FunctionalPrimitives}
 \end{figure}
 
-
-Cells at the function-level are defined not only by their mechanical properties, but also by their ability to transmit electronic signals from one face to another, and their active properties in response to a signal. The combinatorial space of mechanical, electronic, and actuated cell types is described in Figure \ref{fig:CombinatoricsOfFunctions}.  Section \ref{sec:electronicSim} describes the process of electronic simulation in more detail, the remainder of this chapter will focus on the passive and active mechanical simulation of function-level cells.
-\\
+Cells at the function-level are defined not only by their mechanical properties, but also by their ability to transmit electronic signals from one face to another, and their active properties in response to a signal. The combinatorial space of mechanical, electronic, and actuated cell types is described in Figure \ref{fig:CombinatoricsOfFunctions}.  Section \ref{sec:electronicSim} describes the process of electronic simulation in more detail, the remainder of this chapter will focus on the passive and active mechanical simulation of function-level cells.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CombinatoricsOfFunctions.png}
@@ -305,7 +298,7 @@ Following from Figure \ref{fig:FEAexample}, the basic idea behind FEA of linear 
 
 The vertices of each finite element are called nodes.  Nodes connect to other nodes through the edges of the elements to form a mesh.  No assumptions are made about the length of the edges of a finite element; in fact one of the main advantages of FEA is the ability to locally alter the resolution of the mesh in a particular region of interest.\\
 
-\textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes (eg the inner volume of the tetrahedron in Figure \ref{fig:TetraElement}).  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
+\textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes (e.g. the inner volume of the tetrahedron in Figure \ref{fig:TetraElement}).  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
 \begin{align*} 
 N_{x1} &= \textstyle\frac{1}{4}(1-\xi)^2(2+\xi)\\
 N_{x2} &= \textstyle\frac{1}{4}(1+\xi)^2(2-\xi)\\
