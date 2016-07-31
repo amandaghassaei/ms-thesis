@@ -25,10 +25,42 @@ The app was written with the following dependencies:
 \item \href{http://underscorejs.org/}{Underscore} is a library with lots of useful functions for dealing with arrays and javascript objects
 \end{itemize}
 
-\section{GPU Programming}
+\section{Performance Speedups}
+
+\subsection{GPU Programming}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{gpuprogramming.png}
+  \caption{.}
+  \label{fig:gpuprogramming}
+\end{figure}
 
 Computing in the GPU does create some hardware dependencies for this application that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory and accessed by each GPU core at a time.  In this case I've implemented a back up \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays}{typed array} engine that should be supported by all hardware configurations.
 
-}
 
-\section{Design Studies}
+\subsection{Math}
+
+A faster method of applying quaternions to vectors is given by
+\[ t = 2 \left[ \begin{array}{ccc}
+q_x\\
+q_y\\
+q_z
+ \end{array} \right] \times v\]
+\[ v_{rotated} = v + q_wt +  \left[ \begin{array}{ccc}
+q_x\\
+q_y\\
+q_z
+ \end{array} \right] \times t\]
+ https://blog.molecular-matters.com/2013/05/24/a-faster-quaternion-vector-multiplication/
+
+
+
+\section{Numerical Instability}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{instability.png}
+  \caption{instability.png.}
+  \label{fig:instability}
+\end{figure}
+
+\section{Examples}
