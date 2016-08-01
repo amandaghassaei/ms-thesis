@@ -46,12 +46,20 @@ So far we have discussed the ways that a solid's material properties, $E$ and $G
 %Finite Element Analysis (FEA) is essentially the process of applying Hooke's law to many small regions of a geometry and adding up their result.\\
 
 \begin{figure}
+  \includegraphics[width=\linewidth]{TetraElement.png}
+  \caption{A tetrahedral element in 3D FEA.  The vertices of each element are called nodes.  In linear elastic solids, the relationships between forces (stress) and displacement (strain) of the nodes is described by variations on Hooke's law.  The springs indicated in the figure on the right are meant to illustrate the linear elastic (Hookian) relationship between nodes.  Typically, interactions between nodes are modeled with 6DOF linear elastic relationships as opposed to a 1DOF spring.}
+  \label{fig:TetraElement}
+\end{figure}
+
+Now we can model the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  In 3D, these elements might have any number of shapes, a common element shape is the tetrahedral illustrated in Figure \ref{fig:TetraElement}.  The vertices of each finite element are called nodes.  Nodes connect to other nodes through the edges of the elements to form a mesh.  No assumptions are made about the length of the edges of a finite element; in fact one of the main advantages of FEA is the ability to locally alter the resolution of the mesh in a particular region of interest.\\
+
+\begin{figure}
   \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
   \caption{Deformations of a finite element under four types of applied forces.  In modeling assemblies of \textit{functional primitives}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, axial (compression and tension) and shear forces cause translational displacement and bending and torsional forces cause rotational displacement.}
   \label{fig:SolidMechanicsDOF}
 \end{figure}
 
-Now we can model the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  We must also consider that materials may respond differently to different types of forces.  Forces acting on finite elements fall into four categories: axial (tension and compression), shear, bending, and torsion.  Each type of applied force causes a characteristic deformation, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.  We've seen how $E$ determines the behavior of a material in response to axial stress and $G$ for shear stress in Equations \ref{eq:stressstrainaxial} and  \ref{eq:stressstrainshear}.  Using information about the geometry of an element, we can derive equations for bending and torsional response in terms of torque ($T$) and angular displacement ($\theta$):
+We must also consider that materials may respond differently to different types of forces.  Forces acting on finite elements fall into four categories: axial (tension and compression), shear, bending, and torsion.  Each type of applied force causes a characteristic deformation, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.  We've seen how $E$ determines the behavior of a material in response to axial stress and $G$ for shear stress in Equations \ref{eq:stressstrainaxial} and  \ref{eq:stressstrainshear}.  Using information about the geometry of an element, we can derive equations for bending and torsional response in terms of torque ($T$) and angular displacement ($\theta$):
 \begin{equation}\label{eq:stressstrainbending}
 T_{bending} = \dfrac{EI}{l}\theta_{bending}\\[10pt]
 \end{equation}
@@ -298,17 +306,17 @@ If we stop now, we have set up a simulation of an arbitrary linkage of cells tie
 
 Next we'll add in bending and torsional stiffness, which create reaction forces that counteract relative rotations between cells ($T_{rxn}$ in Figure \ref{fig:rotationalSim}).  \\
 
+\section{Actuation}
+
 \section{Comparison with Traditional FEA Techniques}
 
 \begin{figure}
-  \includegraphics[width=\linewidth]{TetraElement.png}
-  \caption{A tetrahedral element in 3D FEA.  The vertices of each element are called nodes.  In linear elastic solids, the relationships between forces (stress) and displacement (strain) of the nodes is described by variations on Hooke's law.  The springs indicated in the figure on the right are meant to illustrate the linear elastic (Hookian) relationship between nodes.  Typically, interactions between nodes are modeled with 6DOF linear elastic relationships as opposed to a 1DOF spring.}
-  \label{fig:TetraElement}
+  \includegraphics[width=\linewidth]{BeamSetup.png}
+  \caption{Setup of 12DOF beam model connecting two nodes (nodes 1 and 2).  Translational displacement indicated by $p_x$, $p_y$, $p_z$ and angular displacement indicated by $\theta_x$, $\theta_y$, $\theta_z$.}
+  \label{fig:BeamSetup}
 \end{figure}
 
-Following from Figure \ref{fig:FEAexample}, the basic idea behind FEA of linear elastic solids is to break up geometry into many small \textit{finite elements} whose behavior can be closely approximated by Hooke's law.  In 3D, these elements might have any number of shapes, a common element shape is the tetrahedral illustrated in Figure \ref{fig:TetraElement}.\\
-
-The vertices of each finite element are called nodes.  Nodes connect to other nodes through the edges of the elements to form a mesh.  No assumptions are made about the length of the edges of a finite element; in fact one of the main advantages of FEA is the ability to locally alter the resolution of the mesh in a particular region of interest.\\
+We can perform an analysis of the interactions between two cells using standard techniques from FEA to see how they compare with what we've derived in the previous sections.  Within FEA, many types of models are used to describe the behavior of linear elastic solids with varying degrees of accuracy and computational complexity.  The model we'll discuss in this analysis is the 12DOF Timoshenko beam \cite{}.  Using this model, we can construct a beam element between two nodes that represents the material joining two adjacent cells.  The model determines the translational and rotational displaments of both nodes in 3D (Figure \ref{fig:BeamSetup}).  The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.\\  
 
 \textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes (e.g. the inner volume of the tetrahedron in Figure \ref{fig:TetraElement}).  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
 \begin{align*} 
@@ -320,16 +328,7 @@ N_{\theta2} &= \textstyle\frac{1}{8}l(1+\xi)^2(1-\xi)
 
 where $-1 \leq \xi \leq 1$ and $\xi = -1$ at node 1 and $\xi = 1$ at node 2\\
 
-Using these shape functions we can calculate the \textit{stiffness matrix} ($K$) of a beam element.  
-
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{BeamSetup.png}
-  \caption{Setup of 12DOF beam model connecting two nodes (nodes 1 and 2).  Translational displacement indicated by $p_x$, $p_y$, $p_z$ and angular displacement indicated by $\theta_x$, $\theta_y$, $\theta_z$.}
-  \label{fig:BeamSetup}
-\end{figure}
-
-The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.  A 12DOF Timoshenko beam oriented along the x-axis has the stiffness matrix:\\
+Using these shape functions we can calculate the \textit{stiffness matrix} ($K$) of the 12DOF Timoshenko beam oriented along the x-axis:\\
 
 \[ K =  \scriptsize {\left[ \begin{smallmatrix}
 \tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
@@ -449,6 +448,8 @@ Removing the shear terms from elements of the 12DOF Timoshenko stiffness matrix 
 
 \section{Sources of Error}
 
+Error can lead to numerical instability, especially for underdamped systems.
+
 \subsection{Numerical Time Integration}
 
 For linear systems, explicit forward time integration can be achieved using a variety of methods, each with associated error and computational cost.  The simplest and most computationally efficient approach is forward Euler (1\textsuperscript{st} order):
@@ -494,6 +495,15 @@ Finally, the accumulation of error in floating point calculations can potentiall
 
 \section{Electronic Simulation}\label{sec:electronicSim}
 
+The physics engine currently supports simulation of various types of signal generators (sine, triangle, PWM, and saw) whose frequency, phase, pulse-width, and direction can be adjusted.  Signal generators have two polar outputs, which are connected through wires to actuators.  At each time step, the state of the electronic system is evaluated, and the analog voltage across each actuator is fed into the mechanical simulation.  Errors are thrown when a user incorrectly wires components and renders the electronic simulation unsolvable.\\
+
+In the system we are modeling, electronic effects are orders of magnitude faster than mechanical effects.  Rather simulating the propagation of electronic signals across cells through iterative, local interactions, the state of all electronics is completely solved before each step of mechanical simulation.  This means that it is not currently possible to simulate things like ring oscillators, which rely on a time dependance to be properly modeled.  Depending on the future trajectories of fabrication of electronic components for this system, a time-dependent simulation of electronics may be worth revisiting.
+
 \section{Collision Detection}
 
+Collision detection is needed to simulate interactions with the environment, such as gripping and locomotion.  Simple collision detection with the ground has been implemented using a spring/damper system to model penetration of the ground plane.  Calculation of normal force and friction is also achieved through these interactions.  Currently, the edge of a cell is calculated by the position of its center plus a constant radial offset.  A more accurate model could compute deformations of the cell's mesh using shape functions to determine where its boundaries lie.\\
+
+Care must be taken to avoid inefficient calculation of collisions as it can easily turn into an n-body problem.  The regular structure of the systems we intend to model can be leveraged in computational speedups.  Because everything lies on a regular grid, it is trivial to precompute the cells located on the boundary of a solid object, and only evaluate collisions between these boundary cells.  Additionally, it might be possible to group cells spatially on an octree for collision detection speedups. \\
+
+The goal of collision detection within this thesis is to provide a qualitative assessment of interactions between assemblies and their environment.  Current methods weigh efficiency and simplicity over accuracy.  In its current state, no quantitative conclusions should be drawn from the collision detection.  For example, evaluating this system at different time increments may alter the long term course of the state of the simulation.  Accurate modeling of interactions between solids is beyond the scope of this work.
 
