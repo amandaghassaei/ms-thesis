@@ -71,8 +71,7 @@ Computing in the GPU speeds up the code significatly, but also creates some hard
 
 \section{Other Performance Speedups}
 
-Additional speedups in mathematical operations increase runtime speed of the code.  As demonstrated in Chapter \ref{chap:functionSim}, the math behind the mechanical modeling involves liberal use of quaternions.  An efficient method of applying quaternions to vectors is given below:\\
-
+Additional speedups in mathematical operations increase runtime speed of the code.  As demonstrated in Chapter \ref{chap:functionSim}, the math behind the mechanical modeling involves liberal use of quaternions.  An efficient method of applying quaternions to vectors is given below:
 \[ t = 2 \left[ \begin{array}{ccc}
 q_x\\
 q_y\\
@@ -86,12 +85,46 @@ q_z
  
  This method uses fewer floating point operations than the standard Hamilton product from equation \ref{eq:hamiltonprod} \cite{Reinalter}.
 
-\section{Numerical Instability}
+\section{Instability}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{instability.png}
-  \caption{instability.png.}
+  \caption{In its current state, AmoebaCAD is suffering from instability originating in bugs in the simulation code.}
   \label{fig:instability}
 \end{figure}
 
+In its current state, AmoebaCAD is suffering from issues of instability related to bugs in the simulation code.  Additionally, rotational damping has not yet been implemented and its absence tends to throw the system unstable, especially in large, dense assemblies.  This instability tends to look like an explosion (Figure \ref{fig:instability}); as spring systems go unstable they result in massive displacements.
+
 \section{Examples}
+
+An older version of the AmoebaCAD engine lacked precision, but tended to be much more stable than the current state of development.  Several examples of simple robotic elements were constructed within this older version of the physics engine.
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{bendy.png}
+  \caption{}
+  \label{fig:bendy}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{beambending.png}
+  \caption{}
+  \label{fig:beambending}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{locomotionsimple.png}
+  \caption{}
+  \label{fig:locomotionsimple}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{xystage.png}
+  \caption{}
+  \label{fig:xystage}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{undulating.png}
+  \caption{}
+  \label{fig:undulating}
+\end{figure}
