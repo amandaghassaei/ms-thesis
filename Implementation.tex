@@ -45,28 +45,29 @@ The web app was written with the following dependencies:
 
 \section{GUI}
 
-AmoebaCAD borrows most of its GUI from DMDesign (Chapter \ref{chap:CAD}), with a few exceptions.  A cell rotation interface (Figure \ref{fig:rotationGUI}) allows users to rotate cells in 3D, so anisotropic cells may be oriented in any direction.  These cell rotations are saved as JSON when the assembly is saved.  A 3D selection tool allows users to select large rectangular regions of space to fill with material, cut away material, and clone or mirror an existing structure into another region (Figure \ref{fig:selectiontoolGUI}).\\
+AmoebaCAD borrows most of its GUI from DMDesign (Chapter \ref{chap:CAD}), with a few exceptions.  A cell rotation interface (Figure \ref{fig:rotationGUI}) allows users to rotate cells in 3D, so anisotropic cells may be oriented in any direction.  Absolute cell orientations are saved as JSON when the assembly is saved.  A 3D selection tool allows users to select large rectangular regions of space to fill with material, cut away material, and clone or mirror an existing structure into another region (Figure \ref{fig:selectiontoolGUI}).\\
 
 Anisotropic cells in AmoebaCAD are represented graphically with special meshes, illustrated in Figure \ref{fig:cellMeshes}.  Some cells (e.g. the straight and bent conducting cells) appear to occupy a smaller volume than other cells, but this is meant only as a visualization of their special properties.  All cells fill the same volume and are joined mechanically with six face-connected neighbors.
 
 \section{GPU Programming}
 
-JavaScript is loosely typed and therefore not an especially fast language out of the box.  Most modern web browsers support Just In Time (JIT) compilation of JavaScript code, which helps make it competitive with compiled languages.  Storing large datasets in typed arrays also helps to speedup array access and operations at runtime \cite{Network}.\\
-
-During the development of AmoebaCAD, I found that typed arrays were not giving my app the performance I was looking for, so I began running the bulk of the math involved in the physics engine on the GPU.  
-
-Mathematical programming on the GPU through WebGL is a loosely supported "hack" at the current state of writing this thesis.  Data is passed to the GPU cores as 2D arrays - image textures that would normally be used for WebGL rendering.  Though normal GL rending would only necessitate byte arrays (uInt8), WebGL also supports Int8/16/32, uInt16/32 and Float32 textures.
-A concise reference for the current WebGL standards is provided by the Khronos Group \cite{Group}.
-\\
-
-Computing in the GPU does create some hardware dependencies for this application that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory and accessed by each GPU core at a time.  In this case I've implemented a back up \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays}{typed array} engine that should be supported by all hardware configurations.
+JavaScript is loosely typed and therefore not an especially fast language out of the box.  Storing large datasets in typed arrays helps to speed up array operations and access at runtime \cite{Network}.  Most modern web browsers support Just In Time (JIT) compilation of JavaScript code, which helps make it more competitive with compiled languages.    Still, it tends to run slower than native C++.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{gpuprogramming.png}
-  \caption{}
+  \caption{Schematic diagram of GPU programming in AmoebaCAD.  2D data textures store the current state of the cells, lookup tables for neighboring indices, and precomputed stiffness and damping vectors.  These data textures as well as some constants are passed into the GPU and are available to all cores.  An input texure buffer is sent into the GPU, split up into RGBA pixels, and used to store the output state from each core.  Several pre-compiled programs are available to the GPU, and are called sequentially during each time step of the simulation (with the exception of PackFloatToBytes, a program used to convert a Float32 texture to a uInt8 texture so that position and orientation can be extracted from the GPU for render).}
   \label{fig:gpuprogramming}
 \end{figure}
 
+During the development of AmoebaCAD, typed arrays were not performant for assemblies larger than $\sim$30 cells (100 time steps forward per render), so I began running the bulk of the mathematical calculations on the GPU.  Figure \ref{fig:gpuprogramming} shows a schematic representation of the GPU programming.\\
+
+At the moment of writing this, mathematical programming on the GPU through the WebGL API is a bit of a hack.  Data is passed in and out of the GPU cores as 2D arrays - RGBA image textures that would normally be used for rendering purposes.  WebGL currently supports reading and writing Int8/16/32, uInt8/16/32 and Float32 textures.  GPU programs are precompiled as \textit{fragment shaders}, processes that are executed by a single core of the GPU to create a single pixel of output texture data.  Each GPU core may access a number of input data textures but may only output one RGBA pixel to an output texture buffer.  During the execution of a fragment shader program, a complete output texture is calculated by the available GPU cores in a highly parallel, pixel-wise process.  A concise reference for the WebGL API is provided by the Khronos Group \cite{Group}.\\
+
+In AmoebaCAD, cell state and precomputed constants are stored in several data textures (Figure \ref{fig:gpuprogramming}), and the next state of a given cell is evaluated in a single core of the GPU.  It is not possible to fit all necessary updated state variables (position, velocity, orientation, and angular velocity, all in 3D) in a single RGBA pixel.  This means that calculations for a single time step of the physics engine must be split into several, sequential fragment shader programs (Figure \ref{fig:gpuprogramming}).\\
+
+After moving the simulation forward by some number of time steps, position and orientation information is passed out of the GPU to the main thread for a render call.  Unfortunately, at this time only uInt8 textures may be transferred from the GPU to the CPU.  An additional fragment shader program called "PackToBytes" converts the Float32 arrays storing position and orientation into uInt8 arrays, where each float in the original array is converted to 4 uInt8's.  The process of transferring data from the GPU to the CPU is expensive, and in the fullness of time, could be avoided completely.  AmoebaCAD is still very much under development and is not ready for these types of low level optimizations yet, but it is something to keep in mind in the following months.\\
+
+Computing in the GPU speeds up the code significatly, but also creates some hardware dependencies that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory at a time.  In case of compatibility issues, a backup typed array implementation may be used at the expense of performance.
 
 \section{Other Performance Speedups}
 
@@ -83,9 +84,7 @@ q_y\\
 q_z
  \end{array} \right] \times t\]
  
- This method uses fewer floating point operations than the standard Hamilton product from equation \ref{eq:hamiltonprod} \cite{Reinalter}.\\
- 
- AmoebaCAD is still very much under development and is not ready for rigorous optimization at this time.  In the coming months I will integrate the methods above into the codebase.
+ This method uses fewer floating point operations than the standard Hamilton product from equation \ref{eq:hamiltonprod} \cite{Reinalter}.
 
 \section{Numerical Instability}
 
