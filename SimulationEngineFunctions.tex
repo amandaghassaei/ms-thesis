@@ -231,7 +231,9 @@ d_{shear_{xz}}
 If we wish to consider the orientations of the cells, denoted by the unit quaternions $q1$ and $q2$, we will need to adjust equation \ref{eq:translationalForce}. \\
   
   We can rotate a vector $\vec{v}$ in 3-space by a quaternion $q$ in 4-space:
-    \[ \vec{v}_{rotated} = q*\vec{v}*q^* \]
+  \begin{equation}\label{eq:hamiltonprod}
+  \vec{v}_{rotated} = q*\vec{v}*q^*
+  \end{equation}
   by treating $\vec{v}$ as a 4-space vector $[x, y, z, w]$ with $w=0$.  The operator $*$ denotes the Hamilton product:
   \[ a*b =  \left[ \begin{array}{ccc}
 a_wb_x + a_xb_w + a_yb_z - a_zb_y\\
@@ -316,7 +318,7 @@ Next we'll add in bending and torsional stiffness, which create reaction forces 
   \label{fig:BeamSetup}
 \end{figure}
 
-We can perform an analysis of the interactions between two cells using standard techniques from FEA to see how they compare with what we've derived in the previous sections.  Within FEA, many types of models are used to describe the behavior of linear elastic solids with varying degrees of accuracy and computational complexity.  The model we'll discuss in this analysis is the 12DOF Timoshenko beam \cite{}.  Using this model, we can construct a beam element between two nodes that represents the material joining two adjacent cells.  The model determines the translational and rotational displaments of both nodes in 3D (Figure \ref{fig:BeamSetup}).  The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.\\  
+We can perform an analysis of the interactions between two cells using standard techniques from FEA to see how they compare with what we've derived in the previous sections.  Within FEA, many types of models are used to describe the behavior of linear elastic solids with varying degrees of accuracy and computational complexity.  In this analysis we'll discuss the 12DOF Timoshenko beam \cite{}.  Using this model, we can construct a beam element between two nodes that represents the material joining two adjacent cells.  The model determines the translational and rotational displaments of both nodes in 3D (Figure \ref{fig:BeamSetup}).  The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.\\  
 
 \textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes (e.g. the inner volume of the tetrahedron in Figure \ref{fig:TetraElement}).  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
 \begin{align*} 
@@ -495,7 +497,7 @@ Finally, the accumulation of error in floating point calculations can potentiall
 
 \section{Electronic Simulation}\label{sec:electronicSim}
 
-The physics engine currently supports simulation of various types of signal generators (sine, triangle, PWM, and saw) whose frequency, phase, pulse-width, and direction can be adjusted.  Signal generators have two polar outputs, which are connected through wires to actuators.  At each time step, the state of the electronic system is evaluated, and the analog voltage across each actuator is fed into the mechanical simulation.  Errors are thrown when a user incorrectly wires components and renders the electronic simulation unsolvable.\\
+The physics engine currently supports simulation of various types of oscillators (sine, triangle, PWM, and saw) whose frequency, phase, pulse-width, and direction can be adjusted.  Oscillators have two polar outputs, which are connected through wires to actuators.  At each time step, the state of the electronic system is evaluated, and the analog voltage across each actuator is fed into the mechanical simulation.  Errors are thrown when a user incorrectly wires components and renders the electronic simulation unsolvable.\\
 
 In the system we are modeling, electronic effects are orders of magnitude faster than mechanical effects.  Rather simulating the propagation of electronic signals across cells through iterative, local interactions, the state of all electronics is completely solved before each step of mechanical simulation.  This means that it is not currently possible to simulate things like ring oscillators, which rely on a time dependance to be properly modeled.  Depending on the future trajectories of fabrication of electronic components for this system, a time-dependent simulation of electronics may be worth revisiting.
 
