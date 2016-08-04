@@ -39,7 +39,7 @@ The web app was written with the following dependencies:
 
 \begin{figure}
   \includegraphics[width=\linewidth]{cellMeshes.png}
-  \caption{Meshes and textures used to represent different material types and convey the orientation of anisotropic cells.}
+  \caption{Meshes and textures used to represent different material types and convey the orientation of cell anisotropy.}
   \label{fig:cellMeshes}
 \end{figure}
 
@@ -47,7 +47,7 @@ The web app was written with the following dependencies:
 
 AmoebaCAD borrows most of its GUI from DMDesign (Chapter \ref{chap:CAD}), with a few exceptions.  A cell rotation interface (Figure \ref{fig:rotationGUI}) allows users to rotate cells in 3D, so anisotropic cells may be oriented in any direction.  Absolute cell orientations are saved as JSON when the assembly is saved.  A 3D selection tool allows users to select large rectangular regions of space to fill with material, cut away material, and clone or mirror an existing structure into another region (Figure \ref{fig:selectiontoolGUI}).\\
 
-Anisotropic cells in AmoebaCAD are represented graphically with special meshes, illustrated in Figure \ref{fig:cellMeshes}.  Some cells (e.g. the straight and bent conducting cells) appear to occupy a smaller volume than other cells, but this is meant only as a visualization of their special properties.  All cells fill the same volume and are joined mechanically with six face-connected neighbors.
+Anisotropic cells in AmoebaCAD are represented graphically with special meshes, illustrated in Figure \ref{fig:cellMeshes}.  Some cells (e.g. the straight and bent conducting cells) appear to occupy a smaller volume than other cells, but this is meant only as a visualization of their properties.  All cells fill the same volume and are joined mechanically with six face-connected neighbors.
 
 \section{GPU Programming}
 
@@ -55,7 +55,7 @@ JavaScript is loosely typed and therefore not an especially fast language out of
 
 \begin{figure}
   \includegraphics[width=\linewidth]{gpuprogramming.png}
-  \caption{Schematic diagram of GPU programming in AmoebaCAD.  2D data textures store the current state of the cells, lookup tables for neighboring indices, and precomputed stiffness and damping vectors.  These data textures as well as some constants are passed into the GPU and are available to all cores.  An input texure buffer is sent into the GPU, split up into RGBA pixels, and used to store the output state from each core.  Several pre-compiled programs are available to the GPU, and are called sequentially during each time step of the simulation (with the exception of PackFloatToBytes, a program used to convert a Float32 texture to a uInt8 texture so that position and orientation can be extracted from the GPU for render).}
+  \caption{Schematic diagram of GPU programming in AmoebaCAD.  2D data textures store the current state of the cells, lookup tables for neighboring indices, and precomputed composite stiffness and damping constants.  These data textures as well as some global constants are passed into the GPU and are available to all cores.  An input texure buffer is sent into the GPU, split up into RGBA pixels, and used to store the output state from each core.  Several pre-compiled programs are available to the GPU, and are called sequentially during each time step of the simulation (with the exception of PackFloatToBytes, a program used to convert a Float32 texture to a uInt8 texture so that position and orientation can be extracted from the GPU for render).}
   \label{fig:gpuprogramming}
 \end{figure}
 
@@ -65,7 +65,7 @@ At the moment of writing this, mathematical programming on the GPU through the W
 
 In AmoebaCAD, cell state and precomputed constants are stored in several data textures (Figure \ref{fig:gpuprogramming}), and the next state of a given cell is evaluated in a single core of the GPU.  It is not possible to fit all necessary updated state variables (position, velocity, orientation, and angular velocity, all in 3D) in a single RGBA pixel.  This means that calculations for a single time step of the physics engine must be split into several, sequential fragment shader programs (Figure \ref{fig:gpuprogramming}).\\
 
-After moving the simulation forward by some number of time steps, position and orientation information is passed out of the GPU to the main thread for a render call.  Unfortunately, at this time only uInt8 textures may be transferred from the GPU to the CPU.  An additional fragment shader program called "PackToBytes" converts the Float32 arrays storing position and orientation into uInt8 arrays, where each float in the original array is converted to 4 uInt8's.  The process of transferring data from the GPU to the CPU is expensive, and in the fullness of time, could be avoided completely.  AmoebaCAD is still very much under development and is not ready for these types of low level optimizations yet, but it is something to keep in mind in the following months.\\
+After moving the simulation forward by some number of time steps, position and orientation information is passed out of the GPU to the main thread for a render call.  Unfortunately, at this time only uInt8 textures may be transferred from the GPU to the CPU.  An additional fragment shader program called "PackToBytes" converts the Float32 arrays storing position and orientation into uInt8 arrays, where each float in the original array is converted to four uInt8's.  The process of transferring data from the GPU to the CPU is expensive, and in the fullness of time, could be avoided completely.  AmoebaCAD is still very much under development and is not ready for these types of low level optimizations yet, but it is something to keep in mind in the following months.\\
 
 Computing in the GPU speeds up the code significatly, but also creates some hardware dependencies that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory at a time.  In case of compatibility issues, a backup typed array implementation may be used at the expense of performance.
 
@@ -93,11 +93,11 @@ q_z
   \label{fig:instability}
 \end{figure}
 
-In its current state, AmoebaCAD is suffering from issues of instability related to bugs in the simulation code.  Additionally, rotational damping has not yet been implemented and its absence tends to throw the system unstable, especially in large, dense assemblies.  This instability tends to look like an explosion (Figure \ref{fig:instability}); as spring systems go unstable they result in massive displacements.
+In its current state, AmoebaCAD is suffering from issues of instability related to bugs in the simulation code.  Additionally, rotational damping has not yet been implemented and its absence tends to throw the system unstable, especially in large, dense assemblies.  This instability tends to look like an explosion (Figure \ref{fig:instability}); as spring systems go unstable they result in massive displacements.  I expect this instability to be resolved in the coming months.
 
 \section{Examples}
 
-An older version of the AmoebaCAD engine lacked precision, but tended to be much more stable than the current state of development.  Several examples of simple robotic elements were constructed within this older version of the physics engine.
+An older version of the AmoebaCAD engine lacked a complete model of torsional and bending stiffness, but tended to be much more stable than the current state of development.  Several examples of simple robotic elements were constructed within this older version of the physics engine.
 
 \begin{figure}
   \includegraphics[width=\linewidth]{bendy.png}

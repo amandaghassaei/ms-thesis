@@ -363,16 +363,16 @@ The torque on cell 1 from the interaction with cell 2 is equal in magnitude and 
 \[ \vec{T}_1 = -\vec{T}_{1\rightarrow2} - \vec{T}_{2_{rxn}}  = \vec{T}_{2\rightarrow1} + \vec{T}_{1_{rxn}}\]
 
 To calculate angular acceleration ($\vec{\dot{\omega}}$), we divide by moment of inertia.  For a 3D rectangular cell with sides $l_x$, $l_y$, $l_z$ and mass $m$, the tensor moment of inertia is given by:
-\[ I = \dfrac{m}{12} \left[ \begin{array}{ccc}
+\[ I_{inertia} = \dfrac{m}{12} \left[ \begin{array}{ccc}
 l_y^2+l_z^2 & 0 & 0\\
 0 & l_x^2+l_z^2 & 0\\
 0 & 0 & l_x^2+l_y^2
  \end{array} \right] \]
  
  where:
- \[ \vec{T} = I\vec{\dot{\omega}} \]
-  \[ \vec{\dot{\omega}}  = I^{-1}\vec{T} \]
-  \[ I^{-1} = \dfrac{12}{m} \left[ \begin{array}{ccc}
+ \[ \vec{T} = I_{inertia}\vec{\dot{\omega}} \]
+  \[ \vec{\dot{\omega}}  = I_{inertia}^{-1}\vec{T} \]
+  \[ I_{inertia}^{-1} = \dfrac{12}{m} \left[ \begin{array}{ccc}
 \dfrac{1}{l_y^2+l_z^2} & 0 & 0\\
 0 & \dfrac{1}{l_x^2+l_z^2} & 0\\
 0 & 0 & \dfrac{1}{l_x^2+l_y^2}
