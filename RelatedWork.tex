@@ -12,16 +12,11 @@
 
 The following sections outline current research into digital assembly across scales, CAD/simulation packages which occupy a similar space to what I propose, and programmable self assembly.
 
-%An active area of synthetic biology explores the possibility of creating a viable cell from scratch based on knowledge about the core systems required for metabolism, cell maintainance, and self replication \cite{Forster2006}.  To date, efforts at creating this "minimal cell" have only been successful using a top down approach - starting with an organism with a minimal genome and reducing its genes further \cite{Glass2006} \cite{Gibson2010}.
+%
 
 \section{Programmable Materials}
 
-The term "programmable matter" was first used to describe CAM8, a computing architecture in which physical phenomena could be efficiently simulated based on local interactions between parallel computing elements \cite{Toffoli1991}.  It has since come to describe materials that can be programmed to change their physical properties based on user input or environmental changes.  Often, programmable materials are composed of many smaller constituent elements, whose structural arrangement and local interactions are the source of larger-scale programmable properties.  Some forms of programmable material include metamaterials, modular robotics, 
-
-
-the constituent elements that make up a piece of programmable matter do not have any inherient \\
-
-Digital materials
+The term "programmable matter" was first used to describe CAM8, a computing architecture in which physical phenomena could be efficiently simulated based on local interactions between parallel computing elements \cite{Toffoli1991}.  Programmable matter has since come to describe materials that can be programmed to change their physical properties based on user input or environmental changes.  Often, programmable materials are composed of many smaller constituent elements, whose structural arrangement and local interactions are the source of larger-scale programmable properties.  Some forms of programmable material include metamaterials, modular robotics, ....  cite skylar, lipson, russ, etc... Current research at CBA revolves around \textit{digital materials}, a discretely-assembled form of programmable matter.
 
 \section{Digital Assembly}
 
@@ -78,27 +73,35 @@ Some of the first known formal investigations into the nature of self-replicatin
 %\end{itemize}
 
 
-Within the study of self-replication, there is a distinction between so called "trivial" and "non-trivial" self-replication.  This distinction is not well formalized; it is loosely based on the difference in complexity between a self replicating system and the parts it's constructed from.  For example, crystal growth or polymerization could be considered a type of trivial self-replication because both the system and the parts are relatively simple.  Penrose Tiles \cite{Penrose1958} are an example of engineered trivial self replication that resembles crystallization.  On the other end of the complexity spectrum, self-replicating experiments in the field of modular robotics are also a type of trivial self-replication.  Though the self-replicating robots produced in these experiments are very complex  \cite{} - often with multiple actuated degrees of freedom - the modules they are comprised of are essentially just as complex as the fully assembled system.
+Within the study of self-replication, there is a distinction between so called "trivial" and "non-trivial" self-replication.  This distinction is not well formalized; it is loosely based on the difference in complexity between a self replicating system and the parts it's constructed from.  For example, crystal growth or polymerization could be considered a type of trivial self-replication because both the assembly and the parts are relatively simple.  Penrose Tiles \cite{Penrose1958} are an example of engineered trivial self replication that resembles crystallization.  On the other end of the complexity spectrum, self-replicating experiments in the field of modular robotics are also a type of trivial self-replication; though the self-replicating robots produced in these experiments are very complex  \cite{} - often with multiple actuated degrees of freedom - the modules they're made from are of essentially equal complexity.
 
 \subsection{Physical Self-Replicating Systems}
 
-Biological self-replication is the only physically-instantiated, non-trivial self-replicating system that is currently known to exist.  The field of molecular biology aims to understand structure and functions of this system better, and the field of --- aims to discover how it first began.  Chapter \ref{chapter:HierarchicalDesign} dives deeper into an explanation of biological self-replication in terms of the work described in this thesis.  Other proposed non-trivial self-replicating systems include Drexler's mechanical nanobots  \cite{} and self-replicating lunar factories  \cite{}, though these have gained little traction from mainstream science.
+Biological self-replication is the only physically-instantiated, non-trivial self-replicating system that is currently known to exist.  The field of molecular biology aims to understand structure and functions of this system better, and the field of --- aims to discover how it first began.  Chapter \ref{chapter:HierarchicalDesign} dives deeper into an explanation of biological self-replication in terms of the work described in this thesis.  An active area of synthetic biology explores the possibility of creating a viable cell from scratch based on knowledge about the core systems required for metabolism, cell maintainance, and self replication \cite{Forster2006}.  To date, efforts at creating this "minimal cell" have only been successful using a top down approach - starting with an organism with a minimal genome and reducing its genes further \cite{Glass2006} \cite{Gibson2010} \cite{james paper}.\\
+
+Other proposed non-trivial self-replicating systems include Drexler's mechanical nanobots  \cite{} and self-replicating lunar factories \cite{}, others? though these have gained little traction from mainstream science.
 
 %Some proposed non-trivial self assembling systems are Drexler's Mechanical Nanobots
 %https://en.wikipedia.org/wiki/Drexler%E2%80%93Smalley_debate_on_molecular_nanotechnology
 
 \subsection{Virtual Self-Replicating Systems}
 
-This thesis draws inspiration from a lineage of virtual environments wherein the first investigations into self replication took place.  These types of investigations first started before the advent of modern computing.\\
+This thesis draws inspiration from a lineage of virtual environments wherein the first investigations of self-replication took place.  Even before the advent of modern computing, early experiments were computed by hand on pieces of graph paper or a Go board \cite{Gardner1970}.  With the introduction of personal computers and graphical user interfaces, it is now possible for anyone to compute large virtual universes and study the behaviors of millions of interacting parts.
 
 \subsubsection{Cellular Automata}
 
-A cellular automaton (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical \textit{cells} and time moves forward in discrete \textit{steps}.  Each cell owns one or many state variables, which may hold discrete or continuous data.  The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors.  Some CA's consider cells to be static with changing state, others employ kinematic rules, where cells can move in space.\\
+A cellular automaton (CA) is a discretized model used to describe the dynamics of a system.  CAs are discrete in both space in time, meaning space is divided up into many identical \textit{cells} and time moves forward in discrete \textit{steps}.  Each cell owns one or many state variables, which may hold discrete or continuous data.  The governing equations of a CA system are codified in the "ruleset" that applies universally across all cells in the system; typically a ruleset describes local interactions of a cell with its neighbors.  For example, in the popular CA \href{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}{Conway's Game of Life}, the state of a cell in the next time step is a function of its current state and the state of its eight neighbors on a 2D grid.  Some CA's consider cells to be static with changing state, others employ kinematic rules, where cells can move in space.\\
 
-CAs have been used to study the requirements of self-assembling systems since Von Neumann's first investigations \cite{Neumann1966}.  To date, these CA investigations have employed very simple rulesets that violate basic physical principals: matter can be created and destroyed at will, actuators can move an infinite number of cells (cells have no mass), motions are quantized, one material can be converted into another, global synchronicity, etc.  This by no means implies that CAs are inherently non-physical; in fact, evaluating partial differential equations from physics using finite difference method can be structured of as a type of cellular automaton \cite{Yang2010}.
+CAs have been used to study the requirements of self-assembling systems since Von Neumann's first investigations \cite{Neumann1966}.  To date, CA investigations into self-replication have employed very simple rulesets that violate basic physical principals: matter can be created and destroyed at will, actuators can move an infinite number of cells (cells have no mass), motions are quantized, one material can be converted into another, global synchronicity, etc.  This by no means implies that CAs are inherently non-physical; in fact, evaluating partial differential equations from physics using finite difference method can be structured of as a type of cellular automaton \cite{Yang2010}.
 
 \subsubsection{Von Neumann's Universal Constructor}
-This work was published, posthumously, by Arthur Burks in the 1960s \cite{Burks1969}.  
+
+The earliest work in this field was the design of Von Neuman's universal constructor in the 1940s (this work was published posthumously by Arthur Burks in the 1960s \cite{Burks1969}).  A universal constructor is a machine that can be programmed to construct nearly any other machine, including a copy of itself.  Von Neuman designed a virtual CA world in which his universal constructor lived, built from 29 distinct parts types with discretized state and behaviors.  A few notable conclusions fell from these exploratory investigations:\\
+
+A distinction between the mechanistic parts of the constructor and the "blueprint", the data encoding its construction - mirroring the separation of DNA from the proteosome.\\
+Establishing that bimodal operation of the construction blueprint is needed to make self-replication possible.  The blueprint must operate in both an interpreted mode - where it is read and executed to build mechanistic compoentns - and a duplication mode - allowing its information to be copied bit by bit.  This insight predated the discovery of the structure of DNA and a formal understanding of DNA transcription and replication.\\
+
+Other notable works that fall from Von Neumann's universal constructor include Langton Loops\cite{}...and more
 
 \section{CAD and Simulation Tools for Digital Assembly}
 
@@ -106,7 +109,7 @@ At the moment of writing this, there exist several computational tools for desig
 
 \subsection{Cellular Automata-Based Tools}
 
-The CA-based simulation tools discussed here allow for computational efficiency at the cost of accuracy, often allowing for only quantized motions, interactions, and states.  In general, this classification of tools employs materials and mechanics that are not plausible in the real world, but are still of interest for purely computational investigations.  The earliest design and simulation tools for CA systems were a piece of graph paper or a Go board \cite{Gardner1970}.  With the introduction of personal computers and graphical user interfaces, it is now possible for anyone to compute large CA universes and study their behaviors.\\
+The CA-based simulation tools discussed here allow for computational efficiency at the cost of accuracy, often using quantized motions, interactions, and states.  In general, this classification of tools employs materials and mechanics that are not plausible in the real world, but are still of interest for purely computational investigations.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{minecraft.png}
