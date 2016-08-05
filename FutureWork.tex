@@ -9,29 +9,42 @@
 
 \chapter{Future Work}\label{chap:futureWork}
 
-Future work revolves around extensions of the current simulation model, 
-setting up for experiments in computational design optimization.
+Future work revolves around hierarchical extensions of the current CAD/simulation model, experiments in computational design optimization, and development of a game around digital materials.
 
 \section{Hierarchical Simulation}
 
 \begin{figure}
   \includegraphics[width=\textwidth]{FunctionsParts.png}
-  \caption{}
+  \caption{Three functional primitives decomposed as assemblies of elements.  The geometrical layout of elements within a functional primitive establish its mechanical and electronic properties.  Two sketches of a 1DOF Bending Flexure have different density, conductivity, and bending stiffnesses (top, middle).  Parallel plate construction of a capacitor determines the functional primitive's global capacitance (bottom).}
   \label{fig:FunctionsParts}
 \end{figure}
 
+The hierarchical construction of described in Chapter \ref{chapter:HierarchicalDesign} lends itself nicely to a hierarchical breakdown of CAD and simulation.  The bulk of this thesis explores CAD/simulation at the function-level, especially the decomposition of functional parts into functional primitives.  Current thoughts around the transition from assemblies of elements to functional primitives are depicted in Figures \ref{fig:FunctionsParts} and \ref{fig:HierarchicalSim}.\\
+
 \begin{figure}
   \includegraphics[width=\textwidth]{HierarchicalSim.png}
-  \caption{}
+  \caption{Schematic view of translation of an assembly of elements into parameters of a functional primitive.  Static simulation of assembly determines 15 stiffness constants, mass, and moment of inertia tensor.  Blue boxes indicate "holding points" for applied boundary conditions in static determination of multidimensional stiffness.}
   \label{fig:HierarchicalSim}
 \end{figure}
 
-Increasing levels of hierarchy correspond to increased simulation abstraction
-Higher levels of hierarchy exhibit high-level behaviors which are abstracted from the low level physics of the system.
+Mechanical parameters describing a functional primitive are calculated from static simulations of assemblies of elements.  Boundary conditions applied to elements at each face of an assembly induce steady-state deformations.  15 sets of boundary conditions are used to calculate $F = kx$ and $T = k\theta$ for all 15 degrees of freedom (3 axial, 6 shear, 3 torsional, 3 bending).  For example, differences in composition between the two 1DOF bending flexures depicted in Figure \ref{fig:FunctionsParts} are expressed as differences stiffness constants at the functional primitive level of simulation (Figure \ref{fig:HierarchicalSim}).  In the case that these deformations are not linear over a range of applied forces, a constant $k$ is calculated to best fit the data.  Additionally, mass and inertia tensor are computed from assemblies of elements.\\
+
+Electronic parameters may be determined as well.  Conductance between faces of a functional primitive are trivially calculated from assemblies of conducting and insulating elements.  Static capacitance and inductance may also computed using steady-state solutions to Finite Difference Time Domain (FDTD) simulations; previous work in DMDesign explored static electronic simulation (Figure \ref{fig:designAssemblyGUIWide}E).\\
+
+Modules and complexes exhibit high-level behaviors that are abstracted from the low-level physics of the system.  The simulation of modules and complexes should reflect this increased abstraction.  I envision this type of simulation as a type of discretized, kinematic CA ruleset (somewhat like the work of William Stevens with CBlocks3D \ref{Stevens2009b}), though at this time it is unclear how to generate the governing ruleset from behaviors of assemblies of function-level parts.
+
+\section{Computational Design Optimization}
+
+Sets up nicely for computational design optimization
+
+Constrained design space, due to the discretization of space and a limited set of potential parts types.
+
+Low hanging fruit involves implementation of the element $\rightarrow$ functional primitive simulation and topological optimization of the patterning of elemental parts.
+
 
 \section{"Fab the Game"}
 
-An offshoot of the work described in this thesis is a collaboration with \href{http://elinemedia.com/}{E-Line Media} on a game that explores an aspirational future where digital materials are used to construct nearly everything.  Tentatively called "Fab the Game", 
+An offshoot of the work described in this thesis is a collaboration with \href{http://elinemedia.com/}{E-Line Media} on a game.  Tentatively called "Fab the Game", it explores an aspirational future where digital materials are used to construct nearly everything.  
 
 Players construct assemblies from functional primitives in an open-ended sandbox environment and in more directed challenges.  We envision a large component of gameplay revolves around constructing robots and using them to interact with and shape the surrounding environment.
 
@@ -79,10 +92,3 @@ Concept art by Eli Gershenfeld explores the look and feel of the game as well as
   \label{fig:elibridgefull}
 \end{figure}
 
-\section{Computational Design Optimization}
-
-Sets up nicely for computational design optimization
-
-Contrained design space, due to the discretization of space and a limited set of potential parts types.
-
-Low hanging fruit involves implementation of the element $\rightarrow$ functional primitive simulation and topological optimization of the patterning of elemental parts.
