@@ -38,7 +38,7 @@ where $E$ is the elastic modulus (also called "Young's modulus") and G is the sh
 
 \begin{figure}
   \includegraphics[width=\linewidth]{FEAexample.png}
-  \caption{Two potential ways to model linear elastic deformations of a solid.  The strategy on the left treats the entire geometry as a Hookian spring, resulting in erroneous modeling of the solid's behavior.  The strategy on the left breaks up the solid into small regions which can individually be modeled with Hooke's law to a reasonable degree of accuracy.  The individual behaviors of the small regions are combined to synthesize a model of the global behavior of the entire geometry.  The method on the right summarizes the main idea behind traditional FEA.}
+  \caption{Two potential ways to model linear elastic deformations of a solid.  The strategy on the left treats the entire geometry as a Hookian spring, resulting in erroneous modeling of the solid's behavior.  The strategy on the left breaks up the solid into small regions which can individually be modeled with Hooke's law to a reasonable degree of accuracy.  The individual behaviors of the small regions are combined to synthesize a model of the global behavior of the entire geometry.  The method on the right summarizes the main idea behind FEA of linear elastic solids.}
   \label{fig:FEAexample}
 \end{figure}
 
@@ -55,21 +55,21 @@ Now we can model the global deformations of a solid as the summation of deformat
 
 \begin{figure}
   \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
-  \caption{Deformations of a finite element under four types of applied forces.  In modeling assemblies of \textit{functional primitives}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, axial (compression and tension) and shear forces cause translational displacement and bending and torsional forces cause rotational displacement.}
+  \caption{Deformations of a finite element under four types of forces.  In modeling assemblies of \textit{functional primitives}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, axial (compression and tension) and shear stresses cause translational displacement and bending and torsion cause rotational displacement.}
   \label{fig:SolidMechanicsDOF}
 \end{figure}
 
-We must also consider that materials may respond differently to different types of forces.  Forces acting on finite elements fall into four categories: axial (tension and compression), shear, bending, and torsion.  Each type of applied force causes a characteristic deformation, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.  We've seen how $E$ determines the behavior of a material in response to axial stress and $G$ for shear stress in Equations \ref{eq:stressstrainaxial} and  \ref{eq:stressstrainshear}.  Using information about the geometry of an element, we can derive equations for bending and torsional response in terms of torque ($T$) and angular displacement ($\theta$):
+We must also consider that materials may respond differently to different types of forces.  Forces acting on finite elements fall into four categories: axial (tension and compression), shear, bending, and torsion.  Each type of force causes a characteristic deformation, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.  We've seen how $E$ determines the behavior of a material in response to axial stress and $G$ for shear stress in Equations \ref{eq:stressstrainaxial} and  \ref{eq:stressstrainshear}.  Using information about the geometry of an element, we can derive equations for bending and torsional response in terms of torque ($T$) and angular displacement ($\theta$):
 \begin{equation}\label{eq:stressstrainbending}
-T_{bending} = \dfrac{EI}{l}\theta_{bending}\\[10pt]
+T_{bending} = \dfrac{EI}{l}\theta_{bending}??\\[10pt]
 \end{equation}
 \begin{equation}\label{eq:stressstraintorsion}
-T_{torsion} = \dfrac{GJ}{l}\theta_{torsion} 
+T_{torsion} = \dfrac{GJ}{l}\theta_{torsion} ??
 \end{equation}
 
 where I and J are area moment of inertias (a measure of the distribution of material in a cross section - convention uses $J$ for torsional cross section and $I$ for bending, but they are calculated the same way) and $l$ is the length of the element in the relevant direction.\\
 
-Equations \ref{eq:stressstrainaxial}, \ref{eq:stressstrainshear}, \ref{eq:stressstrainbending}, and \ref{eq:stressstraintorsion} work nicely for homogenous materials, but don't address situations where a material's response depends on the direction of the applied stress.  A material is isotropic if it responds the same to a stress in any orientation.  Materials comprised of oriented fibers or other internal structure typically display anisotropic behaviors.  Most FEA methods and tools assume finite elements are isotropic.
+Equations \ref{eq:stressstrainaxial}, \ref{eq:stressstrainshear}, \ref{eq:stressstrainbending}, and \ref{eq:stressstraintorsion} work nicely for homogenous materials, but don't address situations where a material's response depends on the direction of the applied force: when the material is \textit{anisotropic}.  Materials comprised of oriented fibers or other internal structures typically display anisotropic behaviors.  In these cases, bulk $E$ and $G$ are not sufficient to describe a material's behavior.
 
 \section{Modeling Setup}
 
@@ -79,19 +79,23 @@ Equations \ref{eq:stressstrainaxial}, \ref{eq:stressstrainshear}, \ref{eq:stress
   \label{fig:FunctionPrimitivesPartsWPic}
 \end{figure}
 
-Simulation of an assembly of \textit{functional parts} happens at the granularity of identically-sized \textit{functional primitives}, which I'll call "cells" for the remainder of this chapter.  Functional parts, their decomposition into functional primitives, and the physical parts being modeled are illustrated in Figure \ref{fig:FunctionPrimitivesPartsWPic}.  The number of functional primitives shown in each functional part is meant only as an illustration for now; the exact aspect ratio and joining strategy between functional parts is still in development.  Once these parameters have been settled, the model can be adjusted to fit the parts simply by varying the scale and aspect ratio of the cubic lattice.\\
+Simulation of an assembly of \textit{functional parts} happens at the granularity of identically-sized \textit{functional primitives}.  Functional parts, their decomposition into functional primitives, and the physical parts being modeled are illustrated in Figure \ref{fig:FunctionPrimitivesPartsWPic}.  The number of functional primitives shown in each functional part is meant only as an illustration for now; the joining strategy and dimensions of functional parts are still in development.  Once these parameters have been settled, the model can be adjusted to fit the parts simply by varying the scale and aspect ratio of the cubic lattice.\\
 
-In the next sections, I'll demonstrate how to extend the ideas from FEA to model the dynamic behavior of multimaterial assemblies of identically-sized, anisotropic cells.  The primary motivations for this work are listed below:\\
+In the next sections, I'll demonstrate how to extend the ideas from FEA to model the dynamic behavior of multimaterial assemblies of identically-sized, anisotropic functional primitives, which I'll call "cells" for the remainder of this chapter.  The primary motivations for this work are listed below:\\
 
-\textbf{Exploit discretization of the physical system:} Functional parts are assembled on a regular, cubic lattice.  Rather than using an arbitrary mesh (as is the case in Figure \ref{fig:FEAexample}), we can decompose assemblies of parts into identically-shaped cells on a cubic lattice for simulation.  This will increase computational efficiency and should result in better agreement with empirical data \cite{Calisch2014}.\\
+\textbf{Exploit discretization of the physical system:} Functional parts are assembled on a regular, cubic lattice.  Rather than using an arbitrary mesh (as is the case in Figure \ref{fig:FEAexample}), assemblies are decomposed into identically-shaped cells on a cubic lattice for simulation.  This simplifies the discretization of a large assembly, puts a lower bound on the size of the smallest finite element, allows many parameters to be precomputed in advance - increasing computational efficiency, and should result in better agreement with empirical data \cite{Calisch2014}.\\
 
-\textbf{Non-linear treatment of angular displacements:} Some flexures and actuators may exhibit large angular deformations that must be handled using non-linear (spherical) techniques.  Most FEA packages rely on small angle approximations to handle small angular deformations and costly remeshing to handle larger deformations without introducing error.\\
+\textbf{Non-linear treatment of angular displacements:} Some flexures and actuators may exhibit large angular deformations that must be handled using non-linear (spherical) techniques.  FEA typically relies on small angle approximations to handle small angular deformations and costly remeshing to handle larger deformations without introducing error.\\
 
-\textbf{Model multimaterial interactions:} Cells in this simulation are made from several material types which may be patterned together in close proximity.  In this model, dissimilar material properties may be combined and applied to interactions between different cell types.\\
+\textbf{Multimaterial interactions:} Cells in this simulation are made from several material types which may be assembled in dithered patterns.  In this model, dissimilar material properties are combined and applied to interactions between different cell types.\\
 
 \textbf{Anisotropy:} Cells may exhibit both isotropic and anisotropic behaviors.  To handle anisotropy, cell materials are parameterized by 15 stiffness and damping constants rather than just $E$ and $G$.\\
 
+\textbf{Dynamic Simulation:} We are interested in the time dependent behaviors of assemblies of parts.  The framing of this simulation model makes computing dynamics trivial.\\
+
 \textbf{Electronics and actuation:} Cells at the function-level are defined not only by their mechanical properties, but also by their ability to transmit electronic signals from one face to another, and their active properties in response to a signal.  This model provides a computationally efficient way to integrate electronic effects with mechanical simulation. \\
+
+\textbf{Interaction with environment:}  We are interested in the interactions between functional parts and the environment, specifically for the tasks of locomotion and material handling.  This model implements basic collision detection with the ground and will be extended in the future to handle collisions between cells.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CombinatoricsOfFunctions.png}
@@ -99,7 +103,7 @@ In the next sections, I'll demonstrate how to extend the ideas from FEA to model
   \label{fig:CombinatoricsOfFunctions}
 \end{figure}
 
- The combinatorial space of mechanical, electronic, and actuated cell types is described in Figure \ref{fig:CombinatoricsOfFunctions}.  A selection of these cell types are included in Figure \ref{fig:FunctionPrimitivesPartsWPic} and have been implemented in simulation.  When describing mechanical behavior of a particular cell type, I'll refer to its four deformation modes (Figure \ref{fig:SolidMechanicsDOF}) as "internal degrees of freedom" (DOF).  For example, a 1-DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.  Section \ref{sec:electronicSim} describes the process of electronic simulation in more detail, the remainder of this chapter will focus on the passive and active mechanical simulation of functional primitive cells.
+ The combinatorial space of mechanical, electronic, and actuated cell types is described in Figure \ref{fig:CombinatoricsOfFunctions}.  A selection of these cell types are included in Figure \ref{fig:FunctionPrimitivesPartsWPic} and have been implemented in simulation.  When describing mechanical behavior of a particular cell type, I'll refer to its four deformation modes (Figure \ref{fig:SolidMechanicsDOF}) as "internal degrees of freedom" (DOF).  For example, a 1DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.  Section \ref{sec:electronicSim} describes the process of electronic simulation in more detail, the remainder of this chapter will focus on the passive and active mechanical simulation of functional primitive cells.
 
 \section{Spring-Damper Characteristics}
 
@@ -158,7 +162,7 @@ $k_{shear}$ and $d_{shear}$ are broken out into six parameters of the form $shea
   \label{fig:ShearDOFs}
 \end{figure}
 
-The stiffness and damping constants of each cell type may be calculated from bulk properties of the constituent materials that make up the cell, or they may be measured empirically.  For example, an isotropic cell made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses along the x-axis defined by:
+The stiffness and damping constants of each cell type may be calculated from bulk properties of the constituent materials that make up the cell, or they may be measured empirically.  For example, an isotropic cell made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses along the x axis defined by:
 
 \begin{subequations}
 \begin{align} 
@@ -175,13 +179,35 @@ k_{torsion_x} &= \dfrac{GJ_x}{l}??
 \\
 where $A$ is the cross sectional area and $l$ is the length of the cell.\\
 
+The natural frequency ($\omega_n$) of any of the translational degrees of freedom within a cell is calculated by:
+\begin{equation}\label{eq:natFreq}
+ \omega_n = \sqrt{\dfrac{k}{m}}
+ \end{equation}
+
+where $m$ is the cell's mass.  And for the rotational degrees of freedom by:
+\begin{equation}\label{eq:natFreqRot}
+ \omega_n = \sqrt{\dfrac{k}{I}}
+ \end{equation}
+ where $I$ is the cell's moment of inertia around the axis of interest.  Linear damping for any degree of freedom is calculated from natural frequency by:
+\[ d = 2\zeta \omega_n \]
+
+where $\zeta$ is a constant called the damping ratio, with:
+\begin{subequations}
+\begin{align*}
+\zeta = 0 \qquad &\text{undamped}\\
+0 < \zeta < 1 \qquad &\text{underdamped}\\
+\zeta = 1 \qquad &\text{critically damped}\\
+\zeta > 1 \qquad &\text{overdamped}\\
+\end{align*}
+\end{subequations}
+
  \begin{figure}
   \includegraphics[width=\linewidth]{BendingStiffnessContinuoum.png}
-  \caption{Continuum of bending stiffness in a 1 DOF bending flexure.  Region which can be physically achieved through existing fabrication techniques is highlighted in pink.}
+  \caption{Continuum of bending stiffness in a 1DOF bending flexure.  Region which can be physically achieved through existing fabrication techniques is highlighted in pink.}
   \label{fig:BendingStiffnessContinuoum}
 \end{figure}
 
-A linear scale showing the range of physically achievable 1-DOF bending cell types compared with the range of theoretically possible types is shown in Figure \ref{fig:BendingStiffnessContinuoum}.  Due to manufacturing and material constraints, we do not envision functional primitives that occupy the region near zero bending stiffness (e.g. a frictionless pin joint) or infinite bending stiffness (zero compliance material).\\
+A linear scale showing the range of physically achievable 1DOF bending cell types compared with the range of theoretically possible types is shown in Figure \ref{fig:BendingStiffnessContinuoum}.  Due to manufacturing and material constraints, we do not envision functional primitives that occupy the region near zero bending stiffness (e.g. a frictionless pin joint) or infinite bending stiffness (zero compliance material).\\
 
 In the case that neighboring cells have different stiffness or damping constants, a composite stiffness or damping constant must be calculated in order to properly model the junction between the cells.  Composite stiffness can be calculated according to the following formula:
  \begin{equation} \label{eq:springseries}
@@ -193,14 +219,13 @@ similarly, composite damping is calculated by:
 d_{composite} = \dfrac{2d_1d_2}{d_1+d_2}
  \end{equation}
  
- Equations \ref{eq:springseries} and \ref{eq:damperseries} are equivalent to the formulas for two springs or two dampers of half length in series.  This is demonstrated graphically in Figure \ref{fig:SeriesCoupling}.  Notice, for example, in the case of $k1=k2$, Equation \ref{eq:springseries} reduces to $ k_{composite} = k1 = k2$.\\
+ Equations \ref{eq:springseries} and \ref{eq:damperseries} are equivalent to the formulas for two springs or two dampers of half length in series.  This is demonstrated graphically in Figure \ref{fig:SeriesCoupling}.  Notice, for example, in the case of $k1=k2$, Equation \ref{eq:springseries} reduces to $ k_{composite} = k1 = k2$.
  
  \begin{figure}
   \includegraphics[width=\linewidth]{SeriesCoupling.png}
-  \caption{Calculation of composite stiffness and damping of two cells with different k and d constants.}
+  \caption{Calculation of composite stiffness and damping of two cells with different $k$ and $d$ constants.}
   \label{fig:SeriesCoupling}
 \end{figure}
-
 
 \section{Translational Forces}
 
@@ -336,25 +361,25 @@ Next we calculate the angular displacement and relative angular velocity between
 Vector addition and subtraction of euler rotations is not valid (though it might be ok for small angles):
 \[ \vec{\theta}_{diff} \neq \vec{\theta}_1 - \vec{\theta}_2 \]
 
-Instead, we'll use the two cells' quaternions to calculate the axis ($\vec{A}_{\theta}$) and angle of rotation ($\alpha_{\theta}$) from cell 2 to cell 1:
+Instead, we'll use the two cells' quaternions to calculate the axis ($\vec{A}_{\theta}$) and angle of rotation ($a_{\theta}$) from cell 2 to cell 1:
 \begin{equation}\label{eq:qdiff}
 q_{diff} = q_1^{*}*q_2 
 \end{equation}
-\[ \alpha_{\theta} = 2*acos(q_{diff_w}) \]
+\[ a_{\theta} = 2*acos(q_{diff_w}) \]
 
-(if $\alpha$ == 0 then the axis does not matter, we can pick something arbitrary)
+(if $a_{theta}$ == 0 then the axis does not matter, we can pick something arbitrary)
 \[ A_{\theta} = \dfrac{1}{\sqrt{1-q_{diff_w}^2}} \left[ \begin{array}{ccc}
 q_{diff_x}\\
 q_{diff_y}\\
 q_{diff_z}
  \end{array} \right] \]
  
-$A_{\theta}$,  $\alpha_{\theta}$, $\omega_1$, and $\omega_2$ are used to calculate reaction torque of cell 2 ($T_{2_{rxn}}$), following a similar spring/damper setup as we used in Equation \ref{eq:translationalForceRot}:
+$A_{\theta}$,  $a_{\theta}$, $\omega_1$, and $\omega_2$ are used to calculate reaction torque of cell 2 ($T_{2_{rxn}}$), following a similar spring/damper setup as we used in Equation \ref{eq:translationalForceRot}:
 \begin{equation}\label{eq:reactiontorque}
-\vec{T}_{2_{rxn}} = \vec{k}_{rot} \circ (\alpha_{\theta} \vec{A}_{\theta}) + \vec{d}_{rot} \circ (\omega_1-\omega_2)
+\vec{T}_{2_{rxn}} = \vec{k}_{rot} \circ (a_{\theta} \vec{A}_{\theta}) + \vec{d}_{rot} \circ (\omega_1-\omega_2)
 \end{equation}
 
-The total torque on cells 2 is the sum of the torque applied by shear and axial interactions with cell 1 (Equation \ref{eq:moment1to2}) and the reaction force of cell 2 (Equation \ref{eq:reactiontorque}):
+The total torque on cell 2 is the sum of the torque applied by shear and axial interactions with cell 1 (Equation \ref{eq:moment1to2}) and the reaction force of cell 2 (Equation \ref{eq:reactiontorque}):
 \begin{equation}\label{eq:torqueEquation}
 \vec{T}_2 = \vec{T}_{1\rightarrow2} + \vec{T}_{2_{rxn}}
 \end{equation}
@@ -362,7 +387,7 @@ The total torque on cells 2 is the sum of the torque applied by shear and axial 
 The torque on cell 1 from the interaction with cell 2 is equal in magnitude and opposite in direction:
 \[ \vec{T}_1 = -\vec{T}_{1\rightarrow2} - \vec{T}_{2_{rxn}}  = \vec{T}_{2\rightarrow1} + \vec{T}_{1_{rxn}}\]
 
-To calculate angular acceleration ($\vec{\dot{\omega}}$), we divide by moment of inertia.  For a 3D rectangular cell with sides $l_x$, $l_y$, $l_z$ and mass $m$, the tensor moment of inertia is given by:
+To calculate angular acceleration ($\vec{\alpha}$), we divide by moment of inertia.  For a 3D rectangular cell with sides $l_x$, $l_y$, $l_z$ and mass $m$, the tensor moment of inertia is given by:
 \[ I_{inertia} = \dfrac{m}{12} \left[ \begin{array}{ccc}
 l_y^2+l_z^2 & 0 & 0\\
 0 & l_x^2+l_z^2 & 0\\
@@ -370,8 +395,8 @@ l_y^2+l_z^2 & 0 & 0\\
  \end{array} \right] \]
  
  where:
- \[ \vec{T} = I_{inertia}\vec{\dot{\omega}} \]
-  \[ \vec{\dot{\omega}}  = I_{inertia}^{-1}\vec{T} \]
+ \[ \vec{T} = I_{inertia}\vec{\alpha} \]
+  \[ \vec{\alpha}  = I_{inertia}^{-1}\vec{T} \]
   \[ I_{inertia}^{-1} = \dfrac{12}{m} \left[ \begin{array}{ccc}
 \dfrac{1}{l_y^2+l_z^2} & 0 & 0\\
 0 & \dfrac{1}{l_x^2+l_z^2} & 0\\
@@ -379,14 +404,14 @@ l_y^2+l_z^2 & 0 & 0\\
  \end{array} \right] \]
  
 For cells 1 and 2:
- \[ \vec{\dot{\omega}}_1 = \dfrac{12}{m_1} \vec{T}_1 \circ 
+ \[ \vec{\alpha}_1 = \dfrac{12}{m_1} \vec{T}_1 \circ 
  \left[ \begin{smallmatrix}
 \tfrac{1}{l_y^2+l_z^2}\\
 \tfrac{1}{l_x^2+l_z^2}\\
 \tfrac{1}{l_x^2+l_y^2}
  \end{smallmatrix} \right] 
   \qquad\qquad
-   \vec{\dot{\omega}}_2 = \dfrac{12}{m_2} \vec{T}_2 \circ
+   \vec{\alpha}_2 = \dfrac{12}{m_2} \vec{T}_2 \circ
    \left[ \begin{smallmatrix}
 \tfrac{1}{l_y^2+l_z^2}\\
 \tfrac{1}{l_x^2+l_z^2}\\
@@ -405,19 +430,19 @@ l\\
 0
  \end{array} \right] \]
  
- An axial actuator cell with strain $\Delta\epsilon$ would be modeled with the following nominal distance to its neighbor:
+ An axial actuator cell with strain $\epsilon$ would be modeled with the following nominal distance to its neighbor:
  \[ \vec{l}_{nom21} =  \left[ \begin{array}{ccc}
-l+\tfrac{1}{2}\Delta\epsilon\\
+l+\tfrac{1}{2}\epsilon\\
 0\\
 0
  \end{array} \right] \]
  
  where the factor of $\tfrac{1}{2}$ comes from the strain being split between the neighbor to the +x direction and the -x direction equally.\\
  
- For a shear actuator, with shearing strain $\Delta\epsilon$ occurring in the y direction, the nominal distance to the neighboring cells becomes:
+ For a shear actuator, with shearing strain $\epsilon$ occurring in the y direction, the nominal distance to the neighboring cells becomes:
   \[ \vec{l}_{nom21} =  \left[ \begin{array}{ccc}
 l\\
-\tfrac{1}{2}\Delta\epsilon\\
+\tfrac{1}{2}\epsilon\\
 0
  \end{array} \right] \]
  
@@ -425,7 +450,7 @@ l\\
    \[ \vec{l}_{nom21} =  \left[ \begin{array}{ccc}
 l\\
 0\\
-\tfrac{1}{2}\Delta\epsilon
+\tfrac{1}{2}\epsilon
  \end{array} \right] \]
  
  For rotations, we subtract the actuated angular offset in the calculation of the difference in orientation between two cells (Equation \ref{eq:qdiff}):
@@ -440,9 +465,9 @@ cos(\phi_x) * cos(\phi_y) * cos(\phi_z) - sin(\phi_x) * sin(\phi_y) * sin(\phi_z
  \end{array} \right]
 \]
 
-For a torsional actuator with angular strain $\Delta\epsilon$:
+For a torsional actuator with angular strain $\epsilon$:
 \[ \phi = \left[ \begin{array}{ccc}
-\tfrac{1}{2}\Delta\epsilon\\
+\tfrac{1}{2}\epsilon\\
 0\\
 0
  \end{array} \right]
@@ -451,7 +476,7 @@ For a torsional actuator with angular strain $\Delta\epsilon$:
 And for a y-axis bending actuator:
 \[ \phi = \left[ \begin{array}{ccc}
 0\\
-\tfrac{1}{2}\Delta\epsilon\\
+\tfrac{1}{2}\epsilon\\
 0
  \end{array} \right]
 \]
@@ -460,7 +485,7 @@ And, similarly, for a z-axis bending actuator:
 \[ \phi = \left[ \begin{array}{ccc}
 0\\
 0\\
-\tfrac{1}{2}\Delta\epsilon
+\tfrac{1}{2}\epsilon
  \end{array} \right]
 \]
 
@@ -487,7 +512,7 @@ Verlet integration requires storing the previous two position calculations (at t
 Higher order methods such as Runge-Kutta (RK4, 4\textsuperscript{th} order) reduce error further, but require multiple calculations in order to solve for a single time step.  Lower order Runge-Kutta methods, such as the midpoint method, may also be worth exploring.\\
 
 Time integration of rotations is a bit trickier.  The methods described above are meant for intergration in linear space, so they can be applied to the transformation between angular acceleration and velocity.  For example, forward euler of angular acceleration is:
-\[ \vec{\omega}_{t+1} = \vec{\omega}_{t} +  \vec{\dot{\omega}}_{t}\Delta t\]
+\[ \vec{\omega}_{t+1} = \vec{\omega}_{t} +  \vec{\alpha}_{t}\Delta t\]
 
 3D rotational space in inherently spherical, and applying linear integration techniques to integrate angular velocity will create large errors when the angular displacement is large.  Instead we can convert angular velocity into quaternion space:
 \[ \dot{q} = 1/2\vec{\omega}*q\]
@@ -495,6 +520,13 @@ with $\vec{\omega}$ as a 4-space vector with $w=0$ and $*$ denoting the Hamilton
 
 Euler integration of $\dot{q}$ is as easy as multiplying by $\Delta t$ and normalizing to a unit quaternion:
 \[ q = normalize(\dot{q}\Delta t)\]
+
+The time step $\Delta t$ should be chosen as large as possible to maximize computational efficiency without causing numerical instability.  For the interaction of two cells with different masses and stiffnesses, the maximum natural frequency ($\omega_{n_{max}}$) of the bond can be calculated from Equations \ref{eq:natFreq} and \ref{eq:natFreqRot} by:
+\[ \omega_{n_{max}} = \sqrt{\dfrac{k_{composite}}{m_{min}}} \qquad
+\text{and} \qquad \omega_{n_{max}} = \sqrt{\dfrac{k_{composite}}{I_{min}}} \]
+
+where $m_{min}$ is the smaller of the two masses and $I_{min}$ is the smaller of the cells' moment of inertias.  The optimal time step for numerical integration is calculated from the maximum natural frequency ($\omega_{n_{globalMax}}$) of any translational or rotational interaction of cells within the entire assembly:
+\[ \Delta t < \dfrac{1}{2\pi\omega_{n_{globalMax}}}  \]
 
 \subsection{Poisson's Ratio}
 
