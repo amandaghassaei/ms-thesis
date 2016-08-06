@@ -105,34 +105,34 @@ In its current state, TBD is suffering from issues of instability related to bug
 
 \section{Examples}
 
-An older version of the TBD engine lacked a complete model of torsional and bending stiffness, but tended to be much more stable than the current state of development.  Several examples of simple robotic elements were constructed within this older version of the physics engine.
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{bendy.png}
-  \caption{}
-  \label{fig:bendy}
-\end{figure}
+An older version of the TBD engine lacked a complete model of torsional and bending stiffness, but tended to be much more stable than the current state of development.  Several examples of simple robotic elements were constructed within this older version of the physics engine (Figures \ref{fig:beambending} through \ref{fig:undulating}).
 
 \begin{figure}
   \includegraphics[width=\linewidth]{beambending.png}
-  \caption{}
+  \caption{Beam bending simulation sets one end fixed and allows the rest to deform under gravity.  Both material types shown are isotropic: white material is stiffer than purple.}
   \label{fig:beambending}
 \end{figure}
 
 \begin{figure}
+  \includegraphics[width=\linewidth]{bendy.png}
+  \caption{A bending structure made from two stacks of linear actuators driven out of phase from each other.}
+  \label{fig:bendy}
+\end{figure}
+
+\begin{figure}
   \includegraphics[width=\linewidth]{locomotionsimple.png}
-  \caption{}
+  \caption{Simple locomotion demonstration shows four simple robots, each with a single linear actuator and oscillator.  Differences in speed are due to different oscillator waveforms driving each robot's circuit.  From left to right: sine, square, saw, triangle.}
   \label{fig:locomotionsimple}
 \end{figure}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{xystage.png}
-  \caption{}
+  \caption{XY stage driven in a circular motion by two stacks of linear actuators a quarter cycle out of phase from each other.}
   \label{fig:xystage}
 \end{figure}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{undulating.png}
-  \caption{}
+  \caption{Undulating structure uses several stacks of linear actuators driven a third of a cycle out of phase from each other to create a sinusoidal motion up its spine.}
   \label{fig:undulating}
 \end{figure}
