@@ -33,13 +33,17 @@ Electronic properties may be determined as well.  Conductance between faces of a
 
 Modules and complexes exhibit high-level behaviors that are abstracted from the low-level physics of the system.  The simulation of modules and complexes should reflect this abstraction by modeling parts with a discretized, kinematic CA ruleset (somewhat like the work of William Stevens with CBlocks3D \ref{Stevens2009b}).  At this time it is still unclear how to generate the governing ruleset from behaviors of assemblies of function-level parts.
 
-\section{Computational Design Optimization}
+\section{Declarative Design}
 
-Sets up nicely for computational design optimization
+\begin{figure}
+  \includegraphics[width=\textwidth]{DeclarativeDesign.png}
+  \caption{}
+  \label{fig:DeclarativeDesign}
+\end{figure}
 
-Constrained design space, due to the discretization of space and a limited set of potential parts types.
+The ultimate goal of the software tools developed in this thesis is to close the loop between design and simulation through declarative design.  constrained optimization\\
 
-Low hanging fruit involves implementation of the element $\rightarrow$ functional primitive simulation and topological optimization of the patterning of elemental parts.
+ The discretization of space and finite set of parts types at each level hierarchy within our assembly system sets it up nicely for computational design optimization.  Once a method of translating assemblies of elements into functional primitives has been established (see discussion from previous section), we could perform a topology optimization across assemblies of elements to discover new types of functional primitives.  Fabrication limitations could be translated into geometric constraints to ensure that the outcomes of the optimization are reasonable.  Future work could also explore optimization of control strategies for actuated assemblies, similar to previous work by Sims \ref{Sims1994}.
 
 
 \section{"Fab the Game"}
@@ -53,6 +57,8 @@ Robots which are controlled in real time by players to compete in arena challeng
 
 
 Players can dive into functional primitive definitions and alter the elemental composition to alter its function-level behavior.  Advanced gameplay involves designing new functional primitives from elemental part types to achieve behaviors beyond those provided by default.  We hope to encourage gameplay similar to what I've described exists around the Game of Life in Chapter \ref{chapter:HierarchicalDesign} and allow greater interaction with research at CBA.
+
+new points in parameter space
 
 Concept art by Eli Gershenfeld explores the look and feel of the game as well as potential gameplay scenarios (Figures \ref{fig:elibendy} through \ref{fig:elibridgefull}).
 
