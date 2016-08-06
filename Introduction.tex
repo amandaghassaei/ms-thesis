@@ -9,34 +9,46 @@
 
 \chapter{Introduction}
 
-%A moonshot goal of digital fabrication is the bottom up programmable assembly of meter scale objects with nanometer scale precision.  With this technology, we could design materials with exotic physical properties and radically transform the way we make almost anything.  We believe this is possible by constructing nanoscale assemblers that work together to precisely control and place raw material feedstock.  Though it sounds like science fiction, biology has demonstrated that this is possible.  Data encoded in DNA can be executed like a computer program to build an immense assortment of molecular-scale machines, which together, coordinate the higher level structure and functions of an organism.
-%\\
+An aspirational goal of digital fabrication is the bottom up programmable assembly of meter scale objects with nanometer scale precision.  With this technology, we could design materials with exotic physical properties and radically transform the way we make almost anything.  We believe this is possible by constructing nanoscale assemblers that work together to precisely control and place raw material feedstock.  Though it sounds like science fiction, biology has demonstrated that this is possible.  Data encoded in DNA can be executed like a computer program to build an immense assortment of molecular-scale machines, which together, coordinate the higher level structure and functions of an organism.
+\\
+
+Our assembly system is a relatively small number of different feedstocks and parallelization of assembly.  Similarly, the protein machinery of biology is made primarily from the same basis set of 20 amino acids, yet proteins display a wide variety of functions and morphologies to carry out the many tasks of the cell in parallel.  Similarly, the material feedstock of the nano-assemblers consists of a finite set of part types, called "digital materials".  These digital materials are joined together in various patterns to produce diverse, functional structures.  Since construction takes place one nano-brick at a time, many assemblers would need to work in parallel to build structures of any significant size.  If the assemblers are designed in such a way that they can be constructed from their own feedstock, assemblers can build more assemblers and the rate of assembly scales exponentially.\\
+
+The nano-assembly I've described will look very different from the way we make things today, and opposes many of the assumptions baked into traditional Computer Aided Design (CAD),  Computer Aided Manufacturing (CAM), and robotics design.  This assembly strategy follows from an existing line of research called "digital assembly", where discrete parts are assembled on a regular, periodic lattice.  Mechanical systems are built with discrete modules of rigid and flexural components, and electronics and controls are distributed spatially across a machine.  Large structures appear to be "living" in the sense that their surface is teeming with nano-robots, detecting and correcting errors and performing other functions.  The environment is highly structured, allowing locomotion systems to position themselves globally by counting local movements across a lattice.  Machines receive instructions from their environment to coordinate various tasks.
+\\
+
+This thesis outlines work toward CAD and simulation tools for digital materials that will help us to realize this aspirational future.  
+
+The main contribution of this work is to create a design/simulation environment where anyone can start to explore the rich design space around digital materials in a physically realistic way.  This work will inform future trajectories in CBA research and in the broader field of programmable materials, modular robotics, and digital fabrication. 
+
+
+sandbox for exploring self-assembling systems based on the foundations of engineering and materials science rather than biology.
+
+Multiphysics for the Masses
+"Minecraft with physics"
+
+% This work is not intended to result in a manual outlining all the necessary components for self-replication based on current technology, but rather as an 
+
+%\subsection{Micro and Nano Robotics}
 %
-%Other parallels between biological assembly and our proposed system are the discretization of a relatively small number of different feedstocks and parallelization of assembly.  The protein machinery of biology is made primarily from the same basis set of 20 amino acids, yet proteins display a wide variety of functions and morphologies to carry out the many tasks of the cell in parallel.  Similarly, the material feedstock of the nano-assemblers consists of a finite set of part types, called "digital materials".  These digital materials are joined together in various patterns to produce diverse, functional structures.  Since construction takes place one nano-brick at a time, many assemblers would need to work in parallel to build structures of any significant size.  If the assemblers are designed in such a way that they can be constructed from their own feedstock, assemblers can build more assemblers and the rate of assembly scales exponentially.
-%\\
+%%Nano structures allow for physical phenomena that are normally confined to the nanoscale to be accessed at the macroscale.  Gecko paper
+%%nano structures affect the bulk material properties of macro-scale objects - strength, stiffness, friction, porosity, filtering, hydrophobicity, self cleaning, adhesion, conductivity...
+%%
+%%-relative cost of biological nano products - wood, down, bomb-sniffing dogs
+%%-use of microbes to produce chemicals with high efficiency - insullin etc
+%%-
+%%-cost of nano-fabrication facitily, vibration specs, build size of machines, resolution
 %
-%The nano-assembly I've described will look very different from the way we make things today, and opposes many of the assumptions baked into traditional Computer Aided Design (CAD),  Computer Aided Manufacturing (CAM), and robotics.  This assembly strategy follows from an existing line of research called "digital assembly", where discrete parts are assembled on a regular, periodic lattice.  Mechanical systems are built with discrete modules of rigid and flexural components, and electronics and controls are distributed spatially across a machine.  Large structures appear to be "living" in the sense that their surface is teeming with nano-robots, detecting and correcting errors and performing other functions.  The environment is highly structured, allowing locomotion systems to position themselves globally by counting local movements across a lattice.  Machines receive instructions from their environment to coordinate various tasks.
-%\\
-
-\section{Motivation}
-
-%The main contribution of this work is to create a design/simulation environment where anyone can start to explore the rich design space around digital materials in a physically realistic way.  This work will inform future trajectories in CBA research and in the broader field of programmable materials, modular robotics, and digital fabrication.  This work is not intended to result in a manual outlining all the necessary components for self-replication based on current technology, but rather as an sandbox for exploring self-assembling systems based on the foundations of engineering and materials science rather than biology.
-
-\subsection{Micro and Nano Robotics}
-
-\subsection{Artificial Self-Replicating Systems}
-
-%Nano structures allow for physical phenomena that are normally confined to the nanoscale to be accessed at the macroscale.  Gecko paper
-%nano structures affect the bulk material properties of macro-scale objects - strength, stiffness, friction, porosity, filtering, hydrophobicity, self cleaning, adhesion, conductivity...
+%\subsection{Artificial Self-Replicating Systems}
 %
-%-relative cost of biological nano products - wood, down, bomb-sniffing dogs
-%-use of microbes to produce chemicals with high efficiency - insullin etc
-%-
-%-cost of nano-fabrication facitily, vibration specs, build size of machines, resolution
+%
+
+
+
 %
 %
 %machines make machines
 
-\subsection{Multiphysics for the Masses}
+
 
 %ease of minecraft design + physical reality
