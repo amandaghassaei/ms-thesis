@@ -12,20 +12,33 @@
 An aspirational goal of digital fabrication is the bottom up programmable assembly of meter scale objects with nanometer scale precision.  With this technology, we could design materials with exotic physical properties and radically transform the way we make almost anything.  We believe this is possible by constructing nanoscale assemblers that work together to precisely control and place raw material feedstock.  Though it sounds like science fiction, biology has demonstrated that this is possible.  Data encoded in DNA can be executed like a computer program to build an immense assortment of molecular-scale machines, which together, coordinate the higher level structure and functions of an organism.
 \\
 
-Our assembly system is a relatively small number of different feedstocks and parallelization of assembly.  Similarly, the protein machinery of biology is made primarily from the same basis set of 20 amino acids, yet proteins display a wide variety of functions and morphologies to carry out the many tasks of the cell in parallel.  Similarly, the material feedstock of the nano-assemblers consists of a finite set of part types, called "digital materials".  These digital materials are joined together in various patterns to produce diverse, functional structures.  Since construction takes place one nano-brick at a time, many assemblers would need to work in parallel to build structures of any significant size.  If the assemblers are designed in such a way that they can be constructed from their own feedstock, assemblers can build more assemblers and the rate of assembly scales exponentially.\\
+Our proposed assembly system relies on a relatively small number of different feedstock and parallelization of assembly.  Similarly, the protein machinery of biology is made primarily from the same basis set of 20 amino acids, yet proteins display a wide variety of functions and morphologies to carry out the many tasks of the cell in parallel.  The material feedstock of the nano-assemblers consists of a finite set of part types, called "digital materials".  These digital materials are joined together in various patterns to produce diverse, functional structures.  Since construction takes place one nano-brick at a time, many assemblers would need to work in parallel to build structures of any significant size.  If the assemblers are designed in such a way that they can be constructed from their own feedstock, assemblers can build more assemblers and the rate of assembly scales exponentially.\\
 
 The nano-assembly I've described will look very different from the way we make things today, and opposes many of the assumptions baked into traditional Computer Aided Design (CAD),  Computer Aided Manufacturing (CAM), and robotics design.  This assembly strategy follows from an existing line of research called "digital assembly", where discrete parts are assembled on a regular, periodic lattice.  Mechanical systems are built with discrete modules of rigid and flexural components, and electronics and controls are distributed spatially across a machine.  Large structures appear to be "living" in the sense that their surface is teeming with nano-robots, detecting and correcting errors and performing other functions.  The environment is highly structured, allowing locomotion systems to position themselves globally by counting local movements across a lattice.  Machines receive instructions from their environment to coordinate various tasks.
 \\
 
-This thesis outlines work toward CAD and simulation tools for digital materials that will help us to realize this aspirational future.  
+This thesis outlines work toward fully integrated, end-to-end software workflows for digital materials that will help us to realize the aspirational future I've just described.  The main contributions include:\\
 
-The main contribution of this work is to create a design/simulation environment where anyone can start to explore the rich design space around digital materials in a physically realistic way.  This work will inform future trajectories in CBA research and in the broader field of programmable materials, modular robotics, and digital fabrication. 
+\textbf{CAD:} A CAD environment for discrete construction that lowers the barriers to designing large, multimaterial assemblies of digital materials.  Hierarchical, parametric controls streamlines the process of designing large assemblies of parts.   
 
+Abstraction of part geometry from lattice decomposition of an assembly simiplifies the CAD interface and provides a meaningful underlying representation going into simulation.  CAD workflow is detailed in Chapters \ref{chap:CAD} and \ref{chap:implementation}.\\
+
+\textbf{Simulation:} A dynamic physics engine that leverages the discrete construction of digital materials to simulate their electronic and mechanical behavior with better performance and less user hassle than professional multi-physics software packages.  This simulation tool has been GPU-optimized so that it performs a dynamic simulation of hundreds of parts in realtime, allowing users to rapidly iterate on their designs.  Simulation methods are detailed in Chapter \ref{chap:functionSim} and evaluated against existing methods and software in Chapter \ref{chap:evaluation}.\\
+
+\textbf{CAM:} A CAM workflow for the current iteration of macro-scale digital material assemblers in development at CBA.  An abstracted machine definition that allows a wide diversity of assemblers to be configured through the CAM interface, with hooks for custom g-code generation and machine settings.  The CAM workflow is detailed in Chapter \ref{chap:CAD}.\\
+
+
+
+
+where anyone can start to explore the rich design space around digital materials in a physically realistic way.  
 
 sandbox for exploring self-assembling systems based on the foundations of engineering and materials science rather than biology.
 
 Multiphysics for the Masses
 "Minecraft with physics"
+
+This work will inform future trajectories in CBA research and in the broader field of programmable materials, modular robotics, and digital fabrication. 
+
 
 % This work is not intended to result in a manual outlining all the necessary components for self-replication based on current technology, but rather as an 
 
