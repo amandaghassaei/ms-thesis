@@ -61,10 +61,10 @@ Now we can model the global deformations of a solid as the summation of deformat
 
 We must also consider that materials may respond differently to different types of forces.  Forces acting on finite elements fall into four categories: axial (tension and compression), shear, bending, and torsion.  Each type of force causes a characteristic deformation, illustrated in Figure \ref{fig:SolidMechanicsDOF}.  Applying multiple types of forces on a finite element will cause it to exhibit a combination of deformations.  We've seen how $E$ determines the behavior of a material in response to axial stress and $G$ for shear stress in Equations \ref{eq:stressstrainaxial} and  \ref{eq:stressstrainshear}.  Using information about the geometry of an element, we can derive equations for bending and torsional response in terms of torque ($T$) and angular displacement ($\theta$):
 \begin{equation}\label{eq:stressstrainbending}
-T_{bending} = \dfrac{EI}{l}\theta_{bending}??\\[10pt]
+T_{bending} = \dfrac{EI}{l}\theta_{bending}\\[10pt]
 \end{equation}
 \begin{equation}\label{eq:stressstraintorsion}
-T_{torsion} = \dfrac{GJ}{l}\theta_{torsion} ??
+T_{torsion} = \dfrac{GJ}{l}\theta_{torsion}
 \end{equation}
 
 where I and J are area moment of inertias (a measure of the distribution of material in a cross section - convention uses $J$ for torsional cross section and $I$ for bending, but they are calculated the same way) and $l$ is the length of the element in the relevant direction.\\
@@ -171,9 +171,9 @@ k_{axial_x} &= \dfrac{EA_x}{l}\\[10pt]
 \label{eq:kshear}
 k_{shear_{xy}} &= \dfrac{GA_{sy}}{l}\\[10pt]
 \label{eq:kbending}
-k_{bending_x} &= \dfrac{EI_x}{l}??\\[10pt]
+k_{bending_x} &= \dfrac{EI_x}{l}\\[10pt]
 \label{eq:ktorsion}
-k_{torsion_x} &= \dfrac{GJ_x}{l}??
+k_{torsion_x} &= \dfrac{GJ_x}{l}
 \end{align}
 \end{subequations}
 \\
@@ -305,9 +305,9 @@ introducing this correction to Equation \ref{eq:translationalForceRotStep} gives
   \vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom21}-\vec{l}_{rot21}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)
   \end{equation}
 
-The force $\vec{F}_{2\rightarrow1}$ exerted on cell 2 by cell 1 is equal in magnitude to $\vec{F}_{1\rightarrow2}$ and opposite in direction:
+The force $\vec{F}_{2\rightarrow1}$ exerted on cell 1 by cell 2 is equal in magnitude to $\vec{F}_{1\rightarrow2}$ and opposite in direction:
  \begin{equation} \label{eq:translationalEqOpp}
-  \vec{F}_{2\rightarrow1} = -\vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)
+  \vec{F}_{2\rightarrow1} = -\vec{F}_{1\rightarrow2} = \vec{k}_{rot} \circ (\vec{p}_2 - \vec{p}_1 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_2 - \vec{v}_1)
   \end{equation}
 
 Only $\vec{F}_{1\rightarrow2}$ is indicated with a solid pink arrow in Figure \ref{fig:translationalSim}.\\
@@ -361,11 +361,11 @@ Next we calculate the angular displacement and relative angular velocity between
 Vector addition and subtraction of euler rotations is not valid (though it might be ok for small angles):
 \[ \vec{\theta}_{diff} \neq \vec{\theta}_1 - \vec{\theta}_2 \]
 
-Instead, we'll use the two cells' quaternions to calculate the axis ($\vec{A}_{\theta}$) and angle of rotation ($a_{\theta}$) from cell 2 to cell 1:
+Instead, we'll use the two cells' quaternions to calculate the axis ($\vec{A}_{\theta}$) and angle of rotation ($a_{\theta21}$) from cell 2 to cell 1:
 \begin{equation}\label{eq:qdiff}
 q_{diff} = q_1^{*}*q_2 
 \end{equation}
-\[ a_{\theta} = 2*acos(q_{diff_w}) \]
+\[ a_{\theta21} = 2*acos(q_{diff_w}) \]
 
 (if $a_{theta}$ == 0 then the axis does not matter, we can pick something arbitrary)
 \[ A_{\theta} = \dfrac{1}{\sqrt{1-q_{diff_w}^2}} \left[ \begin{array}{ccc}
@@ -374,9 +374,9 @@ q_{diff_y}\\
 q_{diff_z}
  \end{array} \right] \]
  
-$A_{\theta}$,  $a_{\theta}$, $\omega_1$, and $\omega_2$ are used to calculate reaction torque of cell 2 ($T_{2_{rxn}}$), following a similar spring/damper setup as we used in Equation \ref{eq:translationalForceRot}:
+$A_{\theta}$,  $a_{\theta21}$, $\omega_1$, and $\omega_2$ are used to calculate reaction torque of cell 2 ($T_{2_{rxn}}$), following a similar spring/damper setup as we used in Equation \ref{eq:translationalForceRot}:
 \begin{equation}\label{eq:reactiontorque}
-\vec{T}_{2_{rxn}} = \vec{k}_{rot} \circ (a_{\theta} \vec{A}_{\theta}) + \vec{d}_{rot} \circ (\omega_1-\omega_2)
+\vec{T}_{2_{rxn}} = \vec{k}_{rot} \circ (a_{\theta21} \vec{A}_{\theta}) + \vec{d}_{rot} \circ (\omega_1-\omega_2)
 \end{equation}
 
 The total torque on cell 2 is the sum of the torque applied by shear and axial interactions with cell 1 (Equation \ref{eq:moment1to2}) and the reaction force of cell 2 (Equation \ref{eq:reactiontorque}):
@@ -384,8 +384,18 @@ The total torque on cell 2 is the sum of the torque applied by shear and axial i
 \vec{T}_2 = \vec{T}_{1\rightarrow2} + \vec{T}_{2_{rxn}}
 \end{equation}
 
+more verbosely:
+\begin{multline}\label{eq:T2verbose}
+\vec{T}_2 = \dfrac{\vec{l}_{rot21}}{2} \times (\vec{k}_{rot} \circ (\vec{p}_1 - \vec{p}_2 + \vec{l}_{nom21}-\vec{l}_{rot21}) + \vec{d}_{rot} \circ (\vec{v}_1 - \vec{v}_2)) \\+ \vec{k}_{rot} \circ (a_{\theta21} \vec{A}_{\theta}) + \vec{d}_{rot} \circ (\omega_1-\omega_2)
+\end{multline}
+
 The torque on cell 1 from the interaction with cell 2 is equal in magnitude and opposite in direction:
-\[ \vec{T}_1 = -\vec{T}_{1\rightarrow2} - \vec{T}_{2_{rxn}}  = \vec{T}_{2\rightarrow1} + \vec{T}_{1_{rxn}}\]
+\begin{equation}\label{eq:torqueEqOpp}
+\vec{T}_1 = -\vec{T}_{1\rightarrow2} - \vec{T}_{2_{rxn}}  = \vec{T}_{2\rightarrow1} + \vec{T}_{1_{rxn}}
+\end{equation}
+\begin{multline}\label{eq:T1verbose}
+\vec{T}_1 = \dfrac{\vec{l}_{rot12}}{2} \times (\vec{k}_{rot} \circ (\vec{p}_2 - \vec{p}_1 + \vec{l}_{nom12}-\vec{l}_{rot12}) + \vec{d}_{rot} \circ (\vec{v}_2 - \vec{v}_1)) \\+ \vec{k}_{rot} \circ (a_{\theta12} \vec{A}_{\theta}) + \vec{d}_{rot} \circ (\omega_2-\omega_1)
+\end{multline}
 
 To calculate angular acceleration ($\vec{\alpha}$), we divide by moment of inertia.  For a 3D rectangular cell with sides $l_x$, $l_y$, $l_z$ and mass $m$, the tensor moment of inertia is given by:
 \[ I_{inertia} = \dfrac{m}{12} \left[ \begin{array}{ccc}
