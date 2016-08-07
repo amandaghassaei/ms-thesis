@@ -17,7 +17,7 @@
   \label{fig:BeamSetup}
 \end{figure}
 
-We can perform an analysis of the interactions between two cells using standard techniques from FEA to see how they compare with what we've derived in the previous sections.  Within FEA, many types of models are used to describe the behavior of linear elastic solids with varying degrees of accuracy and computational complexity.  In this analysis we'll discuss the 12DOF Timoshenko beam \cite{}.  Using this model, we can construct a beam element between two nodes that represents the material joining two adjacent cells.  The model determines the translational and rotational displaments of both nodes in 3D (Figure \ref{fig:BeamSetup}).  The Timoshenko beam element takes into account axial deformation, bending deformations in the orthogonal direction with shear effects, and torsional deformation.\\  
+We can perform an analysis of the interactions between two cells using standard techniques from FEA to see how they compare with what we've derived in the previous sections.  Within FEA, many types of models are used to describe the behavior of linear elastic solids with varying degrees of accuracy and computational complexity.  One model that computes translational and rotational degrees of freedom between two nodes is the 12DOF Timoshenko beam.  Using this model, we can construct a beam element between two nodes that represents the material joining two adjacent cells.  The model determines the translational and rotational displacements of both nodes in 3D (Figure \ref{fig:BeamSetup}).  The Timoshenko beam element takes into account axial deformation, bending deformation with shear effects, and torsional deformation.\\  
 
 \textit{Shape functions} are polynomials in 1D, 2D, or 3D that describe how the behavior of the nodes should be interpolated in the regions between the nodes (e.g. the inner volume of the tetrahedron in Figure \ref{fig:TetraElement}).  Hermitian cubic shape functions are typically used for beam models; they are third order polynomials that provide continuity between discretized solutions along nodes in a beam.  A graphical description of shape functions is shown in Wolfram \cite{Wolfram2016}.  The shape functions expressed in terms of a dimensionless coordinate $\xi$ are:
 \begin{align*} 
@@ -84,7 +84,7 @@ p_{z2}\\
  \end{array} \right]
  \]\\
  
-where $F_1$, $F_2$ are translational forces acting on nodes 1 and 2, $T$ are torques, $p$ are translational displacements, and $\theta$ are rotational displacements.  The negative sign was put in front of the stiffness matrix to keep the same convention of restoring forces used in Chapter \ref{chap:functionSim}.\\
+where $F_1$, $F_2$ are translational forces acting on nodes 1 and 2, $T$ are torques, $p$ are translational displacements, and $\theta$ are rotational displacements.  The negative sign was put in front of the stiffness matrix in Equation \ref{eq:forcestiffnessdisp} to keep the same convention of restoring forces used in Chapter \ref{chap:functionSim}.\\
 
 Multiplying through Equation \ref{eq:forcestiffnessdisp} gives us 12 equations:
 
@@ -141,11 +141,11 @@ Substituting Equation \ref{eq:kshear} gives:
 
 Which is a	 small angle approximation of the y-axis spring component of Equation \ref{eq:translationalEqOpp}.\\
 
-We'll account for the bending dominant form of Equation \ref{eq:Fy1decomp} in Section \ref{sec:bendingdominance}.\\
+We'll account for the bending components of Equation \ref{eq:Fy1decomp} in Section \ref{sec:bendingdominance}.\\
 
 As discussed in Equation \ref{eq:translationalEqOpp}, the translational forces acting on node 1 are equal and opposite those acting on node 2.  This is summed up by Equations \ref{eq:fx2}, \ref{eq:fy2}, and \ref{eq:fz2}.\\
 
-Combining Equations \ref{eq:tz1} and \ref{eq:ktorsion} gives us a small angle approximation to the x-axis rotational component of Equation \ref{eq:T1verbose} (in this case the small angle approximation reduces the first term of Equation \ref{eq:T1verbose} to zero, assuming that torques applied to node1 by node 2 have no x component):
+Combining Equations \ref{eq:tz1} and \ref{eq:ktorsion} gives us a small angle approximation to the x-axis rotational spring component of Equation \ref{eq:T1verbose} (in this case the small angle approximation reduces the first term of Equation \ref{eq:T1verbose} to zero, assuming that torques applied to node1 by node 2 have no x component):
 \[T_{x1} =  k_{torsion_x}(\theta_{x2} - \theta_{x1}) \]
 
 Equations \ref{eq:ty1} and \ref{eq:tz1} have the same general form.  Rearranging Equation \ref{eq:ty1} gives:
@@ -153,7 +153,7 @@ Equations \ref{eq:ty1} and \ref{eq:tz1} have the same general form.  Rearranging
 T_{y1} = - \dfrac{6EI_y}{l^2(1+\phi_z)}(p_{z2}- p_{z1}) - \dfrac{EI_y}{l(1+\phi_z)}((4+\phi_z)\theta_{y1}  + (2-\phi_z)\theta_{y2})
 \end{equation}
 
-As with Equation \ref{eq:Fy1decomp}, this is a combination of shear and bending effects.  Assuming shearing dominance \ref{eq:Ty1decomp} reduces to:
+As with Equation \ref{eq:Fy1decomp}, this is a combination of shear and bending effects.  Assuming shearing dominance reduces \ref{eq:Ty1decomp} to:
 \begin{equation}\label{eq:Ty1decomp2}
 T_{y1} = - \dfrac{6EI_y}{l^2\phi_z}(p_{z2}- p_{z1}) - \dfrac{EI_y}{l}(\theta_{y1}  - \theta_{y2})
 \end{equation}
@@ -163,7 +163,7 @@ T_{y1} = - \dfrac{6EI_y}{l^2\phi_z}(p_{z2}- p_{z1}) - \dfrac{EI_y}{l}(\theta_{y1
 Substituting Equation \ref{eq:kshear} and \ref{eq:kbending} gives:
 \[T_{y1} = \dfrac{-l}{2}k_{shear_{xz}}(p_{z2}- p_{z1}) + k_{bending_y}(\theta_{y2}  - \theta_{y1})\]
 
-which is a small angle approximation of the y-component of \ref{eq:T1verbose} with:
+which is a small angle approximation of the y-axis spring component of \ref{eq:T1verbose} with:
 \[ \vec{l}_{rot12} \approx \vec{l}_{nom12} = \left[ \begin{array}{ccc}
 -l\\
 0\\
@@ -178,7 +178,7 @@ This negative is a byproduct of the crossproduct in Equation \ref{eq:T1verbose},
 \hat{x} \times \hat{y} = \hat{z}  \qquad \hat{x} \times \hat{z} = -\hat{y}  
 \end{equation}
 
-We'll account for the bending dominant form of Equation \ref{eq:Ty1decomp} in Section \ref{sec:bendingdominance}.\\
+We'll account for the bending components of Equation \ref{eq:Ty1decomp} in Section \ref{sec:bendingdominance}.\\
 
 Finally, Equation \ref{eq:ty2} and \ref{eq:tz2} have the same general form. Rearranging Equation \ref{eq:ty2} gives:
 \begin{equation}\label{eq:Ty2Decomp}
@@ -193,7 +193,7 @@ In the case of shearing dominance, \ref{eq:Ty2Decomp} reduces to:
 Substituting Equation \ref{eq:kshear} and \ref{eq:kbending} gives:
 \[  T_{y2} =  \dfrac{l}{2}k_{shear_{xz}}(p_{z1} - p_{z2}) + k_{bending_y}(\theta_{y1}  - \theta_{y2}) \]
 
-which is a small angle approximation of the y-component of \ref{eq:T2verbose} with:
+which is a small angle approximation of the y-axis spring component of \ref{eq:T2verbose} with:
 \[ \vec{l}_{rot21} \approx \vec{l}_{nom21} = \left[ \begin{array}{ccc}
 l\\
 0\\
@@ -201,34 +201,44 @@ l\\
  \end{array} \right]\]
 
 Following this same procedure with \ref{eq:tz2}, we get:
-\[  T_{y2} =  (-)\dfrac{l}{2}k_{shear_{xy}}(p_{y1} - p_{y2}) + k_{bending_z}(\theta_{z1}  - \theta_{z2}) \]
+\[  T_{z2} =  (-)\dfrac{l}{2}k_{shear_{xy}}(p_{y1} - p_{y2}) + k_{bending_z}(\theta_{z1}  - \theta_{z2}) \]
 
 where again, the extra negative sign is accounted for by the cross product in Equation \ref{eq:T2verbose} and the relationships \ref{eq:crossUnits}.\\
 
-Again, we'll account for the bending dominant form of Equation \ref{eq:Ty2Decomp} in Section \ref{sec:bendingdominance}.
+Again, we'll account for the bending components of Equation \ref{eq:Ty2Decomp} in Section \ref{sec:bendingdominance}.\\
 
-\subsection{Accounting for Bending Dominance}\label{sec:bendingdominance}
+Through this process, we have also shown that for shearing dominance, y and z components of torque (Equations \ref{eq:ty1}, \ref{eq:tz1}, \ref{eq:ty2}, \ref{eq:tz2}) of one node are equal and opposite to the other node (Equation \ref{eq:torqueEqOpp}).
 
-Assuming  bending dominance, we can reduce Equation \ref{eq:Fy1decomp} to:
-\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1}) - \dfrac{6EI_z}{l^2}(\theta_{z1} + \theta_{z2})  \]
-\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1}) - \dfrac{12EI_z}{l^3}(l\theta_{avg})  \]
-\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1} - l\theta_{avg})  \]
+\subsection{Missing Bending Contributions}\label{sec:bendingdominance}
 
-Assuming bending dominance, \ref{eq:Ty1decomp} reduces to:
-\[T_{y1} = - \dfrac{6EI_y}{l^2}(p_{z2}- p_{z1}) - \dfrac{2EI_y}{l}(2\theta_{y1}  + \theta_{y2})\]
+\begin{figure}
+  \includegraphics[width=\linewidth]{StubbyBeam.png}
+  \caption{}
+  \label{fig:StubbyBeam}
+\end{figure}
+
+The bending components of Equations \ref{eq:fy1}, \ref{eq:fz1}, \ref{eq:ty1}, \ref{eq:tz1}, \ref{eq:fy2}, \ref{eq:fz2}, \ref{eq:ty2},  and \ref{eq:tz2} are absent from the model described in Chapter \ref{chap:functionSim}.  Though the model still has bending stiffness component, it is a special case of the 12DOF Timoshenko Beam Element where shearing dominates bending.  This is appropriate considering the aspect ratio of the beam that we are using to model the two cells.  As beams become shorter shearing dominates, and as beams become longer bending dominates \cite{Bower2009}.  If we are considering a perfectly cubic lattice, the length of the beam element that we can draw between two cells has a length equal to its height and width: the "beam" is a cube (Figure \ref{fig:StubbyBeam}).  According to Bower \cite{Bower2009} there is no known accurate approximate theory of short beams.
+
+%Assuming  bending dominance, we can reduce Equation \ref{eq:Fy1decomp} to:
+%\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1}) - \dfrac{6EI_z}{l^2}(\theta_{z1} + \theta_{z2})  \]
+%\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1}) - \dfrac{12EI_z}{l^3}(l\theta_{avg})  \]
+%\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1} - l\theta_{avg})  \]
+%
+%Assuming bending dominance, \ref{eq:Ty1decomp} reduces to:
+%\[T_{y1} = - \dfrac{6EI_y}{l^2}(p_{z2}- p_{z1}) - \dfrac{2EI_y}{l}(2\theta_{y1}  + \theta_{y2})\]
 
 
 \section{Comparison with VoxCAD Physics Engine}
 
-Removing the shear terms from elements of the 12DOF Timoshenko model leaves us with an Euler-Bernoulli beam element.  This model assumes no shearing of a beam element joining two cells.  For a beam oriented along the x-axis, using the same Hermitian cubic shape functions, we get the following stiffness matrix:
+The model behind VoxCAD uses a special case of the 12DOF Timoshenko Beam Element called the Euler-Bernoulli Beam Element \cite{Hiller2014a}.  The Euler-Bernoulli model assumes no shearing of a beam element joining two cells - it is a bending dominated form of Timoshenko.  For a beam oriented along the x-axis, using the same Hermitian cubic shape functions, we get the following stiffness matrix for an Euler-Bernoulli beam:
 
 \[ K =  \small {\left[ \begin{smallmatrix}
 \tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
  & \tfrac{12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2} & 0 & \tfrac{-12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{6EI_z}{l^2}\\
  &  & \tfrac{12EI_y}{l^3} & 0 & \tfrac{-6EI_y}{l^2} & 0 & 0 & 0 & \tfrac{-12EI_y}{l^3} & 0 & \tfrac{-6EI_y}{l^2} & 0\\
  &  &  &  \tfrac{GJ}{l} &  0 &  0 &  0 &  0 &  0 & \tfrac{-GJ}{l} & 0 & 0\\
- &  &  &  & \tfrac{4EI_y}{l} & 0 & 0 & 0 & \tfrac{6EI_y}{l^2} & 0 & \tfrac{EI_y}{l} & 0\\
- &  &  &  &  & \tfrac{4EI_z}{l} & 0 & \tfrac{-6EI_z}{l^2} & 0 & 0 & 0 & \tfrac{EI_z}{l}\\
+ &  &  &  & \tfrac{4EI_y}{l} & 0 & 0 & 0 & \tfrac{6EI_y}{l^2} & 0 & \tfrac{2EI_y}{l} & 0\\
+ &  &  &  &  & \tfrac{4EI_z}{l} & 0 & \tfrac{-6EI_z}{l^2} & 0 & 0 & 0 & \tfrac{2EI_z}{l}\\
  &  &  &  &  &  & \tfrac{EA}{l}  & 0 & 0 & 0 & 0 & 0\\
  &  &  &  &  &  &  & \tfrac{12EI_z}{l^3} & 0 & 0 & 0 & \tfrac{-6EI_z}{l^2}\\
  &  &  &  &  &  &  &  & \tfrac{12EI_y}{l^3} & 0 & \tfrac{6EI_y}{l^2}\ & 0\\
@@ -237,22 +247,22 @@ Removing the shear terms from elements of the 12DOF Timoshenko model leaves us w
   &  &  &  &  &  &  &  &  &  &  & \tfrac{4EI_z}{l}\\
  \end{smallmatrix} \right] } \]
  
- Multiplying through Equation \ref{eq:forcestiffnessdisp} gives us 12 equations:
+ This is equivalent to the 12DOF Timoshenko stiffness matrix with the shear terms $\phi$ removed.  Multiplying through Equation \ref{eq:forcestiffnessdisp} gives us 12 equations:
 
 \begin{subequations}
 \begin{align} 
 \label{eq:fx1vox}
-F_{x1} &=  \dfrac{EA}{l}p_{x1} - \dfrac{EA}{l}p_{x2} \\[10pt]
+F_{x1} &=  -\dfrac{EA}{l}p_{x1} + \dfrac{EA}{l}p_{x2} \\[10pt]
 \label{eq:fy1vox}
-F_{y1} &=  \dfrac{12EI_z}{l^3}p_{y1} + \dfrac{6EI_z}{l^2}\theta_{z1} - \dfrac{12EI_z}{l^3}p_{y2} + \dfrac{6EI_z}{l^2}\theta_{z2}\\[10pt]
+F_{y1} &=  -\dfrac{12EI_z}{l^3}p_{y1} - \dfrac{6EI_z}{l^2}\theta_{z1} + \dfrac{12EI_z}{l^3}p_{y2} - \dfrac{6EI_z}{l^2}\theta_{z2}\\[10pt]
 \label{eq:fz1vox}
-F_{z1} &=  \dfrac{12EI_y}{l^3}p_{z1} - \dfrac{6EI_y}{l^2}\theta_{y1} - \dfrac{12EI_y}{l^3}p_{z2} - \dfrac{6EI_y}{l^2}\theta_{y2}\\[10pt]
+F_{z1} &= - \dfrac{12EI_y}{l^3}p_{z1} + \dfrac{6EI_y}{l^2}\theta_{y1} + \dfrac{12EI_y}{l^3}p_{z2} + \dfrac{6EI_y}{l^2}\theta_{y2}\\[10pt]
 \label{eq:tx1vox}
-T_{x1} &=  \dfrac{GJ}{l}\theta_{x1} - \dfrac{GJ}{l}\theta_{x2} \\[10pt]
+T_{x1} &=  -\dfrac{GJ}{l}\theta_{x1} + \dfrac{GJ}{l}\theta_{x2} \\[10pt]
 \label{eq:ty1vox}
-T_{y1} &= - \dfrac{6EI_y}{l^2}p_{z1} + \dfrac{4EI_y}{l}\theta_{y1}  + \dfrac{6EI_y}{l^2}p_{z2} + \dfrac{2EI_y}{l}\theta_{y2} \\[10pt]
+T_{y1} &= \dfrac{6EI_y}{l^2}p_{z1} - \dfrac{4EI_y}{l}\theta_{y1}  - \dfrac{6EI_y}{l^2}p_{z2} - \dfrac{2EI_y}{l}\theta_{y2} \\[10pt]
 \label{eq:tz1vox}
-T_{z1} &=  \dfrac{6EI_z}{l^2}p_{y1} + \dfrac{(4EI_z}{l}\theta_{z1}  - \dfrac{6EI_z}{l^2}p_{y2} + \dfrac{2EI_z}{l}\theta_{z2} \\[10pt]
+T_{z1} &=  -\dfrac{6EI_z}{l^2}p_{y1} - \dfrac{4EI_z}{l}\theta_{z1}  + \dfrac{6EI_z}{l^2}p_{y2} - \dfrac{2EI_z}{l}\theta_{z2} \\[10pt]
 \label{eq:fx2vox}
 F_{x2} &=  -F_{x1}\\[10pt]
 \label{eq:fy2vox}
@@ -262,13 +272,15 @@ F_{z2} &=  -F_{z1}\\[10pt]
 \label{eq:tx2vox}
 T_{x2} &=  -T_{x1}\\[10pt]
 \label{eq:ty2vox}
-T_{y2} &=  - \dfrac{6EI_y}{l^2}p_{z1} + \dfrac{2EI_y}{l}\theta_{y1}  + \dfrac{6EI_y}{l^2}p_{z2} + \dfrac{4EI_y}{l}\theta_{y2} \\[10pt]
+T_{y2} &=  \dfrac{6EI_y}{l^2}p_{z1} - \dfrac{2EI_y}{l}\theta_{y1}  - \dfrac{6EI_y}{l^2}p_{z2} - \dfrac{4EI_y}{l}\theta_{y2} \\[10pt]
 \label{eq:tz2vox}
-T_{z2} &= \dfrac{6EI_z}{l^2}p_{y1} + \dfrac{2EI_z}{l}\theta_{z1}  - \dfrac{6EI_z}{l^2}p_{y2} + \dfrac{4EI_z}{l}\theta_{z2}
+T_{z2} &= -\dfrac{6EI_z}{l^2}p_{y1} - \dfrac{2EI_z}{l}\theta_{z1}  + \dfrac{6EI_z}{l^2}p_{y2} - \dfrac{4EI_z}{l}\theta_{z2}
 \end{align}
 \end{subequations}\\
 
-Following the same logic as the Timoshenko model, it can be shown that this is equivalent to a small angle approximation of the equations derived in Chapter \ref{chap:functionSim}, minus the contribution from shear.
+As I described in Section \ref{sec:bendingdominance}, a bending dominated beam model is more appropriate for long beams.   Given the aspect ratio of the voxels being modeled in VoxCAD (very similar to what I've been modeling), the absence of shearing causes deflections to be underestimated \cite{Bower2009}.  Additionally, VoxCAD relies on the same small angle approximations present in the Timoshenko model.\\
+
+That being said, my model draws enormous inspiration from VoxCAD, specifically in the handling of composite stiffness and damping constants for multimaterial junctions (Equations \ref{eq:springseries}, \ref{eq:damperseries}), calculation of maximum time step $\Delta t$ (Equations \ref{eq:maxnatFreq} and \ref{eq:maxDeltaT}), and translational actuation model.  Furthermore, seeing the performance that VoxCAD was able to achieve made me more confident to embark on this work. 
 
 \section{Comparison with COMSOL Simulation}
 

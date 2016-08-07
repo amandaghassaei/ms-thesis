@@ -67,7 +67,7 @@ T_{bending} = \dfrac{EI}{l}\theta_{bending}\\[10pt]
 T_{torsion} = \dfrac{GJ}{l}\theta_{torsion}
 \end{equation}
 
-where I and J are area moment of inertias (a measure of the distribution of material in a cross section - convention uses $J$ for torsional cross section and $I$ for bending, but they are calculated the same way) and $l$ is the length of the element in the relevant direction.\\
+where I and J are area moment of inertias (a measure of the distribution of material in a cross section - convention uses $J$ for torsional cross section and $I$ for bending, but they are calculated the same way) and $l$ is the length of the element in the relevant direction.  Often in solid mechanics literature, the word moment is used in place of torque in this context.  I'll be using the term torque for the remainder of this thesis because I'm more familiar with that term.\\
 
 Equations \ref{eq:stressstrainaxial}, \ref{eq:stressstrainshear}, \ref{eq:stressstrainbending}, and \ref{eq:stressstraintorsion} work nicely for homogenous materials, but don't address situations where a material's response depends on the direction of the applied force: when the material is \textit{anisotropic}.  Materials comprised of oriented fibers or other internal structures typically display anisotropic behaviors.  In these cases, bulk $E$ and $G$ are not sufficient to describe a material's behavior.
 
@@ -177,7 +177,7 @@ k_{torsion_x} &= \dfrac{GJ_x}{l}
 \end{align}
 \end{subequations}
 \\
-where $A$ is the cross sectional area and $l$ is the length of the cell.\\
+where $A$ is the cross sectional area, $l$ is the length of the cell, and $A_{s}$ is a correction on A to account for the assumption of a constant shear profile as apposed to a parabolic profile.  For rectangular cross sections, $A_s = \tfrac{5}{6}A$ \cite{Cowper2016}.\\
 
 The natural frequency ($\omega_n$) of any of the translational degrees of freedom within a cell is calculated by:
 \begin{equation}\label{eq:natFreq}
@@ -532,11 +532,15 @@ Euler integration of $\dot{q}$ is as easy as multiplying by $\Delta t$ and norma
 \[ q = normalize(\dot{q}\Delta t)\]
 
 The time step $\Delta t$ should be chosen as large as possible to maximize computational efficiency without causing numerical instability.  For the interaction of two cells with different masses and stiffnesses, the maximum natural frequency ($\omega_{n_{max}}$) of the bond can be calculated from Equations \ref{eq:natFreq} and \ref{eq:natFreqRot} by:
-\[ \omega_{n_{max}} = \sqrt{\dfrac{k_{composite}}{m_{min}}} \qquad
-\text{and} \qquad \omega_{n_{max}} = \sqrt{\dfrac{k_{composite}}{I_{min}}} \]
+\begin{equation}\label{eq:maxnatFreq}
+\omega_{n_{max}} = \sqrt{\dfrac{k_{composite}}{m_{min}}} \qquad
+\text{and} \qquad \omega_{n_{max}} = \sqrt{\dfrac{k_{composite}}{I_{min}}} 
+\end{equation}
 
 where $m_{min}$ is the smaller of the two masses and $I_{min}$ is the smaller of the cells' moment of inertias.  The optimal time step for numerical integration is calculated from the maximum natural frequency ($\omega_{n_{globalMax}}$) of any translational or rotational interaction of cells within the entire assembly:
-\[ \Delta t < \dfrac{1}{2\pi\omega_{n_{globalMax}}}  \]
+\begin{equation}\label{eq:maxDeltaT}
+\Delta t < \dfrac{1}{2\pi\omega_{n_{globalMax}}}
+\end{equation}
 
 \subsection{Poisson's Ratio}
 
