@@ -11,11 +11,11 @@
 
 \begin{figure}
   \includegraphics[width=\linewidth]{20151215DMDesignscreenshotsx8.png}
-  \caption{Screenshots of DMDesign, a CAD / Simulation / CAM software package for digital materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that toggles between a "cell" and "parts" design representation \textbf{(A, C)}.  Simulation tools include mapping the potential field around arbitrary configurations of conducting and insulating parts \textbf{(E)}. CAM interface includes path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
+  \caption{Screenshots of DMDesign, a CAD / Simulation / CAM software package for digital materials. Structures are designed from multiple materials in a hierarchical \textbf{(D)}, 3D CAD interface or scripting API \textbf{(B)} that toggles between a ``cell'' and ``parts'' design representation \textbf{(A, C)}.  Simulation tools include mapping the potential field around arbitrary configurations of conducting and insulating parts \textbf{(E)}. CAM interface includes path planning and visualization of the assembly process \textbf{(F, G)} and serial interface with machine \textbf{(H)}.}
   \label{fig:designAssemblyGUIWide}
 \end{figure}
 
-\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/Simulation/CAM environment for digital materials that supports the current research efforts into part and assembler design at CBA.  In DMDesign, users construct multimaterial lattice assemblies in a virtual 3D environment, simulate their physical properties, plan out an assembly process, and communicate in realtime with assemblers to physically realize the design \cite{LangfordWillGhassaeiAmandaGershenfeld2016}.   A graphical overview of these capabilities is shown in Figure \ref{fig:designAssemblyGUIWide}.\\
+\href{http://dma.cba.mit.edu/dmdesign/}{DMDesign} is a CAD/Simulation/CAM environment for digital materials I've built that supports the current research efforts into part and assembler design at CBA.  In DMDesign, users construct multimaterial lattice assemblies in a virtual 3D environment, simulate their physical properties, plan out an assembly process, and communicate in realtime with assemblers to physically realize the design \cite{LangfordWillGhassaeiAmandaGershenfeld2016}.   A graphical overview of these capabilities is shown in Figure \ref{fig:designAssemblyGUIWide}.\\
 
 DMDesign was built to simplify the process of designing and manufacturing digital material assemblies across a range of scales, application spaces, lattice topologies, and assembly processes. This chapter introduces some of the design principles behind DMDesign, namely, how abstraction is used to support a diversity of forms and functions.
 
@@ -23,7 +23,7 @@ DMDesign was built to simplify the process of designing and manufacturing digita
 
 \begin{figure}
   \includegraphics[width=\linewidth]{MechanicalLattices.png}
-  \caption{A variety of lattice geometries and their corresponding digital material assemblies.  From left to right: cubic lattice with electronic GIK assembly \textbf{(A)}, cuboctahedron lattice with carbon-fiber composite assembly \textbf{(B)}, edge-connected octahedron lattice with laser cut delron voxel assembly \textbf{(C)}, face-connected octahedron lattice with injection molded glass-filled nylon truss \textbf{(D)}, and Kelvin lattice with electronic "phoxel" assembly \textbf{(E)}.}
+  \caption{A variety of lattice geometries and their corresponding digital material assemblies.  From left to right: cubic lattice with electronic GIK assembly \textbf{(A)}, cuboctahedron lattice with carbon-fiber composite assembly \textbf{(B)}, edge-connected octahedron lattice with laser cut delron voxel assembly \textbf{(C)}, face-connected octahedron lattice with injection molded glass-filled nylon truss \textbf{(D)}, and Kelvin lattice with electronic ``phoxel'' assembly \textbf{(E)}.}
   \label{fig:MechanicalLattices}
 \end{figure}
 
@@ -31,7 +31,7 @@ As described in Chapter \ref{chapter:RelatedWork}, digital materials are discret
 
 \begin{figure}
   \includegraphics[width=\linewidth]{PartAbstraction.png}
-  \caption{Abstraction of cell representation from physical part geometry.  In the "lego"-connected cubic lattice, cells are placed in an an assembly with no notion of the physical parts they represent.  For example, a cell could represent a piece of LEGO, an electronic GIK part, or even a single strand of DNA in a DNA Bricks assembly.  \textit{Image Credit: Will Langford (GIK Images), Ke et al. (DNA Bricks)} \cite{Ke2012}}
+  \caption{Abstraction of cell representation from physical part geometry.  In the ``lego''-connected cubic lattice, cells are placed in an an assembly with no notion of the physical parts they represent.  For example, a cell could represent a piece of LEGO, an electronic GIK part, or even a single strand of DNA in a DNA Bricks assembly.  \textit{Image Credit: Will Langford (GIK Images), Ke et al. (DNA Bricks)} \cite{Ke2012}}
   \label{fig:PartAbstraction}
 \end{figure}
 
@@ -49,7 +49,7 @@ Additionally, cells are a more useful unit of geometry as we move into simulatio
   \label{fig:CompositeCells}
 \end{figure}
 
-Design hierarchy is the establishment of parent/child relationships between elements of a design.  In the context of DMDesign, hierarchical data structures allow for a more sparse description of assemblies that contain many similar regions.  Hierarchical structures within DMDesign are called "composite cells".\\
+Design hierarchy is the establishment of parent/child relationships between elements of a design.  In the context of DMDesign, hierarchical data structures allow for a more sparse description of assemblies that contain many similar regions.  Hierarchical structures within DMDesign are called ``composite cells''.\\
 
 Composite cells are essentially sub-assemblies of cells, illustrated in Figure \ref{fig:CompositeCells}.  A composite cell definition may contain cells of composite or non-composite types.  Each composite cell type is defined once, and all instantiations of a composite cell type within an assembly point to the same composite cell definition.\\
 
@@ -69,19 +69,19 @@ Along with a concise design description, hierarchy offers other advantages.  Cha
   \label{fig:HierarchyGik}
 \end{figure}
 
-Under certain circumstances, hierarchy manifests itself in one more way.  For some applications, the physical part being represented is not contained wholly within a single cell object.  For example, in a GIK lattice, one GIK part is made from four cells on a cubic lattice.  In order to enforce valid GIK designs and allow the user to control the grouping of cells on the lattice into GIK parts, cells are organized into a mid-level hierarchical structure called a "supercell" (Figure \ref{fig:HierarchyGik}).  These supercells are the lowest level object that can be placed in the GIK design workflow.  Applications for which one cell represents one physical part or a collection of parts do not have the supercell delineation.
+Under certain circumstances, hierarchy manifests itself in one more way.  For some applications, the physical part being represented is not contained wholly within a single cell object.  For example, in a GIK lattice, one GIK part is made from four cells on a cubic lattice.  In order to enforce valid GIK designs and allow the user to control the grouping of cells on the lattice into GIK parts, cells are organized into a mid-level hierarchical structure called a ``supercell'' (Figure \ref{fig:HierarchyGik}).  These supercells are the lowest level object that can be placed in the GIK design workflow.  Applications for which one cell represents one physical part or a collection of parts do not have the supercell delineation.
 
 \section{Assembler Abstraction}\label{sec:CAM}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{machineabstraction.png}
-  \caption{Three assembly processes controlled by DMDesign.  Top shows assembly of octahedral voxels in an edge-connected octa lattice by the "Batmen" assembler by Ben Jenett and Matt Carney.  Middle shows assembly of the same octahedral voxels by a 3-axis shopbot with custon end-effector designed by Ben Jenett.  Bottom show assembly of conducting and insulating GIK parts in a cubic lattice by the "Stapler" assembler by Will Langford.  \textit{Image Credit: (top left) Matt Carney 2015 and (bottom left) Will Langford 2015}}
+  \caption{Three assembly processes controlled by DMDesign.  Top shows assembly of octahedral voxels in an edge-connected octahedron lattice by the ``Batmen'' assembler by Ben Jenett and Matt Carney.  Middle shows assembly of the same octahedral voxels by a 3-axis shopbot with custon end-effector designed by Ben Jenett.  Bottom shows assembly of conducting and insulating GIK parts on a cubic lattice by the ``Stapler'' assembler by Will Langford.  \textit{Image Credit: (top left) Matt Carney 2015 and (bottom left) Will Langford 2015}}
   \label{fig:machineabstraction}
 \end{figure}
 
-Due to the variety of lattice configurations and assembly strategies, I've organized the CAM workflow of DMDesign so that users can construct a diversity of machine configurations through a simple interface using a few modular, abstract classes.  In addition to general machine configuration, global CAM variables, including lattice pitch, machine origin, clearances, and feed rates are all accessible through DMDesign (Figure \ref{fig:CAMmachineglobals}).  Once a user has dialed in their settings, a "stock simulation" of the assembly process may be visualized within the software, showing a complete run through of all g-code or other machine commands with a side by side 3D visualization of the assembler.  Finally, using a nodeJS interface, machine commands can be sent directly from DMDesign to the assembler.\\
+Due to the variety of lattice topologies and assembly strategies, I've organized the CAM workflow of DMDesign so that users can construct a diversity of machine configurations through a simple interface using a few modular, abstract classes.  In addition to general machine configuration, global CAM variables - including lattice pitch, machine origin, clearances, and feed rates - are all accessible through DMDesign (Figure \ref{fig:CAMmachineglobals}).  Once a user has dialed in their settings, a ``stock simulation'' of the assembly process may be visualized within the software, showing a complete run through of all g-code or other machine commands with a side by side 3D visualization of the assembler.  Finally, using a nodeJS interface, machine commands can be sent directly from DMDesign to the assembler.\\
 
-At the time of writing this, three different machines have been used to assemble parts through DMDesign, depicted in Figure \ref{fig:machineabstraction}.  The "Batmen" assembler (its name deriving from a portmanteau of its creators - Ben Jenett and Matt Carney) is a 3-axis XYZ gantry with locking feet that locomotes across a lattice while placing octahedral voxels.  It is driven by a TinyG controller \cite{Synthetos2016} and consumes standard g-code commands.  The Shopbot is a 3-axis XYZ gantry with a custom end effector designed by Ben Jenett to pick and place the same octahedral voxels as Batmen.  The Shopbot runs off a simplified g-code-like protocol called shopbot protocol (OpenSBP) \cite{Shopbot2016}.  The "Stapler" assembler, designed by Will Langford, is a 4-axis XYZ gantry with a rotary stage that assembles GIK electronic components in an alternating "lego" configuration on a cubic lattice.  Like Batmen, the Stapler runs off a TinyG controller.  Many more machine configurations are theoretically supported by DMDesign.\\
+At the time of writing this, three different machines have been used to assemble parts through DMDesign, depicted in Figure \ref{fig:machineabstraction}.  The ``Batmen'' assembler (its name deriving from a portmanteau of its creators - Ben Jenett and Matt Carney) is a 3-axis XYZ gantry with locking feet that locomotes across a lattice while placing octahedral voxels.  It is driven by a TinyG controller \cite{Synthetos2016} and consumes standard g-code commands.  The Shopbot is a 3-axis XYZ gantry with a custom end effector designed by Ben Jenett to pick and place the same octahedral voxels as Batmen.  The Shopbot runs off a simplified g-code-like protocol called shopbot protocol (OpenSBP) \cite{Shopbot2016}.  The ``Stapler'' assembler, designed by Will Langford, is a 4-axis XYZ gantry with a rotary stage that assembles GIK electronic components in an alternating ``lego'' configuration on a cubic lattice.  Like Batmen, the Stapler runs off a TinyG controller.  Many more machine configurations are theoretically supported by DMDesign.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CAMmachineglobals.png}
@@ -97,30 +97,30 @@ At the time of writing this, three different machines have been used to assemble
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CAMbodydetail.png}
-  \caption{Another view of the machine configuration interface shows a detail view of the setup for the "Stapler" assembler z-axis.}
+  \caption{Another view of the machine configuration interface shows a detail view of the setup for the ``Stapler'' assembler z-axis.}
   \label{fig:CAMbodydetail}
 \end{figure}
 
-Custom machine configurations are stored in a compact JSON format based on the Universal Robot Description Format (URDF) \cite{ROS2016}.  In this description, "links" and "joints" are connected to each other through parent/child relationships (Figure \ref{fig:CAMmachinesetup}).  Links are the rigid bodies in a machine; each link contains information about its kinematic properties and any meshes that might be associated with it (Figure \ref{fig:CAMbodydetail}).  Joints describe the constraints that govern the motion between two links and the range of motion available.  From this information, the inverse kinematics of the machine can be calculated and used to generate a valid path planning strategy.\\
+Custom machine configurations are stored in a compact JSON format based on the Universal Robot Description Format (URDF) \cite{ROS2016}.  In this description, ``links'' and ``joints'' are connected to each other through parent/child relationships (Figure \ref{fig:CAMmachinesetup}).  Links are the rigid bodies in a machine; each link contains information about its kinematic properties and any meshes that might be associated with it (Figure \ref{fig:CAMbodydetail}).  Joints describe the constraints that govern the motion between two links and the range of motion available.  From this information, the inverse kinematics of the machine can be calculated and used to generate a valid path planning strategy.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{CAMcustomCode.png}
-  \caption{Scripting interface for custom machine configuration.  This screenshot shows a user-defined function that calculates XY traversals with added backlash compensation specific to the "Stapler" assembler.  Other user-defined functions are listed in the bottom right, including: context variables, header, place part, footer, and others.}
+  \caption{Scripting interface for custom machine configuration.  This screenshot shows a user-defined function that calculates XY traversals with added backlash compensation specific to the ``Stapler'' assembler.  Other user-defined functions are listed in the bottom right, including: context variables, header, place part, footer, and others.}
   \label{fig:CAMcustomCode}
 \end{figure}
 
-Unique machine configurations often require special control logic to address the idiosyncrasies of a particular assembly process.  In order to accommodate a wide variety of potential machine configurations (and give more power to the end user) I've created a set of user-definable functions that can be edited and saved within DMDesign.  Users can define their own environmental variables and construct custom functions to handle traversals, picking up and placing parts, and headers and footers.  Within each of these functions, information such as current part index, position, material type, and any user-defined variables are available.  To date, this feature has been used for backlash compensation and multimaterial head placement of the "Stapler" assembler.  Eventually, this capability could grow to support closed-loop control between the machine and DMDesign for on-the-fly path planning or error correction.\\
+Unique machine configurations often require special control logic to address the idiosyncrasies of a particular assembly process.  In order to accommodate a wide variety of potential machine configurations (and give more power to the end user) I've created a set of user-definable functions that can be edited and saved within DMDesign.  Users can define their own environmental variables and construct custom functions to handle traversals, picking up and placing parts, and headers and footers.  Within each of these functions, information such as current part index, position, material type, and any user-defined variables are available.  To date, this feature has been used for backlash compensation and multimaterial head placement of the ``Stapler'' assembler.  Eventually, this capability could grow to support closed-loop control between the machine and DMDesign for on-the-fly path planning or error correction.\\
 
 \section{Off-Ramps}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{Brickset.png}
-  \caption{SEM image of GIK assembly fabricated on a \href{http://www.nanoscribe.de/en/products/photonic-professional-gt/}{Nanoscribe Photonic Professional GT} using a technique called "two-photon lithography" to a resolution of 150nm.  Designed in DMDesign, geometry exported as STL mesh.  \textit{Image Credit: Prashant Patil 2015}}
+  \caption{SEM image of GIK assembly fabricated on a \href{http://www.nanoscribe.de/en/products/photonic-professional-gt/}{Nanoscribe Photonic Professional GT} using a technique called ``two-photon lithography'' to a resolution of 150nm.  Designed in DMDesign, with geometry exported as STL mesh.  \textit{Image Credit: Prashant Patil 2015}}
   \label{fig:BrickSet}
 \end{figure}
 
 The intention behind DMDesign is not to replace all existing design and manufacturing workflows, but rather, to create an environment that better accommodates and, at times, leverages the discrete construction of digital materials.  In some cases, users will want to interface between DMDesign and other CAD, simulation, and CAM processes.\\
 
-Currently, DMDesign supports \href{https://en.wikipedia.org/wiki/STL_(file_format)}{STL} export of assembly geometries.  Users can export geometry by material, and choose between the abstracted cell meshes or the more detailed part geometry.  These STLs have been used in 3D printing workflows, including nano-3D-printing (Figure \ref{fig:BrickSet}), photorealistic rendering in \href{https://www.blender.org/}{Blender}, and as reference geometry for simulations in \href{https://www.comsol.com/}{COMSOL}.
+Currently, DMDesign supports \href{https://en.wikipedia.org/wiki/STL_(file_format)}{STL} export of assembly geometries.  Users can export geometry by material, and choose between the abstracted cell meshes or the more detailed part geometry.  These STLs have been used in 3D printing workflows, including nanoscale 3D printing (Figure \ref{fig:BrickSet}), photorealistic rendering in \href{https://www.blender.org/}{Blender}, and as reference geometry for simulations in \href{https://www.comsol.com/}{COMSOL}.
 
 }

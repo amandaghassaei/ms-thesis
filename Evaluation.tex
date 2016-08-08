@@ -9,7 +9,9 @@
 
 \chapter{Evaluation}\label{chap:evaluation}
 
-\section{Comparison with FEA Techniques}
+Comparison with existing FEA methods revealed a similarity between the cell-cell interaction model I developed in Chapter \ref{chap:functionSim} and a shear-dominated 12DOF Timoshenko Beam Element (Section \ref{sec:Timoshenko}).  My model does have the advantage that it does not rely on any small angle approximations, making it better suited to handle large angular deformations than a Timoshenko Beam Element.
+
+\section{Comparison with FEA Techniques}\label{sec:Timoshenko}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{BeamSetup.png}
@@ -213,11 +215,11 @@ Through this process, we have also shown that for shearing dominance, y and z co
 
 \begin{figure}
   \includegraphics[width=\linewidth]{StubbyBeam.png}
-  \caption{}
+  \caption{A diagram of the Timoshenko Beam Element joining two cells in my model.  Due to the low length and relatively high cross sectional area of this ``beam'', I argue that a shear-dominated Timoshenko beam is an appropriate model.}
   \label{fig:StubbyBeam}
 \end{figure}
 
-Some bending components of Equations \ref{eq:fy1}, \ref{eq:fz1}, \ref{eq:ty1}, \ref{eq:tz1}, \ref{eq:fy2}, \ref{eq:fz2}, \ref{eq:ty2},  and \ref{eq:tz2} are absent from the model described in Chapter \ref{chap:functionSim}.  Though the model still has a bending stiffness component, it is a special case of the 12DOF Timoshenko Beam Element where shearing dominates bending.  This is appropriate considering the aspect ratio of the beam that we are using to model the two cells.  As beams become shorter shearing dominates, and as beams become longer bending dominates \cite{Bower2009}.  If we are considering a perfectly cubic lattice, the length of the beam element that we can draw between two cells has a length equal to its height and width: the "beam" is a cube (Figure \ref{fig:StubbyBeam}).  According to Bower \cite{Bower2009} there is no known accurate approximate theory of short beams.
+Some bending components of Equations \ref{eq:fy1}, \ref{eq:fz1}, \ref{eq:ty1}, \ref{eq:tz1}, \ref{eq:fy2}, \ref{eq:fz2}, \ref{eq:ty2},  and \ref{eq:tz2} are absent from the model described in Chapter \ref{chap:functionSim}.  Though the model still has a bending stiffness component, it is a special case of the 12DOF Timoshenko Beam Element where shearing dominates bending.  This is appropriate considering the aspect ratio of the beam that we are using to model the two cells.  As beams become shorter shearing dominates, and as beams become longer bending dominates \cite{Bower2009}.  If we are considering a perfectly cubic lattice, the length of the beam element that we can draw between two cells has a length equal to its height and width: the ``beam'' is a cube (Figure \ref{fig:StubbyBeam}).  According to Bower \cite{Bower2009} there is no known accurate approximate theory of short beams.
 
 %Assuming  bending dominance, we can reduce Equation \ref{eq:Fy1decomp} to:
 %\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1}) - \dfrac{6EI_z}{l^2}(\theta_{z1} + \theta_{z2})  \]
@@ -227,10 +229,13 @@ Some bending components of Equations \ref{eq:fy1}, \ref{eq:fz1}, \ref{eq:ty1}, \
 %Assuming bending dominance, \ref{eq:Ty1decomp} reduces to:
 %\[T_{y1} = - \dfrac{6EI_y}{l^2}(p_{z2}- p_{z1}) - \dfrac{2EI_y}{l}(2\theta_{y1}  + \theta_{y2})\]
 
+\subsection{Conclusion}
+
+The model I've developed (Chapter \ref{chap:functionSim}) for cell-cell interaction is similar to a shear-dominated 12DOF Timoshenko Beam Element joining the two cells.  Given the aspect ratio of the cells I am modeling, I argue that a shear-dominated beam model is appropriate.  The only difference between my model and a shear-dominated Timoshenko beam is that my model does not use any small angle approximations, and should therefore be more robust to large angular deformations between cells.
 
 \section{Comparison with VoxCAD Physics Engine}
 
-The model behind VoxCAD uses a special case of the 12DOF Timoshenko Beam Element called the Euler-Bernoulli Beam Element \cite{Hiller2014a}.  The Euler-Bernoulli model assumes no shearing of a beam element joining two cells - it is a bending dominated form of Timoshenko.  For a beam oriented along the x-axis, using the same Hermitian cubic shape functions, we get the following stiffness matrix for an Euler-Bernoulli beam:
+The model behind VoxCAD uses a special case of the 12DOF Timoshenko Beam Element called the Euler-Bernoulli Beam Element \cite{Hiller2014a}.  The Euler-Bernoulli model assumes no shearing of a beam element joining two cells - it is a bending-dominated form of Timoshenko.  For a beam oriented along the x-axis, using the same Hermitian cubic shape functions, we get the following stiffness matrix for an Euler-Bernoulli beam:
 
 \[ K =  \small {\left[ \begin{smallmatrix}
 \tfrac{EA}{l} & 0 & 0 & 0 & 0 & 0 & \tfrac{-EA}{l} & 0 & 0 & 0 & 0 & 0\\
@@ -278,7 +283,9 @@ T_{z2} &= -\dfrac{6EI_z}{l^2}p_{y1} - \dfrac{2EI_z}{l}\theta_{z1}  + \dfrac{6EI_
 \end{align}
 \end{subequations}\\
 
-As I described in Section \ref{sec:bendingdominance}, a bending dominated beam model is more appropriate for long beams.   Given the aspect ratio of the voxels being modeled in VoxCAD (very similar to what I've been modeling), the absence of shearing causes deflections to be underestimated \cite{Bower2009}.  Additionally, VoxCAD relies on the same small angle approximations present in the Timoshenko model.\\
+\subsection{Conclusion}
+
+As I described in Section \ref{sec:bendingdominance}, a bending dominated beam model is more appropriate for long, thin beams.   Given the aspect ratio of the elements being modeled in VoxCAD (very similar to what I've been modeling), the absence of shearing likely causes deflections to be underestimated \cite{Bower2009}.  Additionally, VoxCAD relies on the same small angle approximations present in the Timoshenko model.\\
 
 That being said, my model draws enormous inspiration from VoxCAD, specifically in the handling of composite stiffness and damping constants for multimaterial junctions (Equations \ref{eq:springseries}, \ref{eq:damperseries}), calculation of maximum time step $\Delta t$ (Equations \ref{eq:maxnatFreq} and \ref{eq:maxDeltaT}), and translational actuation model.  Furthermore, seeing the performance that VoxCAD was able to achieve made me more confident to embark on this work. 
 

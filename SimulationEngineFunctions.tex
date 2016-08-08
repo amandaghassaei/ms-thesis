@@ -34,7 +34,7 @@ where F is a force, x is a displacement, and k is a measure of geometric stiffne
 \sigma_{shear} = G\epsilon_{shear} 
 \end{equation}
 
-where $E$ is the elastic modulus (also called "Young's modulus") and G is the shear modulus of a material.  As long as the forces acting on and within a solid are sufficiently low, we can assume that these linear elastic deformation models apply.\\
+where $E$ is the elastic modulus (also called ``Young's modulus'') and G is the shear modulus of a material.  As long as the forces acting on and within a solid are sufficiently low, we can assume that these linear elastic deformation models apply.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{FEAexample.png}
@@ -55,7 +55,7 @@ Now we can model the global deformations of a solid as the summation of deformat
 
 \begin{figure}
   \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
-  \caption{Deformations of a finite element under four types of forces.  In modeling assemblies of \textit{functional primitives}, these characteristic deformations are referred to as "internal degrees of freedom".  Within an assembly of cells, axial (compression and tension) and shear stresses cause translational displacement and bending and torsion cause rotational displacement.}
+  \caption{Deformations of a finite element under four types of forces.  In modeling assemblies of \textit{functional primitives}, these characteristic deformations are referred to as ``internal degrees of freedom''.  Within an assembly of cells, axial (compression and tension) and shear stresses cause translational displacement and bending and torsion cause rotational displacement.}
   \label{fig:SolidMechanicsDOF}
 \end{figure}
 
@@ -81,9 +81,11 @@ Equations \ref{eq:stressstrainaxial}, \ref{eq:stressstrainshear}, \ref{eq:stress
 
 Simulation of an assembly of \textit{functional parts} happens at the granularity of identically-sized \textit{functional primitives}.  Functional parts, their decomposition into functional primitives, and the physical parts being modeled are illustrated in Figure \ref{fig:FunctionPrimitivesPartsWPic}.  The number of functional primitives shown in each functional part is meant only as an illustration for now; the joining strategy and dimensions of functional parts are still in development.  Once these parameters have been settled, the model can be adjusted to fit the parts simply by varying the scale and aspect ratio of the cubic lattice.\\
 
-In the next sections, I'll demonstrate how to extend the ideas from FEA to model the dynamic behavior of multimaterial assemblies of identically-sized, anisotropic functional primitives, which I'll call "cells" for the remainder of this chapter.  The primary motivations for this work are listed below:\\
+In the next sections, I'll demonstrate how to extend the ideas from FEA to model the dynamic behavior of multimaterial assemblies of identically-sized, anisotropic functional primitives, which I'll call ``cells'' for the remainder of this chapter.  The primary motivations for this work are listed below:\\
 
-\textbf{Exploit discretization of the physical system:} Functional parts are assembled on a regular, cubic lattice.  Rather than using an arbitrary mesh (as is the case in Figure \ref{fig:FEAexample}), assemblies are decomposed into identically-shaped cells on a cubic lattice for simulation.  This simplifies the discretization of a large assembly, puts a lower bound on the size of the smallest finite element, allows many parameters to be precomputed in advance - increasing computational efficiency, and should result in better agreement with empirical data \cite{Calisch2014}.\\
+\textbf{Design description = simulation description:} Functional parts are assembled on a regular, cubic lattice.  Rather than using an arbitrary mesh (as is the case in Figure \ref{fig:FEAexample}), assemblies are decomposed into their functional primitive representation for simulation.  This makes the meshing step of simulation trivial (a step which often requires some user skill), puts a lower bound on the size of the smallest finite element, makes all elements the same size and shape which allows many parameters to be precomputed in advance (increasing computational efficiency), and should result in better agreement with empirical data \cite{Calisch2014}.\\
+
+\textbf{Parallelization:} The behavior of this system is determined by local interactions between cells and their six face-connected neighbors.  In each iteration of the solver, cells are treated as differential elements; differences in position, velocity, orientation, and angular velocity of a cell and its neighbor are translated into forces and torques.  Each of these calculations only depends on the state of the two cells involved in the interaction, so each interaction may be computed on a separate core of the GPU for increased performance.\\
 
 \textbf{Non-linear treatment of angular displacements:} Some flexures and actuators may exhibit large angular deformations that must be handled using non-linear (spherical) techniques.  FEA typically relies on small angle approximations to handle small angular deformations and costly remeshing to handle larger deformations without introducing error.\\
 
@@ -103,11 +105,11 @@ In the next sections, I'll demonstrate how to extend the ideas from FEA to model
   \label{fig:CombinatoricsOfFunctions}
 \end{figure}
 
- The combinatorial space of mechanical, electronic, and actuated cell types is described in Figure \ref{fig:CombinatoricsOfFunctions}.  A selection of these cell types are included in Figure \ref{fig:FunctionPrimitivesPartsWPic} and have been implemented in simulation.  When describing mechanical behavior of a particular cell type, I'll refer to its four deformation modes (Figure \ref{fig:SolidMechanicsDOF}) as "internal degrees of freedom" (DOF).  For example, a 1DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.  Section \ref{sec:electronicSim} describes the process of electronic simulation in more detail, the remainder of this chapter will focus on the passive and active mechanical simulation of functional primitive cells.
+ The combinatorial space of mechanical, electronic, and actuated cell types is described in Figure \ref{fig:CombinatoricsOfFunctions}.  A selection of these cell types are included in Figure \ref{fig:FunctionPrimitivesPartsWPic} and have been implemented in simulation.  When describing mechanical behavior of a particular cell type, I'll refer to its four deformation modes (Figure \ref{fig:SolidMechanicsDOF}) as ``internal degrees of freedom'' (DOF).  For example, a 1DOF bending cell will have large deformations in bending along one axis, but relatively small deformations in response to other types of applied forces.  Section \ref{sec:electronicSim} describes the process of electronic simulation in more detail, the remainder of this chapter will focus on the passive and active mechanical simulation of functional primitive cells.
 
 \section{Spring-Damper Characteristics}
 
-The geometric stiffness of a structure relates the bulk properties of a material to its 3d geometry.  For example, an I-beam has a higher geometric bending stiffness than an equal length rectangular bar made from the same amount of the same material.  Unless otherwise noted, "stiffness" in this analysis refers to geometric stiffness.\\
+The geometric stiffness of a structure relates the bulk properties of a material to its 3d geometry.  For example, an I-beam has a higher geometric bending stiffness than an equal length rectangular bar made from the same amount of the same material.  Unless otherwise noted, ``stiffness'' in this analysis refers to geometric stiffness.\\
 
 Stiffness and damping are used to characterize the response of cell's internal degrees of freedom to applied external forces.  Stiffness has the units N/m and damping N$\cdot$s/m.  In three dimensions, each cell's passive mechanical properties are parameterized by 15 stiffness and damping constants:
 

@@ -29,7 +29,7 @@ The web app was written with the following dependencies:
 
 \begin{figure}
   \includegraphics[width=\linewidth]{rotationGUI.png}
-  \caption{A schematic diagram of a robotic "pick and place" in TBD.  Cell rotation GUI allows anisotropic cells to be oriented in any direction.}
+  \caption{A schematic diagram of a robotic ``pick and place'' in TBD.  Cell rotation GUI allows anisotropic cells to be oriented in any direction.}
   \label{fig:rotationGUI}
 \end{figure}
 
@@ -73,7 +73,7 @@ At the moment of writing this, mathematical programming on the GPU through the W
 
 In TBD, cell state and precomputed constants are stored in several data textures (Figure \ref{fig:gpuprogramming}), and the next state of a given cell is evaluated in a single core of the GPU.  It is not possible to fit all necessary updated state variables (position, velocity, orientation, and angular velocity, all in 3D) in a single RGBA pixel.  This means that calculations for a single time step of the physics engine must be split into several, sequential fragment shader programs (Figure \ref{fig:gpuprogramming}).\\
 
-After moving the simulation forward by some number of time steps, position and orientation information is passed out of the GPU to the main thread for a render call.  Unfortunately, at this time only uInt8 textures may be transferred from the GPU to the CPU.  An additional fragment shader program called "PackToBytes" converts the Float32 arrays storing position and orientation into uInt8 arrays, where each float in the original array is converted to four uInt8's.  The process of transferring data from the GPU to the CPU is expensive, and in the fullness of time, could be avoided completely.  TBD is still very much under development and is not ready for these types of low level optimizations yet, but it is something to keep in mind in the following months.\\
+After moving the simulation forward by some number of time steps, position and orientation information is passed out of the GPU to the main thread for a render call.  Unfortunately, at this time only uInt8 textures may be transferred from the GPU to the CPU.  An additional fragment shader program called ``PackToBytes'' converts the Float32 arrays storing position and orientation into uInt8 arrays, where each float in the original array is converted to four uInt8's.  The process of transferring data from the GPU to the CPU is expensive, and in the fullness of time, could be avoided completely.  TBD is still very much under development and is not ready for these types of low level optimizations yet, but it is something to keep in mind in the following months.\\
 
 Computing in the GPU speeds up the code significatly, but also creates some hardware dependencies that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory at a time.  In case of compatibility issues, a backup typed array implementation may be used at the expense of performance.
 
