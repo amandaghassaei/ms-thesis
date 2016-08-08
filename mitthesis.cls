@@ -370,6 +370,8 @@
 
 \def\department#1{\gdef\@department{#1}}
 
+\def\departmentAmandaShort#1{\gdef\@departmentAmandaShort{#1}}
+
 % If you are getting two degrees, use \and between the names.
 \def\degree#1{\setbox0\hbox{#1}	 %for side effect of setting \@degreeword
   \gdef\@degree{#1}}
@@ -478,7 +480,7 @@ at the
 \@copyrightnotice
 \par
 \vskip 3\baselineskip
-\signature{Author}{\@department \\ \@thesisdate}
+\signature{Author}{\@departmentAmandaShort \\ \@thesisdate}
 \par
 \vfill
 \unvbox\@titlesupervisor
@@ -490,6 +492,8 @@ at the
 \signature{Accepted by}{\@chairmanname \\ \@chairmantitle}
 \vfill
 \end{titlepage}}
+
+
 
 % this environment should probably be called abstract,
 % but we want people to also be able to get at the more
@@ -507,6 +511,7 @@ requirements for the \@degreeword\ of \\
 \end{center}
 \par
 \begin{abstract}}
+
 
 %% Changed from \unvbox to \unvcopy for use with multiple copies of abstract
 %% page.
