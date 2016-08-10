@@ -59,7 +59,7 @@ Anisotropic cells in TBD are represented graphically with special meshes, illust
 
 \section{GPU Programming}
 
-JavaScript is loosely typed and therefore not an especially fast language out of the box.  Storing large datasets in typed arrays helps to speed up array operations and access at runtime \cite{Network}.  Most modern web browsers support Just In Time (JIT) compilation of JavaScript code, which helps make it more competitive with compiled languages.    Still, it tends to run slower than native C++.\\
+%JavaScript is loosely typed and therefore not an especially fast language out of the box.  Storing large datasets in typed arrays helps to speed up array operations and access at runtime \cite{Network}.  Most modern web browsers support Just In Time (JIT) compilation of JavaScript code, which helps make it more competitive with compiled languages.    Still, it tends to run slower than native C++.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{gpuprogramming.png}
@@ -67,7 +67,7 @@ JavaScript is loosely typed and therefore not an especially fast language out of
   \label{fig:gpuprogramming}
 \end{figure}
 
-During the development of TBD, typed arrays were not performant for assemblies larger than $\sim$30 cells (100 time steps forward per render), so I began running the bulk of the mathematical calculations on the GPU.  Figure \ref{fig:gpuprogramming} shows a schematic representation of the GPU programming.\\
+During the development of TBD, typed arrays \cite{Network} were not performant for assemblies larger than $\sim$30 cells (100 time steps forward per render), so I began running the bulk of the mathematical calculations on the GPU.  Figure \ref{fig:gpuprogramming} shows a schematic representation of the GPU programming.\\
 
 At the moment of writing this, mathematical programming on the GPU through the WebGL API is a bit of a hack.  Data is passed in and out of the GPU cores as 2D arrays - RGBA image textures that would normally be used for rendering purposes.  WebGL currently supports reading and writing Int8/16/32, uInt8/16/32 and Float32 textures.  GPU programs are precompiled as \textit{fragment shaders}, processes that are executed by a single core of the GPU to create a single pixel of output texture data.  Each GPU core may access a number of input data textures but may only output one RGBA pixel to an output texture buffer.  During the execution of a fragment shader program, a complete output texture is calculated by the available GPU cores in a highly parallel, pixel-wise process.  A concise reference for the WebGL API is provided by the Khronos Group \cite{Group}.\\
 

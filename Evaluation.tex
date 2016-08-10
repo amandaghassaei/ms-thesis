@@ -305,6 +305,12 @@ That being said, my model draws enormous inspiration from VoxCAD, specifically i
 
 In simulation we wish to represent functional primitives as geometrically simple elements with isotropic and anisotropic material properties deriving from their internal structure.  This way we can discretize them with a relatively low resolution mesh and increase the efficiency of the simulation.  I started by using the same geometric representation I'm using in my model, shown in Figure \ref{fig:somsolsim1}B. Using this minimal geometry, I had trouble decoupling bending and axial stiffness (explained in Section \ref{sec:decoupling}), so I switched to a more geometrically detailed model, shown in Figure \ref{fig:somsolsim1}C.\\
 
+\begin{figure}
+  \includegraphics[width=\linewidth]{bendySim.png}
+  \caption{}
+  \label{fig:bendSim}
+\end{figure}
+
 %\begin{figure}
 %  \includegraphics[width=\linewidth]{TorsionSim.png}
 %  \caption{Qualitative simulation of a torsional flexure under a downward force from gravity shows appropriate anisotropic behavior.  Pink cell is fixed.}
@@ -323,7 +329,7 @@ The current state of my software implementation does not allow me to do a quanti
 
 \subsubsection{Decoupling Axial/Bending and Shear/Torsion}\label{sec:decoupling}
 
-Axial and bending stiffness typically use the same elastic modulus ($E$) in their formulations (Equations \ref{eq:kaxial} and \ref{eq:kbending}) and are therefore coupled to each other (e.g. you can't pick a value of $E$ that gives low bending stiffness and high axial stiffness at the same time for simple cubic geometry).  However, some composite materials exhibit these behaviors - Calisch showed that it is possible to build a structure that is stiff in axial compression and flexible in bending around one axis from four part types \ref{Calisch2014}.  This DOF coupling applies similarly to shear and torsional stiffness sharing the same shear stiffness $G$ (Equations \ref{eq:kshear} and \ref{eq:ktorsion}).  If we are trying to model a functional primitive that has complex internal geometric structure, we may need to decouple these degrees of freedom.\\
+Axial and bending stiffness typically use the same elastic modulus ($E$) in their formulations (Equations \ref{eq:kaxial} and \ref{eq:kbending}) and are therefore coupled to each other (e.g. you can't pick a value of $E$ that gives low bending stiffness and high axial stiffness at the same time for simple cubic geometry).  However, some composite materials exhibit these behaviors - Calisch showed that it is possible to build a structure that is stiff in axial compression and flexible in bending around one axis from four part types \cite{Calisch2014}.  This DOF coupling applies similarly to shear and torsional stiffness sharing the same shear stiffness $G$ (Equations \ref{eq:kshear} and \ref{eq:ktorsion}).  If we are trying to model a functional primitive that has complex internal geometric structure, we may need to decouple these degrees of freedom.\\
 
 The only way to do this in COMSOL is to derive your own custom stiffness matrix for each of the anisotropic parts you wish to model or explicitly model their anisotropic geometries.  Defining your own stiffness matrix for each of these cell types requires a high degree of technical knowledge from the end user and essentially defeats the purpose of using a professional package; at that point you might as well write your own solver (essentially the situation I'm in).  Building a model of the substructures of each anisotropic cell type requires setting up even more material properties, geometries, and finer meshing of the model - slower from a user perspective and slower computationally.
 
@@ -335,9 +341,39 @@ The only way to do this in COMSOL is to derive your own custom stiffness matrix 
   \label{fig:somanycells}
 \end{figure}
 
-I set the screen size to 1200px by 650px.  
+I performed a series of measurements to get a better understanding of where time was being spent during each complete render cycle of the simulation (simulation + threejs rendering).  I performed these tests on assemblies ranging from 1 cell to 21952 cells.  Since the amount of operations per simulation steps is proportional to the number of connections between cells, I ran these tests on cube-shaped assemblies (Figure \ref{fig:somanycells}), so the inner cells are all fully connected to their six neighbors.  This represents a ``worst case scenario'' performance-wise because cells are maximally connected, assemblies we will typically be modeling will not be as dense.  Smaller assemblies have the extra advantage that they have a greater surface area to volume ratio and are therefor proportionally more sparsely connected than larger assemblies of cells, but these effects drop off quickly.\\
 
-Rendering speed could be improved greatly by removing invisible internal geometry.
+I ran these tests using a AMD Radeon HD 6490M graphics card with 160 cores, clocked somewhere between 700-800MHz.  I set the threejs rendering window size to 1200x650px on a 1440x900px monitor and zoomed out so that all blocks were displayed in the rendering window.  Assemblies ranged in size from 1x1x1 to 28x28x28, or 21,952 cells.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{Metrics1.png}
+  \caption{Render cycle speed shown in ms (top) and in FPS (bottom) for a series of assemblies spanning dimensions 1x1x1 to 28x28x28.  The number of simulation time steps solved per cycle was varied: 50 time steps (green), 100 time steps (navy), and 150 time steps (light blue). Linear fits to top plot shown with dotted lines.}
+  \label{fig:Metrics1}
+\end{figure}
+
+Each complete render cycle consists of 3 stages: simulation, data transfer, and rendering.  The length of the simulation stage depends on the number of time steps that are being solved in the current render cycle.  Figure \ref{fig:Metrics1} shows plots for 50, 100, and 150 steps per cycle.  The data transfer stage is when the data from the final time step of simulation is pulled off the GPU and onto the CPU.  The rendering stage is when a render call is sent to threejs and graphics are rendered to the screen.
+
+\subsection{Conclusions}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{simdatatransmetrics.png}
+  \caption{Duration of simulation and data transfer stages plotted for 50 time steps (green), 100 time steps (navy), and 150 time steps (light blue). Linear fits plotted with dotted lines.}
+  \label{fig:simdatatransmetrics}
+\end{figure}
+
+Since I was timing my code in the CPU, my attempts at separately timing the simulation stage and data transfer stage were unreliable.  However, for a given assembly the time required to complete the data transfer stage is not dependent on the number of steps computed in the simulation stage.  So I timed the total length of both stages while varying the number of steps per simulation stage and and plotted it is Figure \ref{fig:simdatatransmetrics}.  I fit a line to these plots and extracted a slope from each line.  From this I was able to determine that the time to solve a single cell's state for one time step on the GPU is approximately 0.2$\mu$s.  I used the following equation:
+
+\[ \text{sim time per cell per } \Delta t = \dfrac{m_{150}-m_{50}}{100} \]
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{simcyclebreakdown.png}
+  \caption{A breakdown of a full cycle of simulation (simulation + data transfer + rendering) shows where time was spent.  Time spent in 100 cycles of simulation (salmon), data transfer (blue), and rendering in threejs (purple) are shown in milliseconds.  Time to complete simulation was not measured directly, it was determined from analysis of Figure \ref{fig:simdatatransmetrics}.}
+  \label{fig:simcyclebreakdown}
+\end{figure}
+
+Figure \ref{fig:simcyclebreakdown} shows the breakdown of a complete cycle in terms of time spent in simulation, data transfer, and rendering.  Data transfer takes about 30ms; this could be cut down by updating mesh positions and orientations on the GPU and bypassing data transfer completely.  Rendering speed could be improved greatly by removing invisible internal geometry and merging multiple geometries into a single threejs mesh.  I'm actually computing each interaction between cells twice - once when I process one cell, and again when I process its neighbor.  Since the forces and torques between neighboring cells are symmetric, no new information is gleaned from these extra calculations.  Removing this redundancy will decrease simulation processing time by some factor less than 0.5 depending on the connectivity of the assembly.  These optimizations will come after I'm through the debugging phase of this project.
+
+
 
 
 
