@@ -38,7 +38,7 @@ where $E$ is the elastic modulus (also called ``Young's modulus'') and G is the 
 
 \begin{figure}
   \includegraphics[width=\linewidth]{FEAexample.png}
-  \caption{Two potential ways to model linear elastic deformations of a solid.  The strategy on the left treats the entire geometry as a Hookian spring, resulting in erroneous modeling of the solid's behavior.  The strategy on the left breaks up the solid into small regions which can individually be modeled with Hooke's law to a reasonable degree of accuracy.  The individual behaviors of the small regions are combined to synthesize a model of the global behavior of the entire geometry.  The method on the right summarizes the main idea behind FEA of linear elastic solids.}
+  \caption{Two potential ways to model linear elastic deformations of a solid.  The strategy on the left treats the entire geometry as a multidimensional Hookian spring, resulting in erroneous modeling of the solid's behavior.  The strategy on the left breaks up the solid into small regions which can individually be modeled with Hooke's law to a reasonable degree of accuracy.  The individual behaviors of the small regions are combined to synthesize a model of the global behavior of the entire geometry.  Note - the regions being modeled with Hooke's law on the right are not treated as literal springs, just 3 dimensional regions modeled with linear elastic relationships between nodes (pink).  The method on the right summarizes the main idea behind FEA of linear elastic solids.}
   \label{fig:FEAexample}
 \end{figure}
 
@@ -47,11 +47,11 @@ So far we have discussed the ways that a solid's material properties, $E$ and $G
 
 \begin{figure}
   \includegraphics[width=\linewidth]{TetraElement.png}
-  \caption{A tetrahedral element in 3D FEA.  The vertices of each element are called nodes.  In linear elastic solids, the relationships between forces (stress) and displacement (strain) of the nodes is described by variations on Hooke's law.  The springs indicated in the figure on the right are meant to illustrate the linear elastic (Hookian) relationship between nodes.  Typically, interactions between nodes are modeled with 6DOF linear elastic relationships as opposed to a 1DOF spring.}
+  \caption{A tetrahedral element in 3D FEA.  The vertices of each element are called nodes.  In linear elastic solids, the relationships between forces (stress) and displacement (strain) of the nodes is described by variations on Hooke's law.}
   \label{fig:TetraElement}
 \end{figure}
 
-Now we can model the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  In 3D, these elements might have any number of shapes, a common element shape is the tetrahedral illustrated in Figure \ref{fig:TetraElement}.  The vertices of each finite element are called nodes.  Nodes connect to other nodes through the edges of the elements to form a mesh.  No assumptions are made about the length of the edges of a finite element; in fact one of the main advantages of FEA is the ability to locally alter the resolution of the mesh in a particular region of interest.\\
+Now we can model the global deformations of a solid as the summation of deformations of many smaller, discrete volumes, or \textit{finite elements}.  In 3D, these elements might have any number of shapes, a common element shape is the tetrahedral illustrated in Figure \ref{fig:TetraElement}.  The vertices of each finite element are called nodes.  Nodes connect to other nodes through finite elements to form a mesh.  No assumptions are made about the length of the edges of a finite element; in fact one of the main advantages of FEA is the ability to locally alter the resolution of the mesh in a particular region of interest.\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{SolidMechanicsDOF.png}
@@ -164,7 +164,7 @@ $k_{shear}$ and $d_{shear}$ are broken out into six parameters of the form $shea
   \label{fig:ShearDOFs}
 \end{figure}
 
-The stiffness and damping constants of each cell type may be calculated from bulk properties of the constituent materials that make up the cell, or they may be measured empirically.  For example, an isotropic cell made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses along the x axis defined by:
+The stiffness and damping constants of each cell type may be calculated from bulk properties of the constituent materials that make up the cell, or they may be measured empirically.  For example, an isotropic cell made from a bulk material with elastic modulus $E$ and shear modulus $G$ has stiffnesses along the x axis defined by \cite{Juvinal2006}:
 
 \begin{subequations}
 \begin{align} 

@@ -9,7 +9,9 @@
 
 \chapter{Evaluation}\label{chap:evaluation}
 
-Comparison with existing FEA methods revealed a similarity between the cell-cell interaction model I developed in Chapter \ref{chap:functionSim} and a shear-dominated 12DOF Timoshenko Beam Element (Section \ref{sec:Timoshenko}).  My model extends the shear-dominated Timoshenko model with non-linear handling of large angular deformations, rather than using small angle approximations.  I argue that this is an appropriate model given the aspect ratio of the parts I am modeling (Figure \ref{fig:StubbyBeam}) and the expected large angular deformations (Figure \ref{fig:deformationangle}).
+Comparison with existing FEA methods revealed a similarity between the cell-cell interaction model I developed in Chapter \ref{chap:functionSim} and a 12DOF Timoshenko Beam Element (Section \ref{sec:Timoshenko}).  My model ignores some Euler-Bernoulli bending components of the Timoshenko model, but also extends Timoshenko with non-linear handling of large angular deformations, rather than using small angle approximations.  I argue that this is an appropriate model given the aspect ratio of the parts I am modeling (Figure \ref{fig:StubbyBeam}) and the expected large angular deformations (Figure \ref{fig:deformationangle}) of flexural joints.\\
+
+
 
 \section{Comparison with FEA Techniques}\label{sec:Timoshenko}
 
@@ -211,16 +213,6 @@ Again, we'll account for the bending components of Equation \ref{eq:Ty2Decomp} i
 
 Through this process, we have also shown that for shearing dominance, y and z components of torque (Equations \ref{eq:ty1}, \ref{eq:tz1}, \ref{eq:ty2}, \ref{eq:tz2}) of one node are equal and opposite to the other node (Equation \ref{eq:torqueEqOpp}).
 
-\subsection{Missing Bending Contributions}\label{sec:bendingdominance}
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{StubbyBeam.png}
-  \caption{A diagram of the Timoshenko Beam Element joining two cells in my model.  Due to the low length and relatively high cross sectional area of this ``beam'', I argue that a shear-dominated Timoshenko beam is an appropriate model.}
-  \label{fig:StubbyBeam}
-\end{figure}
-
-Some bending components of Equations \ref{eq:fy1}, \ref{eq:fz1}, \ref{eq:ty1}, \ref{eq:tz1}, \ref{eq:fy2}, \ref{eq:fz2}, \ref{eq:ty2},  and \ref{eq:tz2} are absent from the model described in Chapter \ref{chap:functionSim}.  Though the model still has a bending stiffness component, it is a special case of the 12DOF Timoshenko Beam Element where shearing dominates bending.  This is appropriate considering the aspect ratio of the beam that we are using to model the two cells.  As beams become shorter/thicker shearing dominates, and as beams become longer/thinner bending dominates \cite{Bower2009}.  If we are considering a perfectly cubic lattice, the length of the beam element that we can draw between two cells has a length equal to its height and width: the ``beam'' is a cube (Figure \ref{fig:StubbyBeam}).  According to Bower \cite{Bower2009} there is no known accurate approximate theory of short beams.
-
 %Assuming  bending dominance, we can reduce Equation \ref{eq:Fy1decomp} to:
 %\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1}) - \dfrac{6EI_z}{l^2}(\theta_{z1} + \theta_{z2})  \]
 %\[ F_{y1} =  \dfrac{12EI_z}{l^3} (p_{y2} -p_{y1}) - \dfrac{12EI_z}{l^3}(l\theta_{avg})  \]
@@ -231,13 +223,27 @@ Some bending components of Equations \ref{eq:fy1}, \ref{eq:fz1}, \ref{eq:ty1}, \
 
 \subsection{Conclusion}
 
+Compared to Timoshenko's equations, my model has the advantage of not using any small angle approximations.  Since we are modeling flexural joints rather than structural solids, this non-linear treatment of angles is an asset.  Figure \ref{fig:deformationangle} demonstrates the large angular deflections we expect to see in our parts.\\
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{StubbyBeam.png}
+  \caption{A diagram of the Timoshenko Beam Element joining two cells in my model.  Due to the low length and relatively high cross sectional area of this ``beam'', I argue that shearing effect dominate bending effects in interactions between cells.}
+  \label{fig:StubbyBeam}
+\end{figure}
+
 \begin{figure}
   \includegraphics[width=\linewidth]{deformationangle.png}
   \caption{Large angular deflection of bending flexures in a small assembly of functional parts. \textit{Image Credit: Will Langford 2016}}
   \label{fig:deformationangle}
 \end{figure}
 
-The model I've developed (Chapter \ref{chap:functionSim}) for cell-cell interaction is similar to a shear-dominated 12DOF Timoshenko Beam Element joining the two cells.  Given the aspect ratio of the cells I am modeling, I argue that a shear-dominated beam model is appropriate.  The only difference between my model and a shear-dominated Timoshenko beam is that my model does not use any small angle approximations, and should therefore be more robust to large angular deformations between cells; we expect to see relatively large angular deformations in some of our parts (Figure \ref{fig:deformationangle}).
+\subsubsection{Missing Bending Contributions}\label{sec:bendingdominance}
+
+Some bending components of Equations \ref{eq:fy1}, \ref{eq:fz1}, \ref{eq:ty1}, \ref{eq:tz1}, \ref{eq:fy2}, \ref{eq:fz2}, \ref{eq:ty2},  and \ref{eq:tz2} are absent from the model described in Chapter \ref{chap:functionSim}.  Though the model still has a bending stiffness component, it is a special case of the 12DOF Timoshenko Beam Element where shearing dominates bending, and we can safely ignore the extra bending effects in a single cell-cell interaction.  This seems appropriate considering the aspect ratio of the beam that we are using to model the two cells.  As beams become shorter/thicker shearing dominates, and as beams become longer/thinner bending dominates \cite{Bower2009}.  If we are considering a perfectly cubic lattice, the length of the beam element that we can draw between two cells has a length equal to its height and width: the ``beam'' is a cube (Figure \ref{fig:StubbyBeam}).  According to Bower \cite{Bower2009} there is no known accurate approximate theory of short beams.
+
+However, I am somewhat concerned about potential effects of the missing bending components from my model and Timoshenko's.  Though these components should not have much an effect on a single interaction between two cells, if we were to form a long thin beam of cube-shaped elements using my model, it's possible that the missing bending elements would stack up to create noticeable deviation from the Timoshenko model.  Looking toward the future development of this model, it would be interesting to try using the complete Timoshenko Beam Element (Equations \ref{eq:fx1} through \ref{eq:tz2}) to model cell-cell interactions to see how the results compare for long, thin beams. My only concern is that as they are written in Equations \ref{eq:fx1} through \ref{eq:tz2}, they have many small angle approximations throughout.  Another option could be to derive a model equivalent to Equations \ref{eq:fx1} through \ref{eq:tz2} without any small angle approximations.\\
+
+That being said, it's also possible that adhering strictly to the Timoshenko model is not the best way to treat this system, especially since we will typically not be creating long, thin beams in practice.  We should also consider the tradeoff between computational efficiency and accuracy - introducing extra bending components will add more floating point operations into each cycle of the simulation.  If the effects of these bending components will rarely be seen, or result in a sufficiently small correction to the model, it might be fine to omit them.  Further development of parts and empirical measurements will help to guide future modeling decisions.
 
 \section{Comparison with VoxCAD Physics Engine}
 
@@ -299,39 +305,38 @@ That being said, my model draws enormous inspiration from VoxCAD, specifically i
 
 \begin{figure}
   \includegraphics[width=\linewidth]{somsolsim1.png}
-  \caption{Simulation of a shear flexure functional part in TBD \textbf{(A)} and in COMSOL using a simple geometric model \textbf{(B)} and a more detailed model \textbf{(C)}.  Real parts shown in Figure \ref{fig:deformationangle}.  Note - the special meshes used for the 1DOF bending flexures in \textbf{A} are meant for visualization only, the underlying geometry is assumed to be identical to \textbf{B}.}
+  \caption{Simulation of a 0.012N translational force on a shear flexure functional part in TBD \textbf{(A)} and in COMSOL using a simple geometric model \textbf{(B)} and a more detailed model \textbf{(C)}.  Real parts shown in Figure \ref{fig:deformationangle}.  Note - the special meshes used for the 1DOF bending flexures in \textbf{A} are meant for visualization only, the underlying geometry is assumed to be identical to \textbf{B}.}
   \label{fig:somsolsim1}
 \end{figure}
 
-In simulation we wish to represent functional primitives as geometrically simple elements with isotropic and anisotropic material properties deriving from their internal structure.  This way we can discretize them with a relatively low resolution mesh and increase the efficiency of the simulation.  I started by using the same geometric representation I'm using in my model, shown in Figure \ref{fig:somsolsim1}B. Using this minimal geometry, I had trouble decoupling bending and axial stiffness (explained in Section \ref{sec:decoupling}), so I switched to a more geometrically detailed model, shown in Figure \ref{fig:somsolsim1}C.\\
+
+COMSOL is a professional multiphysics package that uses FEA to solve problems in solid mechanics, optics, analog electronics and more.  I ran a simple passive flexural part model (Figure \ref{fig:somsolsim1}) and an actuated model (Figure \ref{fig:bendSim}) in COMSOL and in TBD to compare their results.\\
+
+I started by using the same geometric representation I'm using in TBD, shown in Figure \ref{fig:somsolsim1}B. Using this minimal geometry, I had trouble decoupling bending and axial stiffness in COMSOL (explained in Section \ref{sec:decoupling}), so I switched to a more geometrically detailed model, shown in Figure \ref{fig:somsolsim1}C.  In the second model, the geometry lowers area moment of inertia ($I$) and causes lower bending stiffness with the same $E$.  In the second simulation I was forced to increase $E$ beyond reason for both my material types to make the simulation work.  I'm still not sure why COMSOL was having so much trouble with this.\\
+
+Additionally in both my COMSOL simulations I could not find an appropriate constraint to fix the angle of the free end of the part, so its face is always oriented normal to the applied force.  Instead I used a roller constraint, which has the added effect of constraining the part to be 9mm wide.  This added extra axial strain to the part as it deforms, which we would not expect to see if the part were in the configuration shown in Figure \ref{fig:deformationangle}.  The dotted line in Figure \ref{fig:somsolsim1}A indicates lateral displacement of the free end of the part from its starting width of 9mm.
 
 \begin{figure}
   \includegraphics[width=\linewidth]{bendySim.png}
-  \caption{}
+  \caption{Qualitative comparison of actuated behavior in a bending actuator made from two stacks of piezos.  I was not able to get enough control over the strain of the piezos in COMSOL to due a meaningful qualitative analysis on this system.}
   \label{fig:bendSim}
 \end{figure}
 
-%\begin{figure}
-%  \includegraphics[width=\linewidth]{TorsionSim.png}
-%  \caption{Qualitative simulation of a torsional flexure under a downward force from gravity shows appropriate anisotropic behavior.  Pink cell is fixed.}
-%  \label{fig:TorsionSim}
-%\end{figure}
+I ran an additional actuated simulation in COMSOL using its piezoelectric module.  Unfortunately I found it difficult to control the strain of the piezos and couldn't achieve nearly the same strain that I've been modeling in my linear actuator block types.  Still, I found nice qualitative agreement between the COMSOL model and my simulation (Figure \ref{fig:bendSim}). 
 
 \subsection{Conclusion}
 
-%\begin{figure}
-%  \includegraphics[width=\linewidth]{shearpart.png}
-%  \caption{Qualitative simulation of shear flexure functional part from Figure \ref{fig:deformationangle} shows similar behavior in response to applied forces.}
-%  \label{fig:shearpart}
-%\end{figure}
+Though I was able to run the shear flexure part simulation in TBD without running into instability errors, through the process of doing this I noticed that the stiffnesses I'm using in my simulation are significantly less stiff than the materials we will be modeling in reality.  For example, the elastic modulus of aluminum is 6.9e13Pa.  For a 1x1x1mm cube that's an axial stiffness of 69MN/m, I'm using an axial and shear stiffnesses of 80N/m in the model in Figure \ref{fig:somsolsim1}.  You can see a noticeable amount of shearing occurring from this low stiffness, but stiffnesses approaching anything near 69MN/m will run extremely slow.  I saw the same difference of about 5 orders of magnitude in my bending stiffnesses as well.  I will have to dig into this number more to be sure it's not a scaling error on my part, but it's possible we will have to scale down some of the stiffnesses in our model to help the solver move along.  Because of this difference in scaling (and also previously mentioned roller constraints), it is difficult to do a quantitative analysis, but my modeling does appear to be giving the correct qualitative behavior in the examples shown in Figure \ref{fig:somsolsim1} and \ref{fig:bendSim}.\\
 
-The current state of my software implementation does not allow me to do a quantitative analysis of the model developed Chapter \ref{chap:functionSim} (debugging needed), but it does appear to be giving the correct qualitative behavior in the example shown in Figure \ref{fig:somsolsim1}A.
+In TBD I represent functional primitives as geometrically simple elements with isotropic and anisotropic material properties deriving from their internal structure.  This way we can discretize the model with a relatively low resolution mesh and increase the efficiency of the simulation.  This is reflected by the number of degrees of freedom solved using each simulation technique (Figure \ref{fig:somsolsim1}); my method resulted in only 162 degrees of freedom for this part, while the full geometrically detailed model required 12315.\\
+
+My model gives a convenient abstraction of degrees of freedom within flexural systems with hooks into low level control over material stiffnesses and other physical properties.  Though it is entirely possible to simulate large assemblies of our functional parts in COMSOL or other multiphysics packages, the time required to setup these models makes them rarely worthwhile.  My tool is bounded by its assumption of voxelized geometry, but in systems for which this voxelization is appropriate, it offers a simple way to compose assemblies of parts in minutes rather than hours.  
 
 \subsubsection{Decoupling Axial/Bending and Shear/Torsion}\label{sec:decoupling}
 
 Axial and bending stiffness typically use the same elastic modulus ($E$) in their formulations (Equations \ref{eq:kaxial} and \ref{eq:kbending}) and are therefore coupled to each other (e.g. you can't pick a value of $E$ that gives low bending stiffness and high axial stiffness at the same time for simple cubic geometry).  However, some composite materials exhibit these behaviors - Calisch showed that it is possible to build a structure that is stiff in axial compression and flexible in bending around one axis from four part types \cite{Calisch2014}.  This DOF coupling applies similarly to shear and torsional stiffness sharing the same shear stiffness $G$ (Equations \ref{eq:kshear} and \ref{eq:ktorsion}).  If we are trying to model a functional primitive that has complex internal geometric structure, we may need to decouple these degrees of freedom.\\
 
-The only way to do this in COMSOL is to derive your own custom stiffness matrix for each of the anisotropic parts you wish to model or explicitly model their anisotropic geometries.  Defining your own stiffness matrix for each of these cell types requires a high degree of technical knowledge from the end user and essentially defeats the purpose of using a professional package; at that point you might as well write your own solver (essentially the situation I'm in).  Building a model of the substructures of each anisotropic cell type requires setting up even more material properties, geometries, and finer meshing of the model - slower from a user perspective and slower computationally.
+The only way to do this in COMSOL is to derive your own custom stiffness matrix for each of the anisotropic parts you wish to model or explicitly model their anisotropic geometries.  Defining your own stiffness matrix for each of these cell types requires a high degree of technical knowledge from the end user and essentially defeats the purpose of using a professional package; at that point you might as well write your own solver (the situation I'm in).  Building a model of the substructures of each anisotropic cell type requires setting up even more material properties, geometries, and finer meshing of the model - slower from a user perspective and slower computationally.
 
 \section{Performance Metrics}
 
