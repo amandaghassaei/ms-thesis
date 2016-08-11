@@ -9,9 +9,7 @@
 
 \chapter{Evaluation}\label{chap:evaluation}
 
-Comparison with existing FEA methods revealed a similarity between the cell-cell interaction model I developed in Chapter \ref{chap:functionSim} and a 12DOF Timoshenko Beam Element (Section \ref{sec:Timoshenko}).  My model ignores some Euler-Bernoulli bending components of the Timoshenko model, but also extends Timoshenko with non-linear handling of large angular deformations, rather than using small angle approximations.  I argue that this is an appropriate model given the aspect ratio of the parts I am modeling (Figure \ref{fig:StubbyBeam}) and the expected large angular deformations (Figure \ref{fig:deformationangle}) of flexural joints.\\
-
-
+Comparison with existing FEA methods revealed a similarity between the cell-cell interaction model I developed in Chapter \ref{chap:functionSim} and a 12DOF Timoshenko Beam Element (Section \ref{sec:Timoshenko}).  My model ignores some Euler-Bernoulli bending components of the Timoshenko model, but also extends Timoshenko with non-linear handling of large angular deformations, rather than using small angle approximations.  I argue that this is an appropriate model given the aspect ratio of the parts I am modeling (Figure \ref{fig:StubbyBeam}) and the expected large angular deformations (Figure \ref{fig:deformationangle}) of flexural joints.  My model showed good qualitative agreement with COMSOL simulations, but more work is needed to run a quantitative analysis.  Performance metrics are explored in Section \ref{sec:performance}.
 
 \section{Comparison with FEA Techniques}\label{sec:Timoshenko}
 
@@ -338,7 +336,7 @@ Axial and bending stiffness typically use the same elastic modulus ($E$) in thei
 
 The only way to do this in COMSOL is to derive your own custom stiffness matrix for each of the anisotropic parts you wish to model or explicitly model their anisotropic geometries.  Defining your own stiffness matrix for each of these cell types requires a high degree of technical knowledge from the end user and essentially defeats the purpose of using a professional package; at that point you might as well write your own solver (the situation I'm in).  Building a model of the substructures of each anisotropic cell type requires setting up even more material properties, geometries, and finer meshing of the model - slower from a user perspective and slower computationally.
 
-\section{Performance Metrics}
+\section{Performance Metrics}\label{sec:performance}
 
 \begin{figure}
   \includegraphics[width=\linewidth]{somanycells.png}
