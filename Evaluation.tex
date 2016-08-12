@@ -219,7 +219,7 @@ Through this process, we have also shown that for shearing dominance, y and z co
 %Assuming bending dominance, \ref{eq:Ty1decomp} reduces to:
 %\[T_{y1} = - \dfrac{6EI_y}{l^2}(p_{z2}- p_{z1}) - \dfrac{2EI_y}{l}(2\theta_{y1}  + \theta_{y2})\]
 
-\subsection{Conclusion}
+\subsection{Conclusions}
 
 Compared to Timoshenko's equations, my model has the advantage of not using any small angle approximations.  Since we are modeling flexural joints rather than structural solids, this non-linear treatment of angles is an asset.  Figure \ref{fig:deformationangle} demonstrates the large angular deflections we expect to see in our parts.\\
 
@@ -293,7 +293,7 @@ T_{z2} &= -\dfrac{6EI_z}{l^2}p_{y1} - \dfrac{2EI_z}{l}\theta_{z1}  + \dfrac{6EI_
 \end{align}
 \end{subequations}\\
 
-\subsection{Conclusion}
+\subsection{Conclusions}
 
 As I described in Section \ref{sec:bendingdominance}, a bending dominated beam model is more appropriate for long, thin beams.   Given the aspect ratio of the elements being modeled in VoxCAD (very similar to what I've been modeling), the absence of shearing likely causes deflections to be underestimated \cite{Bower2009}.  Additionally, VoxCAD relies on the same small angle approximations present in the Timoshenko model.\\
 
@@ -303,14 +303,14 @@ That being said, my model draws enormous inspiration from VoxCAD, specifically i
 
 \begin{figure}
   \includegraphics[width=\linewidth]{somsolsim1.png}
-  \caption{Simulation of a 0.012N translational force on a shear flexure functional part in TBD \textbf{(A)} and in COMSOL using a simple geometric model \textbf{(B)} and a more detailed model \textbf{(C)}.  Real parts shown in Figure \ref{fig:deformationangle}.  Note - the special meshes used for the 1DOF bending flexures in \textbf{A} are meant for visualization only, the underlying geometry is assumed to be identical to \textbf{B}.}
+  \caption{Simulation of a 0.012N translational force on a shear flexure functional part in AMOEBA \textbf{(A)} and in COMSOL using a simple geometric model \textbf{(B)} and a more detailed model \textbf{(C)}.  Real parts shown in Figure \ref{fig:deformationangle}.  Note - the special meshes used for the 1DOF bending flexures in \textbf{A} are meant for visualization only, the underlying geometry is assumed to be identical to \textbf{B}.}
   \label{fig:somsolsim1}
 \end{figure}
 
 
-COMSOL is a professional multiphysics package that uses FEA to solve problems in solid mechanics, optics, analog electronics and more.  I ran a simple passive flexural part model (Figure \ref{fig:somsolsim1}) and an actuated model (Figure \ref{fig:bendSim}) in COMSOL and in TBD to compare their results.\\
+COMSOL is a professional multiphysics package that uses FEA to solve problems in solid mechanics, optics, analog electronics and more.  I ran a simple passive flexural part model (Figure \ref{fig:somsolsim1}) and an actuated model (Figure \ref{fig:bendSim}) in COMSOL and in AMOEBA to compare their results.\\
 
-I started by using the same geometric representation I'm using in TBD, shown in Figure \ref{fig:somsolsim1}B. Using this minimal geometry, I had trouble decoupling bending and axial stiffness in COMSOL (explained in Section \ref{sec:decoupling}), so I switched to a more geometrically detailed model, shown in Figure \ref{fig:somsolsim1}C.  In the second model, the geometry lowers area moment of inertia ($I$) and causes lower bending stiffness with the same $E$.  In the second simulation I was forced to increase $E$ beyond reason for both my material types to make the simulation work.  I'm still not sure why COMSOL was having so much trouble with this.\\
+I started by using the same geometric representation I'm using in AMOEBA, shown in Figure \ref{fig:somsolsim1}B. Using this minimal geometry, I had trouble decoupling bending and axial stiffness in COMSOL (explained in Section \ref{sec:decoupling}), so I switched to a more geometrically detailed model, shown in Figure \ref{fig:somsolsim1}C.  In the second model, the geometry lowers area moment of inertia ($I$) and causes lower bending stiffness with the same $E$.  In the second simulation I was forced to increase $E$ beyond reason for both my material types to make the simulation work.  I'm still not sure why COMSOL was having so much trouble with this.\\
 
 Additionally in both my COMSOL simulations I could not find an appropriate constraint to fix the angle of the free end of the part, so its face is always oriented normal to the applied force.  Instead I used a roller constraint, which has the added effect of constraining the part to be 9mm wide.  This added extra axial strain to the part as it deforms, which we would not expect to see if the part were in the configuration shown in Figure \ref{fig:deformationangle}.  The dotted line in Figure \ref{fig:somsolsim1}A indicates lateral displacement of the free end of the part from its starting width of 9mm.
 
@@ -322,11 +322,11 @@ Additionally in both my COMSOL simulations I could not find an appropriate const
 
 I ran an additional actuated simulation in COMSOL using its piezoelectric module.  Unfortunately I found it difficult to control the strain of the piezos and couldn't achieve nearly the same strain that I've been modeling in my linear actuator block types.  Still, I found nice qualitative agreement between the COMSOL model and my simulation (Figure \ref{fig:bendSim}). 
 
-\subsection{Conclusion}
+\subsection{Conclusions}
 
-Though I was able to run the shear flexure part simulation in TBD without running into instability errors, through the process of doing this I noticed that the stiffnesses I'm using in my simulation are significantly less stiff than the materials we will be modeling in reality.  For example, the elastic modulus of aluminum is 6.9e13Pa.  For a 1x1x1mm cube that's an axial stiffness of 69MN/m, I'm using an axial and shear stiffnesses of 80N/m in the model in Figure \ref{fig:somsolsim1}.  You can see a noticeable amount of shearing occurring from this low stiffness, but stiffnesses approaching anything near 69MN/m will run extremely slow.  I saw the same difference of about 5 orders of magnitude in my bending stiffnesses as well.  I will have to dig into this number more to be sure it's not a scaling error on my part, but it's possible we will have to scale down some of the stiffnesses in our model to help the solver move along.  Because of this difference in scaling (and also previously mentioned roller constraints), it is difficult to do a quantitative analysis, but my modeling does appear to be giving the correct qualitative behavior in the examples shown in Figure \ref{fig:somsolsim1} and \ref{fig:bendSim}.\\
+Though I was able to run the shear flexure part simulation in AMOEBA without running into instability errors, through the process of doing this I noticed that the stiffnesses I'm using in my simulation are significantly less stiff than the materials we will be modeling in reality.  For example, the elastic modulus of aluminum is 6.9e13Pa.  For a 1x1x1mm cube that's an axial stiffness of 69MN/m, I'm using an axial and shear stiffnesses of 80N/m in the model in Figure \ref{fig:somsolsim1}.  You can see a noticeable amount of shearing occurring from this low stiffness, but stiffnesses approaching anything near 69MN/m will run extremely slow.  I saw the same difference of about 5 orders of magnitude in my bending stiffnesses as well.  I will have to dig into this number more to be sure it's not a scaling error on my part, but it's possible we will have to scale down some of the stiffnesses in our model to help the solver move along.  Because of this difference in scaling (and also previously mentioned roller constraints), it is difficult to do a quantitative analysis, but my modeling does appear to be giving the correct qualitative behavior in the examples shown in Figure \ref{fig:somsolsim1} and \ref{fig:bendSim}.\\
 
-In TBD I represent functional primitives as geometrically simple elements with isotropic and anisotropic material properties deriving from their internal structure.  This way we can discretize the model with a relatively low resolution mesh and increase the efficiency of the simulation.  This is reflected by the number of degrees of freedom solved using each simulation technique (Figure \ref{fig:somsolsim1}); my method resulted in only 162 degrees of freedom for this part, while the full geometrically detailed model required 12315.\\
+In AMOEBA I represent functional primitives as geometrically simple elements with isotropic and anisotropic material properties deriving from their internal structure.  This way we can discretize the model with a relatively low resolution mesh and increase the efficiency of the simulation.  This is reflected by the number of degrees of freedom solved using each simulation technique (Figure \ref{fig:somsolsim1}); my method resulted in only 162 degrees of freedom for this part, while the full geometrically detailed model required 12315.\\
 
 My model gives a convenient abstraction of degrees of freedom within flexural systems with hooks into low level control over material stiffnesses and other physical properties.  Though it is entirely possible to simulate large assemblies of our functional parts in COMSOL or other multiphysics packages, the time required to setup these models makes them rarely worthwhile.  My tool is bounded by its assumption of voxelized geometry, but in systems for which this voxelization is appropriate, it offers a simple way to compose assemblies of parts in minutes rather than hours.  
 
@@ -376,6 +376,9 @@ Since I was timing my code in the CPU, my attempts at separately timing the simu
 
 Figure \ref{fig:simcyclebreakdown} shows the breakdown of a complete cycle in terms of time spent in simulation, data transfer, and rendering.  Data transfer takes about 30ms; this could be cut down by updating mesh positions and orientations on the GPU and bypassing data transfer completely.  Rendering speed could be improved greatly by removing invisible internal geometry and merging multiple geometries into a single threejs mesh.  I'm actually computing each interaction between cells twice - once when I process one cell, and again when I process its neighbor.  Since the forces and torques between neighboring cells are symmetric, no new information is gleaned from these extra calculations.  Removing this redundancy will decrease simulation processing time by some factor less than 0.5 depending on the connectivity of the assembly.  These optimizations will come after I'm through the debugging phase of this project.
 
+\section{Final Conclusions}
+
+The model developed in Chapter \ref{chap:functionSim} contains most of the components of the 12DOF Timoshenko beam model, but it is missing some Euler-Bernoulli bending components.  Though the contributions from these components are small for any interaction between two cells, they may result in noticeable accumulated error in long, thin beams formed from functional primitive parts.  Further development of the model could introduce these extra bending terms while still maintaining non-linear handling of angular deformations.  An advantage of my model for simulating flexural joints is its non-linear treatment of angular displacements - allowing for large angular deformations to be simulated without costly remeshing.  Comparison with COMSOL simulation revealed that current material stiffness are far lower than stiffnesses to be used in our proposed system.  In order to maintain efficient solving of the dynamic simulation, we should not increase stiffnesses more than about 1 order of magnitude.  Empirical testing is needed to determine how much of an effect this is having on our simulation results.  As the parts are scaled down and geometric stiffness of our parts decreases, this problem disappears, but at the current scale, we may need to develop methods to overcome this discrepancy.
 
 
 

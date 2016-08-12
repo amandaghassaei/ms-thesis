@@ -9,13 +9,11 @@
 
 \chapter{Implementation}\label{chap:implementation}
 
-(still need to name it)\\
-
-\href{http://git.amandaghassaei.com/KinematicCA/}{TBD} is a 3D CAD and simulation tool, based off the ideas from Chapters \ref{chap:CAD} and \ref{chap:functionSim}.  In this tool, users construct assemblies of functional primitives and simulate their electronic and mechanical behaviors.  This chapter introduces information about the software implementation of TBD.
+Anisotropic Modeling of Engineered Bits and Atoms (\href{http://git.amandaghassaei.com/AMOEBA/}{AMOEBA}), is a 3D CAD and simulation tool, based off the ideas from Chapters \ref{chap:CAD} and \ref{chap:functionSim}.  In this tool, users construct assemblies of functional primitives and simulate their electronic and mechanical behaviors.  It is available to demo \href{http://git.amandaghassaei.com/AMOEBA/}{online} and the source code can be found on \href{https://github.com/amandaghassaei/AMOEBA}{Github}.  AMOEBA primarily serves as a research tool for quickly simulating assemblies of functional digital material parts that we are developing in the lab.  However, it's a very flexible platform, and I'm curious to see what other people might use it for.  When it's in a more stable state I will write up some documentation and push it out to a wider audience.  This chapter introduces information about the software implementation of AMOEBA.
 
 \section{Javascript/WebGL}
 
-TBD was written in HTML5/JavaScript and currently hosted online.  I chose the web as a development platform for this project because it allows easier access to the code than any other platform.  Though user studies are not a component of this work, there is a long history of communities of users building things in sandbox environments that surpass anything the developers were able to imagine.  There is a lot of talent beyond the immediate neighborhood of CBA, and I'd like to try to make this codebase accessible to anyone interested in exploring the design space around digital materials.\\
+AMOEBA was written in HTML5/JavaScript and currently hosted online.  I chose the web as a development platform for this project because it allows easier access to the code than any other platform.  Though user studies are not a component of this work, there is a long history of communities of users building things in sandbox environments that surpass anything the developers were able to imagine.  There is a lot of talent beyond the immediate neighborhood of CBA, and I'd like to try to make this codebase accessible to anyone interested in exploring the design space around digital materials.\\
 
 The web app was written with the following dependencies:
 \begin{itemize}
@@ -29,7 +27,7 @@ The web app was written with the following dependencies:
 
 \begin{figure}
   \includegraphics[width=\linewidth]{rotationGUI.png}
-  \caption{A schematic diagram of a robotic ``pick and place'' in TBD.  Cell rotation GUI allows anisotropic cells to be oriented in any direction.}
+  \caption{A schematic diagram of a robotic ``pick and place'' in AMOEBA.  Cell rotation GUI allows anisotropic cells to be oriented in any direction.}
   \label{fig:rotationGUI}
 \end{figure}
 
@@ -47,7 +45,7 @@ The web app was written with the following dependencies:
 
 \section{GUI}
 
-TBD borrows most of its GUI from DMDesign (Chapter \ref{chap:CAD}), with a few exceptions.  A cell rotation interface (Figure \ref{fig:rotationGUI}) allows users to rotate cells in 3D, so anisotropic cells may be oriented in any direction.  Absolute cell orientations are saved as JSON when the assembly is saved.  A 3D selection tool allows users to select large rectangular regions of space to fill with material, cut away material, and clone or mirror an existing structure into another region (Figure \ref{fig:selectiontoolGUI}).\\
+AMOEBA borrows most of its GUI from DMDesign (Chapter \ref{chap:CAD}), with a few exceptions.  A cell rotation interface (Figure \ref{fig:rotationGUI}) allows users to rotate cells in 3D, so anisotropic cells may be oriented in any direction.  Absolute cell orientations are saved as JSON when the assembly is saved.  A 3D selection tool allows users to select large rectangular regions of space to fill with material, cut away material, and clone or mirror an existing structure into another region (Figure \ref{fig:selectiontoolGUI}).\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{materialEditor.png}
@@ -55,7 +53,7 @@ TBD borrows most of its GUI from DMDesign (Chapter \ref{chap:CAD}), with a few e
   \label{fig:materialEditor}
 \end{figure}
 
-Anisotropic cells in TBD are represented graphically with special meshes, illustrated in Figure \ref{fig:cellMeshes}.  Some cells (e.g. the straight and bent conducting cells) appear to occupy a smaller volume than other cells, but this is meant only as a visualization of their properties.  All cells fill the same volume and are joined mechanically with six face-connected neighbors.  Isotropic and anisotropic materials may be edited or defined through the material editor interface (Figure \ref{fig:materialEditor}).\\
+Anisotropic cells in AMOEBA are represented graphically with special meshes, illustrated in Figure \ref{fig:cellMeshes}.  Some cells (e.g. the straight and bent conducting cells) appear to occupy a smaller volume than other cells, but this is meant only as a visualization of their properties.  All cells fill the same volume and are joined mechanically with six face-connected neighbors.  Isotropic and anisotropic materials may be edited or defined through the material editor interface (Figure \ref{fig:materialEditor}).\\
 
 \section{GPU Programming}
 
@@ -63,19 +61,19 @@ Anisotropic cells in TBD are represented graphically with special meshes, illust
 
 \begin{figure}
   \includegraphics[width=\linewidth]{gpuprogramming.png}
-  \caption{Schematic diagram of GPU programming in TBD.  2D data textures store the current state of the cells, lookup tables for neighboring indices, and precomputed composite stiffness and damping constants.  These data textures as well as some global constants are passed into the GPU and are available to all cores.  An input texure buffer is sent into the GPU, split up into RGBA pixels, and used to store the output state from each core.  Several pre-compiled programs are available to the GPU, and are called sequentially during each time step of the simulation (with the exception of PackFloatToBytes, a program used to convert a Float32 texture to a uInt8 texture so that position and orientation can be extracted from the GPU for render).}
+  \caption{Schematic diagram of GPU programming in AMOEBA.  2D data textures store the current state of the cells, lookup tables for neighboring indices, and precomputed composite stiffness and damping constants.  These data textures as well as some global constants are passed into the GPU and are available to all cores.  An input texture buffer is sent into the GPU, split up into RGBA pixels, and used to store the output state from each core.  Several pre-compiled programs are available to the GPU, and are called sequentially during each time step of the simulation (with the exception of PackFloatToBytes, a program used to convert a Float32 texture to a uInt8 texture so that position and orientation can be extracted from the GPU for render).}
   \label{fig:gpuprogramming}
 \end{figure}
 
-During the development of TBD, typed arrays \cite{Network} were not performant for assemblies larger than $\sim$30 cells (100 time steps forward per render), so I began running the bulk of the mathematical calculations on the GPU.  Figure \ref{fig:gpuprogramming} shows a schematic representation of the GPU programming.\\
+During the development of AMOEBA, typed arrays \cite{Network} were not performant for assemblies larger than $\sim$30 cells (100 time steps forward per render), so I began running the bulk of the mathematical calculations on the GPU.  Figure \ref{fig:gpuprogramming} shows a schematic representation of the GPU programming.\\
 
 At the moment of writing this, mathematical programming on the GPU through the WebGL API is a bit of a hack.  Data is passed in and out of the GPU cores as 2D arrays - RGBA image textures that would normally be used for rendering purposes.  WebGL currently supports reading and writing Int8/16/32, uInt8/16/32 and Float32 textures.  GPU programs are precompiled as \textit{fragment shaders}, processes that are executed by a single core of the GPU to create a single pixel of output texture data.  Each GPU core may access a number of input data textures but may only output one RGBA pixel to an output texture buffer.  During the execution of a fragment shader program, a complete output texture is calculated by the available GPU cores in a highly parallel, pixel-wise process.  A concise reference for the WebGL API is provided by the Khronos Group \cite{Group}.\\
 
-In TBD, cell state and precomputed constants are stored in several data textures (Figure \ref{fig:gpuprogramming}), and the next state of a given cell is evaluated in a single core of the GPU.  It is not possible to fit all necessary updated state variables (position, velocity, orientation, and angular velocity, all in 3D) in a single RGBA pixel.  This means that calculations for a single time step of the physics engine must be split into several, sequential fragment shader programs (Figure \ref{fig:gpuprogramming}).\\
+In AMOEBA, cell state and precomputed constants are stored in several data textures (Figure \ref{fig:gpuprogramming}), and the next state of a given cell is evaluated in a single core of the GPU.  It is not possible to fit all necessary updated state variables (position, velocity, orientation, and angular velocity, all in 3D) in a single RGBA pixel.  This means that calculations for a single time step of the physics engine must be split into several, sequential fragment shader programs (Figure \ref{fig:gpuprogramming}).\\
 
-After moving the simulation forward by some number of time steps, position and orientation information is passed out of the GPU to the main thread for a render call.  Unfortunately, at this time only uInt8 textures may be transferred from the GPU to the CPU.  An additional fragment shader program called ``PackToBytes'' converts the Float32 arrays storing position and orientation into uInt8 arrays, where each float in the original array is converted to four uInt8's.  The process of transferring data from the GPU to the CPU is expensive, and in the fullness of time, could be avoided completely.  TBD is still very much under development and is not ready for these types of low level optimizations yet, but it is something to keep in mind in the following months.\\
+After moving the simulation forward by some number of time steps, position and orientation information is passed out of the GPU to the main thread for a render call.  Unfortunately, at this time only uInt8 textures may be transferred from the GPU to the CPU.  An additional fragment shader program called ``PackToBytes'' converts the Float32 arrays storing position and orientation into uInt8 arrays, where each float in the original array is converted to four uInt8's.  The process of transferring data from the GPU to the CPU is expensive, and in the fullness of time, could be avoided completely.  AMOEBA is still very much under development and is not ready for these types of low level optimizations yet, but it is something to keep in mind in the following months.\\
 
-Computing in the GPU speeds up the code significatly, but also creates some hardware dependencies that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory at a time.  In case of compatibility issues, a backup typed array implementation may be used at the expense of performance.
+Computing in the GPU speeds up the code significantly, but also creates some hardware dependencies that would not have otherwise been present.  For example, some GPUs have a hard limit of 8 textures that can be loaded into memory at a time.  In case of compatibility issues, a backup typed array implementation may be used at the expense of performance.
 
 \section{Other Performance Speedups}
 
@@ -97,11 +95,11 @@ q_z
 
 \begin{figure}
   \includegraphics[width=\linewidth]{instability.png}
-  \caption{In its current state, TBD is suffering from instability originating in bugs in the simulation code.}
+  \caption{In its current state, AMOEBA is suffering from instability originating in bugs in the simulation code.}
   \label{fig:instability}
 \end{figure}
 
-In its current state, TBD is suffering from issues of instability related to bugs in the simulation code.  Additionally, rotational damping has not yet been implemented and its absence tends to throw the system unstable, especially in large, dense assemblies.  This instability tends to look like an explosion (Figure \ref{fig:instability}); as spring systems go unstable they result in massive displacements.  I expect this instability to be resolved in the coming months.
+In its current state, AMOEBA is suffering from issues of instability related to bugs in the simulation code.  Additionally, rotational damping has not yet been implemented and its absence tends to throw the system unstable, especially in large, dense assemblies.  This instability tends to look like an explosion (Figure \ref{fig:instability}); as spring systems go unstable they result in massive displacements.  I expect this instability to be resolved in the coming months.
 
 \section{Examples}
 
@@ -111,7 +109,7 @@ In its current state, TBD is suffering from issues of instability related to bug
   \label{fig:TorsionSim}
 \end{figure}
 
-Due to instability, only certain configurations of parts are currently happy in TBD.  One example is a torsional flexure shown in Figure \ref{fig:TorsionSim}.  An older version of the TBD engine lacked a complete model of torsional and bending stiffness, but tended to be much more stable than the current state of development.  Several examples of simple robotic elements were constructed within this older version of the physics engine (Figures \ref{fig:beambending} through \ref{fig:undulating}).
+Due to instability, only certain configurations of parts are currently happy in AMOEBA.  One example is a torsional flexure shown in Figure \ref{fig:TorsionSim}.  An older version of the AMOEBA engine lacked a complete model of torsional and bending stiffness, but tended to be much more stable than the current state of development.  Several examples of simple robotic elements were constructed within this older version of the physics engine (Figures \ref{fig:beambending} through \ref{fig:undulating}).
 
 \begin{figure}
   \includegraphics[width=\linewidth]{beambending.png}
